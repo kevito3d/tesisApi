@@ -25,7 +25,7 @@ app.use(cors());
 
 //routes
 app.use('/api/plant', plant);
-app.use('/app/image',images)
+app.use('/api/image',images)
 
 
 export default app;

@@ -20,8 +20,8 @@ const Plant = sequelize.define("plants", {
 
 }, { timestamps: false })
 
-Plant.hasMany(Image, { foreignKey: 'plantId', sourceKey: 'id' });
-Image.belongsTo(Plant, { foreignKey: 'plantId', sourceKey: 'id' });
+Plant.hasMany(Image, { foreignKey: 'plant_id', sourceKey: 'id' });
+Image.belongsTo(Plant, { foreignKey: 'plant_id', sourceKey: 'id' });
 
 
 export default Plant;

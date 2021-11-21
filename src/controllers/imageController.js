@@ -1,42 +1,38 @@
-import Plant from "../models/Plant";
-
-export async function createPlant(req, res) {
-    const { scientific_name, name, description } = req.body;
-
+import Image from '../models/Image';
+export async function createImage(req, res) {
+    
+    const { url,plant_id } = req.body;
     try {
-        let newPlant = await Plant.create({
-            scientific_name,
-            name,
-            description
+        let newImage = await Image.create({
+            url,
+            plant_id,
         }, {
-            fields: ['scientific_name', 'name', 'description']
+            fields: ['url', 'plant_id']
         })
-        if (newPlant) {
+        if (newImage) {
             return res.json({
-                message: "Planta insertada correctamente",
-                data: newPlant
+                message: "Imagen insertada correctamente",
+                data: newImage
             })
         }
 
     } catch (error) {
         //si se suplica la llave unica
         console.log(error);
-        let message = "ocurrio un problema con el servidor";
-        if (error.original.code == 23505) {
-            message = "nombre cientifico ya existente"
-        };
-
+        
         res.status(500).json({
-            message,
+            message: "ucurrio un problema en el servidor",
             data: []
         })
     }
+
+   
 }
-export async function getall(req, res) {
+export async function getAll(req, res) {
     try {
-        const plants = await Plant.findAll();
+        const images = await Image.findAll();
         res.json({
-            data: plants
+            data: images
         });
     } catch (error) {
         console.log(error);
@@ -50,13 +46,13 @@ export async function getall(req, res) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
-        const plant = await Plant.findOne({
+        const image = await Image.findOne({
             where: {
                 id
             }
         });
         res.json({
-            data: plant
+            data: image
         });
     } catch (error) {
 
@@ -71,19 +67,19 @@ export async function getOne(req, res) {
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Plant.destroy({
+        const deleteRowCount = await Image.destroy({
             where: {
                 id
             }
         });
         if (deleteRowCount == 1) {
             res.json({
-                data: "Planta eliminada satifactoriamente",
+                data: "Imagen eliminada satifactoriamente",
                 count: deleteRowCount
             });
         } else {
             res.json({
-                data: "Planta no encontrada",
+                data: "Imagen no encontrada",
                 count: deleteRowCount
             });
         }
@@ -99,30 +95,29 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { scientific_name, name, description } = req.body;
+        const { url, plant_id } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
         //     }
         // });
         // console.log(plant);
-        const plantUpdated = await Plant.update({
-            scientific_name,
-            name,
-            description
+        const deleted = await Image.update({
+            url,
+            plant_id,
         }, {
             where: {
                 id
             }
         })
-        if (plantUpdated[0]) {
+        if (deleted[0]) {
             res.json({
-                message: "Planta actualizada correctamente",
-                data: { scientific_name, name, description }
+                message: "Imagen actualizada correctamente",
+                data: { url, plant_id }
             });
         } else {
             res.status(404).json({
-                message: "Planta no encontrada",
+                message: "Imagen no encontrada",
             });
 
         }
@@ -136,3 +131,6 @@ export async function setOne(req, res) {
     }
 }
 
+export async function getImagesByPlant(req, res) {
+    
+}

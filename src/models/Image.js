@@ -8,11 +8,13 @@ const Image = sequelize.define("images", {
         primaryKey: true,
     },
     url: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
+        allowNull: false,
     },
 
-    plantId: {
-        type: Sequelize.INTEGER
+    plant_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
     }
 
 }, { timestamps: false })
