@@ -8,6 +8,8 @@ const Plant = sequelize.define("plants", {
     },
     scientific_name: {
         type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
     },
     name: {
         type: Sequelize.STRING
