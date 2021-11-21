@@ -14,7 +14,7 @@ const Plant = sequelize.define("plants", {
     name: {
         type: Sequelize.STRING
     },
-    descripcion: {
+    description: {
         type: Sequelize.TEXT
     }
 
