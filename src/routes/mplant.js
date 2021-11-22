@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPlant, deleteOne, getall, getOne, setOne } from "../controllers/mPlantController";
+import { createPlant, deleteOne, getall, getMPlantByPlant, getOne, setOne } from "../controllers/mPlantController";
 
 const router = Router();
 
@@ -12,5 +12,7 @@ router.get('/:id', getOne)
 router.delete('/:id', deleteOne)
 
 router.put('/:id', setOne)
+
+router.get('/plant/:id', getMPlantByPlant)
 
 export default router;

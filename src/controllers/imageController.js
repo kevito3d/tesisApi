@@ -1,7 +1,7 @@
 import Image from '../models/Image';
 export async function createImage(req, res) {
-    
-    const { url,plant_id } = req.body;
+
+    const { url, plant_id } = req.body;
     try {
         let newImage = await Image.create({
             url,
@@ -19,14 +19,18 @@ export async function createImage(req, res) {
     } catch (error) {
         //si se suplica la llave unica
         console.log(error);
-        
+        let message = "ocurrio un problema con el servidor";
+        if (error.original.code == 23503) {
+            message = "no existe referencia de esa planta"
+        };
+
         res.status(500).json({
-            message: "ucurrio un problema en el servidor",
-            data: []
+            message,
         })
+    
     }
 
-   
+
 }
 export async function getAll(req, res) {
     try {
@@ -51,9 +55,15 @@ export async function getOne(req, res) {
                 id
             }
         });
-        res.json({
-            data: image
-        });
+        if (image) {
+            res.json({
+                data: image
+            });
+        }else{
+            res.status(404).json({
+                data:"Imagen no encontrada"
+            })
+        }
     } catch (error) {
 
         console.log(error);
@@ -78,7 +88,7 @@ export async function deleteOne(req, res) {
                 count: deleteRowCount
             });
         } else {
-            res.json({
+            res.status(404).json({
                 data: "Imagen no encontrada",
                 count: deleteRowCount
             });
@@ -110,6 +120,7 @@ export async function setOne(req, res) {
                 id
             }
         })
+        console.log(deleted);
         if (deleted[0]) {
             res.json({
                 message: "Imagen actualizada correctamente",
@@ -117,24 +128,46 @@ export async function setOne(req, res) {
             });
         } else {
             res.status(404).json({
-                message: "Imagen no encontrada",
+                message: "Imagen no encontrada / body mal",
             });
 
         }
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
-        })
+         //si se suplica la llave unica
+         console.log(error);
+         let message = "ocurrio un problema con el servidor";
+         if (error.original.code == 23503) {
+             message = "no existe referencia de esa planta"
+         };
+ 
+         res.status(500).json({
+             message,
+         })
     }
 }
 
 export async function getImagesByPlant(req, res) {
-    const Images = await Image.findAll({
-        where:{
-            id
+    try {
+        const { id } = req.params
+        const images = await Image.findAll({
+            where: {
+                plant_id: id
+            }
+        })
+        if (images.length>0) {
+            res.json({
+                data: images
+            });
+        }else{
+            res.status(404).json({
+                data:"Planta no encontrada"
+            })
         }
-    })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor"
+        })
+    }
 }

@@ -19,6 +19,8 @@ create table if not exists mplants(
     phone varchar (10) not null,
     latitud varchar (15) not null,
     longuitud varchar (15) not null, 
+    verified boolean default false,
+    checked boolean default false
     plant_id integer not null ,
     foreign key (plant_id) references plants(id)
 );

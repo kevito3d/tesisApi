@@ -23,6 +23,12 @@ const MPlant = sequelize.define("mplants", {
         type: Sequelize.STRING,
         allowNull: false
     },
+    checked:{
+        type:Sequelize.BOOLEAN,
+    },
+    verified:{
+        type:Sequelize.BOOLEAN,
+    },
     plant_id: {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -30,8 +36,8 @@ const MPlant = sequelize.define("mplants", {
 
 }, { timestamps: false })
 
-MPlant.hasMany(MImage, { foreignKey: 'plant_id', sourceKey: 'id' });
-MImage.belongsTo(MPlant, { foreignKey: 'plant_id', sourceKey: 'id' });
+MPlant.hasMany(MImage, { foreignKey: 'mplant_id', sourceKey: 'id' });
+MImage.belongsTo(MPlant, { foreignKey: 'mplant_id', sourceKey: 'id' });
 
 
 

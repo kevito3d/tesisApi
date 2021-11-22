@@ -17,15 +17,15 @@ export async function createPlant(req, res) {
         }
 
     } catch (error) {
-        //si se suplica la llave unica
+        //si se la llave foranea no existe
         console.log(error);
-        // let message = "ocurrio un problema con el servidor";
-        // if (error.original.code == 23505) {
-        //     message = "nombre cientifico ya existente"
-        // };
+        let message = "ocurrio un problema con el servidor";
+        if (error.original.code == 23503) {
+            message = "no existe referencia de esa planta"
+        };
 
         res.status(500).json({
-            message:"ocurrio un problema con el servidor",
+            message,
             data: []
         })
     }
@@ -53,9 +53,15 @@ export async function getOne(req, res) {
                 id
             }
         });
-        res.json({
-            data: mplant
-        });
+        if (mplant) {
+            res.json({
+                data: mplant
+            });
+        } else {
+            res.status(404).json({
+                data: "planta no encontrada"
+            })
+        }
     } catch (error) {
 
         console.log(error);
@@ -80,7 +86,7 @@ export async function deleteOne(req, res) {
                 count: deleteRowCount
             });
         } else {
-            res.json({
+            res.status(404).json({
                 data: "Planta no encontrada",
                 count: deleteRowCount
             });
@@ -97,7 +103,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { names, phone, latitud, longuitud, plant_id } = req.body;
+        const { names, phone, latitud, longuitud, plant_id, checked, verified } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -105,7 +111,7 @@ export async function setOne(req, res) {
         // });
         // console.log(plant);
         const mplantUpdated = await MPlant.update({
-            names, phone, latitud, longuitud, plant_id
+            names, phone, latitud, longuitud, plant_id, checked, verified,
         }, {
             where: {
                 id
@@ -114,7 +120,7 @@ export async function setOne(req, res) {
         if (mplantUpdated[0]) {
             res.json({
                 message: "Planta actualizada correctamente",
-                data: { names, phone, latitud, longuitud, plant_id }
+                data: { names, phone, latitud, longuitud, plant_id, checked, verified }
             });
         } else {
             res.status(404).json({
@@ -124,11 +130,46 @@ export async function setOne(req, res) {
         }
 
     } catch (error) {
+        //si se suplica la llave unica
+        console.log(error);
+        let message = "ocurrio un problema con el servidor";
+        if (error.original.code == 23503) {
+            message = "no existe referencia de esa planta"
+        };
+
+        res.status(500).json({
+            message,
+        })
+    }
+}
+
+
+
+export async function getMPlantByPlant(req, res) {
+    try {
+        const { id } = req.params;
+        const mplants = await MPlant.findAll({
+            where: {
+                plant_id: id
+            }
+        })
+        if (mplants.length > 0) {
+            console.log(mplants);
+            res.json({
+                data: mplants
+            });
+        } else {
+            res.status(404).json({
+                data: "Planta no encontrada"
+            })
+        }
+    } catch (error) {
         console.log(error);
         res.status(500).json({
             message: "ocurrio un problema con el servidor",
             data: []
         })
     }
+
 }
 

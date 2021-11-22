@@ -5,9 +5,9 @@ export async function createMImage(req, res) {
     try {
         let newMImage = await MImage.create({
             url,
-            plant_id: mplant_id,
+            mplant_id,
         }, {
-            fields: ['url', 'plant_id']
+            fields: ['url', 'mplant_id']
         })
         if (newMImage) {
             return res.json({
@@ -19,11 +19,15 @@ export async function createMImage(req, res) {
     } catch (error) {
         //si se suplica la llave unica
         console.log(error);
+        let message = "ocurrio un problema con el servidor";
+        if (error.original.code == 23503) {
+            message = "no existe referencia de esa planta"
+        };
 
         res.status(500).json({
-            message: "ucurrio un problema en el servidor",
-            data: []
+            message,
         })
+    
     }
 
 
@@ -46,14 +50,20 @@ export async function getAll(req, res) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
-        const MImage = await MImage.findOne({
+        const mimage = await MImage.findOne({
             where: {
                 id
             }
         });
-        res.json({
-            data: MImage
-        });
+        if (mimage) {
+            res.json({
+                data: mimage
+            });
+        }else{
+            res.status(404).json({
+                data:"imagen no encontrada"
+            })
+        }
     } catch (error) {
 
         console.log(error);
@@ -78,7 +88,7 @@ export async function deleteOne(req, res) {
                 count: deleteRowCount
             });
         } else {
-            res.json({
+            res.status(404).json({
                 data: "MImagen no encontrada",
                 count: deleteRowCount
             });
@@ -123,25 +133,36 @@ export async function setOne(req, res) {
         }
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
-        })
+         //si se suplica la llave unica
+         console.log(error);
+         let message = "ocurrio un problema con el servidor";
+         if (error.original.code == 23503) {
+             message = "no existe referencia de esa planta"
+         };
+ 
+         res.status(500).json({
+             message,
+         })
     }
 }
 
 export async function getMImagesByPlant(req, res) {
     try {
         const { id } = req.params;
-        const MImages = await MImage.findAll({
+        const mimages = await MImage.findAll({
             where: {
-                id
+                mplant_id:id
             }
         })
-        res.json({
-            data: MImages
-        });
+        if (mimages.length>0) {
+            res.json({
+                data: mimages
+            });
+        }else{
+            res.status(404).json({
+                data:"Planta no encontrada"
+            })
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({

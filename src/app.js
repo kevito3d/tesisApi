@@ -6,7 +6,7 @@ import cors from 'cors'
 import plant from './routes/plant'
 import images from './routes/image'
 import MPlant from "./routes/mplant";
-import user from "./models/User";
+import MImage from './routes/mimage'
 
 const app= express();
 
@@ -29,6 +29,8 @@ app.use(cors());
 app.use('/api/plant', plant);
 app.use('/api/image',images);
 app.use('/api/mplant',MPlant);
+app.use('/api/mimage',MImage);
+
 // app.use('/api/user',user)
 
 

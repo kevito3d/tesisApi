@@ -1,4 +1,5 @@
 import Plant from "../models/Plant";
+import {getImagesByPlantForController} from './imageController'
 
 export async function createPlant(req, res) {
     const { scientific_name, name, description } = req.body;
@@ -55,9 +56,15 @@ export async function getOne(req, res) {
                 id
             }
         });
-        res.json({
-            data: plant
-        });
+        if (plant) {
+            res.json({
+                data: plant
+            });
+        }else{
+            res.status(404).json({
+                data:"Planta no encontrada"
+            })
+        }
     } catch (error) {
 
         console.log(error);
@@ -82,7 +89,7 @@ export async function deleteOne(req, res) {
                 count: deleteRowCount
             });
         } else {
-            res.json({
+            res.status(404).json({
                 data: "Planta no encontrada",
                 count: deleteRowCount
             });
@@ -135,4 +142,3 @@ export async function setOne(req, res) {
         })
     }
 }
-

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { createImage, deleteOne, getAll, getImagesByPlant, getOne, setOne } from "../controllers/ImageController";
+import { createMImage, deleteOne, getAll,getMImagesByPlant, getOne, setOne } from "../controllers/mImageController";
 
 const router = Router();
 
-router.post('/',  createImage);
+router.post('/',  createMImage);
 
 router.get('/', getAll);
 
@@ -13,6 +13,6 @@ router.delete('/:id', deleteOne)
 
 router.put('/:id', setOne)
 
-router.get('/plant/:id', getImagesByPlant)
+router.get('/mplant/:id', getMImagesByPlant)
 
 export default router;
