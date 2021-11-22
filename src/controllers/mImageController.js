@@ -1,38 +1,38 @@
-import Image from '../models/Image';
-export async function createImage(req, res) {
-    
-    const { url,plant_id } = req.body;
+import MImage from '../models/MImage';
+export async function createMImage(req, res) {
+
+    const { url, mplant_id } = req.body;
     try {
-        let newImage = await Image.create({
+        let newMImage = await MImage.create({
             url,
-            plant_id,
+            plant_id: mplant_id,
         }, {
             fields: ['url', 'plant_id']
         })
-        if (newImage) {
+        if (newMImage) {
             return res.json({
-                message: "Imagen insertada correctamente",
-                data: newImage
+                message: "MImagen insertada correctamente",
+                data: newMImage
             })
         }
 
     } catch (error) {
         //si se suplica la llave unica
         console.log(error);
-        
+
         res.status(500).json({
             message: "ucurrio un problema en el servidor",
             data: []
         })
     }
 
-   
+
 }
 export async function getAll(req, res) {
     try {
-        const images = await Image.findAll();
+        const MImages = await MImage.findAll();
         res.json({
-            data: images
+            data: MImages
         });
     } catch (error) {
         console.log(error);
@@ -46,13 +46,13 @@ export async function getAll(req, res) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
-        const image = await Image.findOne({
+        const MImage = await MImage.findOne({
             where: {
                 id
             }
         });
         res.json({
-            data: image
+            data: MImage
         });
     } catch (error) {
 
@@ -67,19 +67,19 @@ export async function getOne(req, res) {
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Image.destroy({
+        const deleteRowCount = await MImage.destroy({
             where: {
                 id
             }
         });
         if (deleteRowCount == 1) {
             res.json({
-                data: "Imagen eliminada satifactoriamente",
+                data: "MImagen eliminada satifactoriamente",
                 count: deleteRowCount
             });
         } else {
             res.json({
-                data: "Imagen no encontrada",
+                data: "MImagen no encontrada",
                 count: deleteRowCount
             });
         }
@@ -95,16 +95,16 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { url, plant_id } = req.body;
+        const { url, mplant_id } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
         //     }
         // });
         // console.log(plant);
-        const deleted = await Image.update({
+        const deleted = await MImage.update({
             url,
-            plant_id,
+            mplant_id,
         }, {
             where: {
                 id
@@ -113,7 +113,7 @@ export async function setOne(req, res) {
         if (deleted[0]) {
             res.json({
                 message: "Imagen actualizada correctamente",
-                data: { url, plant_id }
+                data: { url, mplant_id }
             });
         } else {
             res.status(404).json({
@@ -131,10 +131,23 @@ export async function setOne(req, res) {
     }
 }
 
-export async function getImagesByPlant(req, res) {
-    const Images = await Image.findAll({
-        where:{
-            id
-        }
-    })
+export async function getMImagesByPlant(req, res) {
+    try {
+        const { id } = req.params;
+        const MImages = await MImage.findAll({
+            where: {
+                id
+            }
+        })
+        res.json({
+            data: MImages
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor",
+            data: []
+        })
+    }
+
 }

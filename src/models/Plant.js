@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from '../database/database'
 import Image from './Image'
+import MPlant from './MPlant'
 const Plant = sequelize.define("plants", {
     id: {
         type: Sequelize.INTEGER,
@@ -22,6 +23,9 @@ const Plant = sequelize.define("plants", {
 
 Plant.hasMany(Image, { foreignKey: 'plant_id', sourceKey: 'id' });
 Image.belongsTo(Plant, { foreignKey: 'plant_id', sourceKey: 'id' });
+
+Plant.hasMany(MPlant, { foreignKey: 'plant_id', sourceKey: 'id' });
+MPlant.belongsTo(Plant, { foreignKey: 'plant_id', sourceKey: 'id' });
 
 
 export default Plant;

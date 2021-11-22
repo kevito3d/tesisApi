@@ -1,38 +1,40 @@
-import Image from '../models/Image';
-export async function createImage(req, res) {
-    
-    const { url,plant_id } = req.body;
+import MPlant from "../models/MPlant";
+
+export async function createPlant(req, res) {
+    const { names, phone, latitud, longuitud, plant_id } = req.body;
+
     try {
-        let newImage = await Image.create({
-            url,
-            plant_id,
+        let newMPlant = await MPlant.create({
+            names, phone, latitud, longuitud, plant_id
         }, {
-            fields: ['url', 'plant_id']
+            fields: ['names', 'phone', 'latitud', 'longuitud', 'plant_id']
         })
-        if (newImage) {
+        if (newMPlant) {
             return res.json({
-                message: "Imagen insertada correctamente",
-                data: newImage
+                message: "Planta insertada correctamente",
+                data: newMPlant
             })
         }
 
     } catch (error) {
         //si se suplica la llave unica
         console.log(error);
-        
+        // let message = "ocurrio un problema con el servidor";
+        // if (error.original.code == 23505) {
+        //     message = "nombre cientifico ya existente"
+        // };
+
         res.status(500).json({
-            message: "ucurrio un problema en el servidor",
+            message:"ocurrio un problema con el servidor",
             data: []
         })
     }
-
-   
 }
-export async function getAll(req, res) {
+export async function getall(req, res) {
     try {
-        const images = await Image.findAll();
+        const mplants = await MPlant.findAll();
         res.json({
-            data: images
+            data: mplants
         });
     } catch (error) {
         console.log(error);
@@ -46,13 +48,13 @@ export async function getAll(req, res) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
-        const image = await Image.findOne({
+        const mplant = await MPlant.findOne({
             where: {
                 id
             }
         });
         res.json({
-            data: image
+            data: mplant
         });
     } catch (error) {
 
@@ -67,19 +69,19 @@ export async function getOne(req, res) {
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Image.destroy({
+        const deleteRowCount = await MPlant.destroy({
             where: {
                 id
             }
         });
         if (deleteRowCount == 1) {
             res.json({
-                data: "Imagen eliminada satifactoriamente",
+                data: "Planta eliminada satifactoriamente",
                 count: deleteRowCount
             });
         } else {
             res.json({
-                data: "Imagen no encontrada",
+                data: "Planta no encontrada",
                 count: deleteRowCount
             });
         }
@@ -95,29 +97,28 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { url, plant_id } = req.body;
+        const { names, phone, latitud, longuitud, plant_id } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
         //     }
         // });
         // console.log(plant);
-        const deleted = await Image.update({
-            url,
-            plant_id,
+        const mplantUpdated = await MPlant.update({
+            names, phone, latitud, longuitud, plant_id
         }, {
             where: {
                 id
             }
         })
-        if (deleted[0]) {
+        if (mplantUpdated[0]) {
             res.json({
-                message: "Imagen actualizada correctamente",
-                data: { url, plant_id }
+                message: "Planta actualizada correctamente",
+                data: { names, phone, latitud, longuitud, plant_id }
             });
         } else {
             res.status(404).json({
-                message: "Imagen no encontrada",
+                message: "Planta no encontrada",
             });
 
         }
@@ -131,10 +132,3 @@ export async function setOne(req, res) {
     }
 }
 
-export async function getImagesByPlant(req, res) {
-    const Images = await Image.findAll({
-        where:{
-            id
-        }
-    })
-}

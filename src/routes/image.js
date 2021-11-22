@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createImage, deleteOne, getAll, getOne, setOne } from "../controllers/ImageController";
+import { createImage, deleteOne, getAll, getImagesByPlant, getOne, setOne } from "../controllers/ImageController";
 
 const router = Router();
 
@@ -12,5 +12,7 @@ router.get('/:id', getOne)
 router.delete('/:id', deleteOne)
 
 router.put('/:id', setOne)
+
+router.get('/planta/:plantaid', getImagesByPlant)
 
 export default router;
