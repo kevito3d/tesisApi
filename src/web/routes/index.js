@@ -8,15 +8,18 @@ const router = Router();
 
 
 router.get('/', async (req, res, next) => {
-    if (req.session.token) {
+
+    var plants = await getAllF(req);
+        return res.render('index', { title: "home", plants});
+
+    /* if (req.session.token) {
         console.log(req.session.token);
         var plants = await getAllF(req);
-        console.log();
         return res.render('index', { title: "home", plants});
     } else {
 
         return res.render('signin')
-    }
+    } */
 
 });
 //form to access

@@ -9,10 +9,10 @@
         </div>
     
         <div class="create">
-            <button id="insert">insertar nuevo</button>
+            <button id="insert">Agregar nueva planta</button>
         </div>
     </div>
-    <div class="grid">
+    <div class="grid" id="grid">
         <% plants.forEach(function(plant){ %>
             <%- include('partials//components/card', {plant}) %>
           <% }); %>

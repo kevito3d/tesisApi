@@ -1,7 +1,7 @@
 import Image from "../models/Image";
 import Plant from "../models/Plant";
 import { getImagesByPlantForController } from './imageController'
-
+import { Op } from 'sequelize'
 export async function createPlant(req, res) {
     const { scientific_name, name, description, url } = req.body;
 
@@ -53,6 +53,34 @@ export async function getAll(req, res) {
         })
     }
 }
+export async function getAllFilter(req, res) {
+    try {
+        const { filter } = req.params;
+        const plants = await Plant.findAll({
+            where: {
+                [Op.or]: {
+                    name: {
+                        [Op.like]: `%${filter}%`
+                    },
+                    scientific_name: {
+                        [Op.like]: `%${filter}%`
+                    },
+                }
+
+            }
+
+        });
+        res.json({
+            data: plants
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor",
+            data: []
+        })
+    }
+}
 export async function getAllF(req) {
     try {
         const plants = await Plant.findAll({
@@ -65,7 +93,7 @@ export async function getAllF(req) {
 
     } catch (error) {
         console.log(error);
-        return({
+        return ({
             message: "ocurrio un problema con el servidor",
         })
     }

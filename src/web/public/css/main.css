@@ -5,9 +5,8 @@
   right: 0;
   padding: 0.5rem 2rem 0.5rem 2rem;
   height: 4rem;
-  border: solid 1px black;
-  border-radius: 0 0 2rem 2rem;
-  background-color: white;
+  border-bottom: solid 1px #DCDCDC;
+  background-color: #f9fafb;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -18,9 +17,11 @@
       -ms-flex-align: end;
           align-items: end;
   z-index: 10;
+  padding-bottom: 1rem;
 }
 
 .menu_lateral .user {
+  color: rgba(30, 41, 59, 0.8);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -48,14 +49,13 @@
 }
 
 .menu_lateral .user #email {
-  color: green;
+  color: rgba(30, 41, 59, 0.8);
   text-align: start;
   font-size: 0.8rem;
   font-weight: 100;
 }
 
 .menu_lateral .user a {
-  color: red;
   text-align: start;
   font-size: 0.8rem;
   font-weight: 100;
@@ -108,7 +108,7 @@
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
-  color: green;
+  color: rgba(30, 41, 59, 0.8);
 }
 
 .menu_lateral .options div {
@@ -139,14 +139,14 @@
   bottom: -5px;
   width: 100%;
   height: 0px;
-  background: black;
+  background: green;
   -webkit-transition: ease 0.5s;
   transition: ease 0.5s;
   -webkit-transition: ease 0.1s;
 }
 
 .menu_lateral .options .home:hover {
-  color: black;
+  color: #333;
 }
 
 .menu_lateral .options .home:hover::after {
@@ -171,13 +171,13 @@
   bottom: -5px;
   width: 100%;
   height: 0px;
-  background: black;
+  background: green;
   transition: ease 0.1s;
   -webkit-transition: ease 0.1s;
 }
 
 .menu_lateral .options .pm:hover {
-  color: black;
+  color: #333;
 }
 
 .menu_lateral .options .pm:hover::after {
@@ -202,74 +202,23 @@
   bottom: -5px;
   width: 100%;
   height: 0px;
-  background: black;
+  background: green;
   transition: ease 0.1s;
   -webkit-transition: ease 0.1s;
 }
 
 .menu_lateral .options .usuarios:hover {
-  color: black;
+  color: #333;
 }
 
 .menu_lateral .options .usuarios:hover::after {
   height: 4px;
 }
 
-.menu_top {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #004600;
-  padding-right: 2.5rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 4rem;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.menu_top .create {
-  margin-right: 1rem;
-}
-
-.menu_top .create button {
-  font-size: 1.5rem;
-  border-radius: 25%;
-}
-
-.menu_top #search {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.menu_top #search input {
-  font-size: 1.5rem;
-  width: 12rem;
-}
-
-.menu_top #search button {
-  width: 2rem;
-}
-
-.menu_top #search button img {
-  width: 100%;
-}
-
 .actions {
   position: fixed;
-  padding-right: 2rem;
-  top: 5.2rem;
-  right: 0;
+  top: 6.8rem;
+  right: 0rem;
   left: 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -277,6 +226,7 @@
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  margin-right: 4.5rem;
 }
 
 .actions .searchDiv {
@@ -292,9 +242,10 @@
 }
 
 .actions .searchDiv input {
+  border: solid 2px #f9fafb;
   border-radius: 1rem;
-  font-size: 1.1rem;
-  width: 12rem;
+  font-size: 1rem;
+  width: 13rem;
 }
 
 .actions .create {
@@ -310,10 +261,10 @@
 }
 
 .actions .create button {
-  background-color: #fff;
+  background-color: ccc;
   padding: 0.2rem;
-  border: solid 0.1rem green;
-  color: green;
+  border: solid 0.1rem #DCDCDC;
+  color: rgba(30, 41, 59, 0.8);
   border-radius: 0.5rem;
   font-size: 0.8rem;
   cursor: pointer;
@@ -324,7 +275,7 @@
 }
 
 .container {
-  margin: 7rem 3rem 0 3rem;
+  margin: 9.5rem 3rem 0 3rem;
 }
 
 .container .grid {
@@ -338,23 +289,27 @@
 
 .container .grid .cardPlant {
   margin-bottom: 1rem;
+  background-color: #f9fafb;
   padding: 1rem;
-  border-radius: 1rem;
-  border: solid 1px black;
-  -webkit-box-shadow: 5px 5px 10px rgba(97, 91, 3, 0.63);
-          box-shadow: 5px 5px 10px rgba(97, 91, 3, 0.63);
+  border-radius: 0.5rem;
+  border: solid 0.01em #DCDCDC;
+  -webkit-box-shadow: 5px 5px 15px #DCDCDC;
+          box-shadow: 5px 5px 15px #DCDCDC;
 }
 
 .container .grid .cardPlant .name {
+  text-transform: uppercase;
   font-size: 1.3rem;
-  font-weight: 100;
+  font-weight: 600;
   font-family: "Roboto", sans-serif;
 }
 
 .container .grid .cardPlant .scientific_name {
+  color: rgba(30, 41, 59, 0.8);
   font-size: 1rem;
   font-weight: 100;
   font-family: "Roboto", sans-serif;
+  margin-bottom: 1rem;
 }
 
 .container .grid .cardPlant .description {
@@ -365,9 +320,6 @@
 
 .container .grid .cardPlant img {
   max-width: 100%;
-  border-radius: 1rem;
-  -webkit-box-shadow: 5px 5px 10px rgba(97, 91, 3, 0.63);
-          box-shadow: 5px 5px 10px rgba(97, 91, 3, 0.63);
 }
 
 .float {
