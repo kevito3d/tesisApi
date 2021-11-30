@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize } from '../database/database'
+import { sequelize } from '../../database/database'
 import Image from './Image'
 import MPlant from './MPlant'
 const Plant = sequelize.define("plants", {
@@ -17,7 +17,10 @@ const Plant = sequelize.define("plants", {
     },
     description: {
         type: Sequelize.TEXT
-    }
+    },
+    url: {
+        type: Sequelize.STRING,
+    },
 
 }, { timestamps: false })
 

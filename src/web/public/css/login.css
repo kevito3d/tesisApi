@@ -1,0 +1,248 @@
+body {
+    background-color: aliceblue;
+}
+
+.form-signin {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+
+
+.container {
+    width: 600px;
+    height: 400px;
+    margin: auto;
+    background-color: #eeeeee;
+    border: solid 1px 2px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-signin .title {
+    display: block;
+    width: 100%;
+
+}
+
+.container .center .alert {
+    width: 80%;
+    display: none;
+    justify-content: space-around;
+    border: solid 1px;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.37);
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+.container .center .alertR {
+    width: 80%;
+    display: none;
+    justify-content: space-around;
+    border: solid 1px;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: rgba(255, 0, 0, 0.37);
+    margin: 0 auto;
+}
+
+.container .center .text_alert {
+    text-align: center;
+}
+
+
+.user {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.form{
+    width: max-content;
+}
+
+.form-signin p {
+    text-align: center;
+    font-size: 2em;
+    color: rgba(39, 93, 57, 0.952);
+    margin: 0;
+}
+
+.pass {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container label {
+    font-size: xx-large;
+    float: left;
+    font-family: 'Courier New', Courier, monospace;
+    align-self: center;
+    color: rgba(39, 93, 57, 0.952);
+    margin: 0;
+}
+
+.container input {
+    font-size: xx-large;
+    font-family: 'Courier New', Courier, monospace;
+    display: block;
+    padding-left: 20px;
+    height: 40px;
+    align-self: center;
+}
+
+.container .login {
+    background-color: rgb(47, 255, 116);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: xx-large;
+    text-transform: uppercase;
+    display: block;
+    transition: 0.3s;
+}
+
+.container .createA {
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+
+.login:hover {
+    background-color: white;
+    color: rgb(47, 255, 116);
+}
+
+.header h1 {
+    font-size: 42px;
+    text-transform: uppercase;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.content {
+    width: 48px;
+    height: 38px;
+    display: none;
+    margin: 0 auto;
+    align-items: center;
+    background: transparent;
+    margin-bottom: 30px;
+}
+
+.spinner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid rgb(47, 255, 116);
+    background: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: rgb(47, 255, 116);
+    animation:spin 1.5s linear infinite;
+    position: relative;
+
+}
+
+@keyframes spin {
+    0%{
+        background:transparent;
+        transform:rotate(900deg);
+    }
+}
+
+
+@media screen and (max-width:1980px) {
+    .container {
+        max-width: 600px;
+    }
+
+    .container input {
+        font-size: large;
+        width: 220px;
+        padding-left: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-left: 15px;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .container {
+        max-width: 500px;
+    }
+
+    .container input {
+        font-size: large;
+        width: 200px;
+        padding-left: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-left: 15px;
+        height: 35px;
+    }
+
+    .container label {
+        font-size: xx-large;
+        float: left;
+        font-family: 'Courier New', Courier, monospace;
+    }
+}
+
+@media screen and (max-width:550px) {
+    .container {
+        max-width: 450px;
+    }
+
+    .container input {
+        font-size: large;
+        width: 200px;
+        padding-left: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-left: 10px;
+        height: 30px;
+    }
+
+    .container label {
+        font-size: xx-large;
+        float: left;
+        font-family: 'Courier New', Courier, monospace;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .container {
+        max-width: 350px;
+    }
+
+    .container input {
+        font-size: medium;
+        width: 150px;
+        padding-left: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-left: 10px;
+        height: 30px;
+    }
+
+    .container label {
+        font-size: x-large;
+        float: left;
+        font-family: 'Courier New', Courier, monospace;
+    }
+}

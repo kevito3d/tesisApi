@@ -1,16 +1,18 @@
+import Image from "../models/Image";
 import Plant from "../models/Plant";
-import {getImagesByPlantForController} from './imageController'
+import { getImagesByPlantForController } from './imageController'
 
 export async function createPlant(req, res) {
-    const { scientific_name, name, description } = req.body;
+    const { scientific_name, name, description, url } = req.body;
 
     try {
         let newPlant = await Plant.create({
             scientific_name,
             name,
-            description
+            description,
+            url
         }, {
-            fields: ['scientific_name', 'name', 'description']
+            fields: ['scientific_name', 'name', 'description', 'url']
         })
         if (newPlant) {
             return res.json({
@@ -33,9 +35,13 @@ export async function createPlant(req, res) {
         })
     }
 }
-export async function getall(req, res) {
+export async function getAll(req, res) {
     try {
-        const plants = await Plant.findAll();
+        const plants = await Plant.findAll({
+            include: {
+                model: Image
+            }
+        });
         res.json({
             data: plants
         });
@@ -47,6 +53,23 @@ export async function getall(req, res) {
         })
     }
 }
+export async function getAllF(req) {
+    try {
+        const plants = await Plant.findAll({
+            include: {
+                model: Image
+            }
+        });
+
+        return plants
+
+    } catch (error) {
+        console.log(error);
+        return({
+            message: "ocurrio un problema con el servidor",
+        })
+    }
+}
 
 export async function getOne(req, res) {
     try {
@@ -54,15 +77,18 @@ export async function getOne(req, res) {
         const plant = await Plant.findOne({
             where: {
                 id
+            },
+            include: {
+                model: Image
             }
         });
         if (plant) {
             res.json({
                 data: plant
             });
-        }else{
+        } else {
             res.status(404).json({
-                data:"Planta no encontrada"
+                data: "Planta no encontrada"
             })
         }
     } catch (error) {
@@ -106,7 +132,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { scientific_name, name, description } = req.body;
+        const { scientific_name, name, description, url } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -116,7 +142,8 @@ export async function setOne(req, res) {
         const plantUpdated = await Plant.update({
             scientific_name,
             name,
-            description
+            description,
+            url
         }, {
             where: {
                 id
@@ -125,7 +152,7 @@ export async function setOne(req, res) {
         if (plantUpdated[0]) {
             res.json({
                 message: "Planta actualizada correctamente",
-                data: { scientific_name, name, description }
+                data: { scientific_name, name, description, url }
             });
         } else {
             res.status(404).json({

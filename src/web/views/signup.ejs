@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="height=device-height, 
+                      width=device-width, initial-scale=1.0, 
+                      minimum-scale=1.0, maximum-scale=1.0, 
+                      user-scalable=no"
+    />
+    <link rel="stylesheet" href="/css/login.css" />
+
+    <title>Document</title>
+  </head>
+
+  <body>
+    <form id="form-signin" class="form-signin">
+      <div class="container">
+        <div class="center">
+          <div class="title">
+            <p>Registrate !</p>
+
+            <div id="alertR" class="alertR">
+              <div class="text_alert">
+                <strong>Hey !</strong> Usuario ya existe !
+              </div>
+              <button
+                onclick="cierraAlert()"
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true ">&times;</span>
+              </button>
+            </div>
+          </div>
+          <div class="form">
+            <div class="user">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div class="user">
+              <label for="username">Usuario</label>
+              <input id="username" name="user" type="text" required />
+            </div>
+            <div class="pass">
+              <label for="password">Contraseña</label>
+              <input id="password" name="password" type="password" required />
+            </div>
+            <div class="pass">
+              <label for="institutiom">institucion :</label>
+              <select name="institutiom" id="institutions" >
+                
+              </select>
+            </div>
+          </div>
+
+          <button id="login" class="login">Registrarse</button>
+          <div id="spinner" class="content">
+            <div class="spinner"></div>
+          </div>
+          <a class="createA" href="/signin">Iniciar secion</a>
+        </div>
+      </div>
+    </form>
+
+    <script src="/js/signup.js "></script>
+  </body>
+</html>

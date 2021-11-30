@@ -2,6 +2,7 @@ create table if not exists plants(
     id smallserial primary key ,
     scientific_name varchar (100) not null UNIQUE,
     name varchar (50),
+    url text not null check (url <> ''),
     description text
 
 );
@@ -30,4 +31,9 @@ create table if not exists mimages(
     url text not null check (url <> ''),
     mplant_id integer not null,
     foreign key (mplant_id) references mplants(id)
+)
+
+create table if not exists users(
+    email varchar (40) primary key,
+    password varchar not null
 )

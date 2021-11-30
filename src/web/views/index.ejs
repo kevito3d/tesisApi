@@ -1,0 +1,23 @@
+<% include partials/base -%>
+<%- include('partials/header', {current:"pp"}) %> 
+<div class="container">
+    <div class="actions">
+        <div class="searchDiv">
+            <img src="images/lupa.png" alt="">
+            <input type="text" name="" id="search" placeholder="buscar">
+    
+        </div>
+    
+        <div class="create">
+            <button id="insert">insertar nuevo</button>
+        </div>
+    </div>
+    <div class="grid">
+        <% plants.forEach(function(plant){ %>
+            <%- include('partials//components/card', {plant}) %>
+          <% }); %>
+    </div>
+   
+</div>
+<div class="float"></div>
+<% include partials/footer %> 

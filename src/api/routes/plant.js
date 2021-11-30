@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { createPlant, deleteOne, getall, getOne, setOne } from "../controllers/plantController";
+import { createPlant, deleteOne, getAll, getOne, setOne } from "../controllers/plantController";
 
 const router = Router();
 
 router.post('/', createPlant);
 
-router.get('/', getall);
+router.get('/', getAll);
 
 router.get('/:id', getOne)
 
