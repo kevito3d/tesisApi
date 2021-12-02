@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
     var plants = await getAllF(req);
         return res.render('index', { title: "home", plants});
 
-    /* if (req.session.token) {
+ /*    if (req.session.token) {
         console.log(req.session.token);
         var plants = await getAllF(req);
         return res.render('index', { title: "home", plants});
