@@ -2,9 +2,11 @@ import Image from "../models/Image";
 import Plant from "../models/Plant";
 import { getImagesByPlantForController } from './imageController'
 import { Op } from 'sequelize'
-export async function createPlant(req, res) {
-    const { scientific_name, name, description, url } = req.body;
+import uuid from 'uuid'
 
+export async function createPlant(req, res) {
+    const { scientific_name, name, description } = req.body;
+    const url = 'uploads/'+req.file.originalname;
     try {
         let newPlant = await Plant.create({
             scientific_name,
@@ -102,6 +104,7 @@ export async function getAllF(req) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
+        console.log(id);
         const plant = await Plant.findOne({
             where: {
                 id
@@ -111,6 +114,7 @@ export async function getOne(req, res) {
             }
         });
         if (plant) {
+            console.log(plant);
             res.json({
                 data: plant
             });
@@ -132,6 +136,7 @@ export async function getOne(req, res) {
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
+        console.log(id);
         const deleteRowCount = await Plant.destroy({
             where: {
                 id
@@ -151,7 +156,7 @@ export async function deleteOne(req, res) {
     } catch (error) {
         res.status(500).json({
             message: "ocurrio un problema con el servidor",
-            data: []
+            error
         })
     }
 

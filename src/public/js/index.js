@@ -75,7 +75,6 @@ const viewImage = (fileu, imgu) => {
         fr.readAsDataURL(file)
         fr.onload = function (e) {
             var img = document.getElementById(imgu)
-            console.log(this.result);
             const $img = document.createElement('img');
             $img.classList.add("imgp")
             $img.src = this.result
@@ -105,16 +104,16 @@ const viewImages = (fileu, imgu) => {
                 $img.src = this.result
                 const $close = d.createElement('div');
                 //  $close.style="position: absolute; top:0px; right:10px"
-                $close.innerText='X';
-                $close.style='color:white;'
+                $close.innerText = 'X';
+                $close.style = 'color:white;'
 
-                $close.addEventListener("click", (e)=>{
+                $close.addEventListener("click", (e) => {
                     // console.log(e.target.parentElement);
                     console.log($div);
                     img.removeChild($div);
 
                 })
-                
+
                 $div.appendChild($close);
                 $div.appendChild($img)
                 img.appendChild($div)
@@ -130,7 +129,63 @@ const closeModal = (close, modal) => {
     $btn.addEventListener('click', (e) => {
         $modal.style = "display:none"
     })
+    window.onclick = function(event) {
+        if (event.target == $modal) {
+          $modal.style.display = "none";
+        }
+      }
 }
+/* FileList.prototype.toArray = function () {
+    return Array.from(this).map(function (file) {
+      return file.toObject()
+    })
+  } */
+
+const createPlant = (imgs,img, name, scn, desc, form) => {
+    const $form = document.getElementById(form);
+
+    $form.onsubmit = (e) => {
+        const file = d.getElementById(img);
+        console.log(file);
+        
+        const formData = new FormData();
+        console.log(file.files[0]);
+        formData.append('image', file.files[0]);
+        formData.append('name', d.getElementById(name).value);
+        formData.append('scientific_name', d.getElementById(scn).value);
+        formData.append('description', d.getElementById(desc).value);
+        
+        e.preventDefault();
+        fetch(`${location.origin}/api/plant`, {
+            method: 'POST',
+            
+            body: formData
+        }).then(async x => {
+            if (x.status == 200) {
+                const res = await x.json();
+                console.log(res.data.id);
+                const filex = d.getElementById(imgs).files;
+                const formData2 = new FormData();
+                formData2.append('plant_id', res.data.id)
+                // console.log(filex.files);
+                ;
+                for(var x = 0; x<filex.length; x++) {
+                    formData2.append('images', filex[x]);
+                }
+
+                // formData2.append('images', filex.files)
+                fetch(`${location.origin}/api/image`, {
+                    method: 'POST',
+                    
+                    body: formData2
+                })
+
+                
+            }
+        })
+    }
+}
+
 d.addEventListener('DOMContentLoaded', () => {
     /* funcionArrow('.user',".otp",".logout",".oscuro")
     loadDates(".institution", ".nameuser") */
@@ -141,5 +196,7 @@ d.addEventListener('DOMContentLoaded', () => {
     closeModal('close', 'myModal')
     viewImage('image', 'imgContent');
     viewImages('images', 'imgsContent');
+
+    createPlant('images','image', 'namePlant', 'namescPlant', 'descrPlant', 'form-create')
 
 })

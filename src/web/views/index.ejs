@@ -1,42 +1,47 @@
 <% include partials/base -%>
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <div class="modal-head">
-                Ingrese nueva planta
-                <span id="close" class="close">&times;</span>
-            </div>
-            <div class="modal_body">
-                <div class="text">
-                    <input type="text" name="nameN" id="nameN" placeholder="Nombre comun">
-                    <input type="text" name="scientific_nameN" id="scientific_nameN" placeholder="Nombre cientifico">
-                    <textarea name="scientific_nameN" id="scientific_nameN" cols="25" rows="8"
-                        placeholder="Descripcion"></textarea>
-                    <!-- <label for="image">Imagen</label> -->
-                    <input type="file" name="image" id="image" accept="image/jpg, image/png, image/jpeg">
+            <form id="form-create" >
+                <div class="modal-head">
+                    Ingrese nueva planta
+                    <span id="close" class="close">&times;</span>
+                </div>
+                <div class="modal_body">
+                    <div class="text">
+                        <input id="namePlant" type="text" name="nameN" id="nameN" placeholder="Nombre comun">
+                        <input id="namescPlant" type="text" name="scientific_nameN" id="scientific_nameN"
+                            placeholder="Nombre cientifico">
+                        <textarea id="descrPlant" name="scientific_nameN" id="scientific_nameN" cols="25" rows="8"
+                            placeholder="Descripcion"></textarea>
+                        <!-- <label for="image">Imagen</label> -->
+                        <input type="file" name="image" id="image" accept="image/jpg, image/png, image/jpeg">
+
+                    </div>
+                    <div class="image" id="imgContent">
+
+                        <!-- <div class="form-group"> -->
+                        <!-- <img id="img" class="img-fluid" src=""> -->
+
+                        <!-- </div> -->
+
+                    </div>
+
+                    <!-- <textarea type="text" name="scientific_nameN" id="scientific_nameN" placeholder="Nombre cientifico"> -->
+                </div>
+                <div class="moreImages">
+                    <div for="">subir imagenes extras</div>
+                    <input type="file" name="image" id="images" accept="image/jpg, image/png, image/jpeg" multiple>
+                    <div class="images" id="imgsContent"></div>
 
                 </div>
-                <div class="image" id="imgContent">
-
-                    <!-- <div class="form-group"> -->
-                    <!-- <img id="img" class="img-fluid" src=""> -->
-
-                    <!-- </div> -->
-
+                <div class="modal-footer">
+                    <button id="create">guardar</button>
+                    <button>cancelar</button>
                 </div>
 
-                <!-- <textarea type="text" name="scientific_nameN" id="scientific_nameN" placeholder="Nombre cientifico"> -->
-            </div>
-            <div class="moreImages">
-                <div for="">subir imagenes extras</div>
-                <input type="file" name="image" id="images" accept="image/jpg, image/png, image/jpeg" multiple>
-                <div class="images" id="imgsContent"></div>
+            </form>
 
-            </div>
-            <div class="modal-footer">
-                <button>guardar</button>
-                <button>cancelar</button>
-            </div>
-           
+
         </div>
     </div>
     </div>

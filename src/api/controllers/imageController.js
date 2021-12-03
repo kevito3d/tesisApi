@@ -1,34 +1,67 @@
 import Image from '../models/Image';
 export async function createImage(req, res) {
+    console.log("files: "+req.files);
 
-    const { url, plant_id } = req.body;
-    try {
-        let newImage = await Image.create({
-            url,
-            plant_id,
-        }, {
-            fields: ['url', 'plant_id']
-        })
-        if (newImage) {
-            return res.json({
-                message: "Imagen insertada correctamente",
-                data: newImage
+    const files = req.files;
+    const { plant_id } = req.body;
+   let newImages = []
+    const urls = [];
+    const urlsNO = [];
+    let banderaError = false;
+
+    await files.forEach(async file => {
+        console.log("file : "+file);
+        const url = 'uploads/' + file.originalname;
+        console.log(url);
+        try {
+            let newImage = await Image.create({
+                url,
+                plant_id,
+            }, {
+                fields: ['url', 'plant_id']
             })
+            if (newImage) {
+                console.log(newImage);
+                newImages.push(newImage);
+                urls.push(file.originalname);
+                /*  return res.json({
+                     message: "Imagen insertada correctamente",
+                     data: newImage
+                 }) */
+            }
+
+        } catch (error) {
+            /*  //si se suplica la llave unica
+             console.log(error);
+             let message = "ocurrio un problema con el servidor";
+             if (error.original.code == 23503) {
+                 message = "no existe referencia de esa planta"
+             };
+ 
+             res.status(500).json({
+                 message,
+             }) */
+             banderaError=true;
+            urlsNO.push(file.originalname);
+
         }
+        
 
-    } catch (error) {
-        //si se suplica la llave unica
-        console.log(error);
-        let message = "ocurrio un problema con el servidor";
-        if (error.original.code == 23503) {
-            message = "no existe referencia de esa planta"
-        };
 
-        res.status(500).json({
-            message,
+    });
+    if (!banderaError) {
+        return res.json({
+            message: "Imagenes insertadas correctamente",
+            data: newImages
         })
-    
+    }else{
+        return res.status(206).json({
+            si: urls,
+            no:urlsNO
+        })
     }
+
+
 
 
 }
@@ -50,6 +83,7 @@ export async function getAll(req, res) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
+        console.log(id);
         const image = await Image.findOne({
             where: {
                 id
@@ -59,9 +93,9 @@ export async function getOne(req, res) {
             res.json({
                 data: image
             });
-        }else{
+        } else {
             res.status(404).json({
-                data:"Imagen no encontrada"
+                data: "Imagen no encontrada"
             })
         }
     } catch (error) {
@@ -134,16 +168,16 @@ export async function setOne(req, res) {
         }
 
     } catch (error) {
-         //si se suplica la llave unica
-         console.log(error);
-         let message = "ocurrio un problema con el servidor";
-         if (error.original.code == 23503) {
-             message = "no existe referencia de esa planta"
-         };
- 
-         res.status(500).json({
-             message,
-         })
+        //si se suplica la llave unica
+        console.log(error);
+        let message = "ocurrio un problema con el servidor";
+        if (error.original.code == 23503) {
+            message = "no existe referencia de esa planta"
+        };
+
+        res.status(500).json({
+            message,
+        })
     }
 }
 
@@ -155,13 +189,13 @@ export async function getImagesByPlant(req, res) {
                 plant_id: id
             }
         })
-        if (images.length>0) {
+        if (images.length > 0) {
             res.json({
                 data: images
             });
-        }else{
+        } else {
             res.status(404).json({
-                data:"Planta no encontrada"
+                data: "Planta no encontrada"
             })
         }
     } catch (error) {

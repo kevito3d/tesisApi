@@ -283,6 +283,7 @@ body {
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
     .modal-content {
+        border-radius: 3rem;
         background-color: #fefefe;
         max-width: 30rem;
         margin: auto;
@@ -293,7 +294,7 @@ body {
         flex-direction: column;
     }
     .modal-head {
-        display: inline-flex;
+        display:flex;
         justify-content: space-between;
         .close {
             color: #aaaaaa;
@@ -309,7 +310,7 @@ body {
         }
     }
     .modal_body {
-        display: inline-flex;
+        display: flex;
         justify-content: space-between;
         height: 15rem;
         .text {
@@ -335,6 +336,8 @@ body {
                 padding: 0.2rem;
                 font-size: 1rem;
                 margin-bottom: 0.2rem;
+                resize: none;
+                
             }
         }
         .image {
@@ -356,7 +359,7 @@ body {
     }
     .moreImages {
         
-        display: inline-flex;
+        display: flex;
         width: 100%;
         flex-direction: column;
         // background-color: blue;
