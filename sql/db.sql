@@ -1,39 +1,51 @@
 create table if not exists plants(
-    id smallserial primary key ,
-    scientific_name varchar (100) not null UNIQUE,
-    name varchar (50),
-    url text not null check (url <> ''),
-    description text
+    scientificname varchar (100) primary key,
+    name varchar (50) ,
+    description varchar not null,
+    commonplace varchar (50)
 
+);
+
+create table if not exists users(
+    ci varchar (10) primary key,
+    firstname varchar (50),
+    lastname varchar (50),
+    email varchar (50),
+    phone varchar (15),
+    password varchar ,
+)
+
+
+create table if not exists observations(
+    id serial primary key,
+    locale varchar (50),
+    checked boolean default false,
+    verified boolean default false,
+    ci varchar (10) not null,
+    scientificname  varchar (100)  not null,
+    foreign key (ci) references users(ci),
+    foreign key (scientificname) references plants(scientificname),
+);
+
+create table if not exists partplants(
+    id serial primary key,
+    name varchar(25),
+    description varchar (50),
+    scientificname  varchar (100) ,
+    idobservation integer ,
+    foreign key (scientificname) references plants(scientificname),
+    foreign key (idobservation) references observations(id)
 );
 
 create table if not exists images(
-    id smallserial primary key ,
+    id serial primary key ,
     url text not null check (url <> ''),
-    plant_id integer not null,
-    foreign key (plant_id) references plants(id)
+    scientificname  varchar (100)  ,
+    idpartplant integer ,
+    foreign key (scientificname) references plants(scientificname),
+    foreign key (idpartplant) references partplants(id)
 );
 
-create table if not exists mplants(
-    id smallserial primary key ,
-    names varchar (100) not null,
-    phone varchar (10) not null,
-    latitud varchar (15) not null,
-    longuitud varchar (15) not null, 
-    verified boolean default false,
-    checked boolean default false
-    plant_id integer not null ,
-    foreign key (plant_id) references plants(id)
-);
 
-create table if not exists mimages(
-    id smallserial primary key ,
-    url text not null check (url <> ''),
-    mplant_id integer not null,
-    foreign key (mplant_id) references mplants(id)
-)
 
-create table if not exists users(
-    email varchar (40) primary key,
-    password varchar not null
-)
+

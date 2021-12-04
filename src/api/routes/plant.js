@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { createPlant, deleteOne, getAll, getAllFilter, getOne, setOne } from "../controllers/plantController";
-import multer from 'multer'
+/* 
 import path from 'path'
+import multer from 'multer'
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../../public/uploads'),
     filename: (req, file, cb) => {
@@ -24,21 +25,21 @@ const upload = multer({
          
     }
 }).single('image')
-
+ */
 
 
 const router = Router();
 
-router.post('/', upload, createPlant);
+router.post('/', createPlant);
 
 router.get('/', getAll);
-router.get('/:id', getOne)
+router.get('/:scientificname', getOne)
 router.get('/:filter', getAllFilter);
 
 
-router.delete('/:id', deleteOne)
+router.delete('/:scientificname', deleteOne)
 
-router.put('/:id', setOne)
+router.put('/:scientificname', setOne)
 
 
 export default router;

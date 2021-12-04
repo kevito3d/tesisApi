@@ -1,24 +1,25 @@
-import Plant from "../models/Plant";
-// import { getImagesByPlantForController } from './imageController'
-import { Op } from 'sequelize'
 import PartPlant from "../models/PartPlant";
-import Image from "../models/Image";
-import Observation from "../models/Observation";
 
-export async function createPlant(req, res) {
-    const { scientificname, name, description, commonplace } = req.body;
+import { Op } from 'sequelize'
+import Image from "../models/Image";
+
+export async function createPartPlant(req, res) {
+    const { scientificname, name, description, idobservation } = req.body;
     // const url = 'uploads/'+req.file.originalname;
+    
     try {
-        let newPlant = await Plant.create({
+        let newPart = await PartPlant.create({
             scientificname,
             name,
             description,
-            commonplace
+            idobservation,
+        }, {
+            fields: [ 'name', 'description', 'scientificname', "idobservation"]
         })
-        if (newPlant) {
+        if (newPart) {
             return res.json({
-                message: "Planta insertada correctamente",
-                data: newPlant
+                message: "Parte insertada correctamente",
+                data: newPart
             })
         }
 
@@ -26,10 +27,9 @@ export async function createPlant(req, res) {
         //si se suplica la llave unica
         console.log(error);
         let message = "ocurrio un problema con el servidor";
-        if (error.original.code == 23505) {
-            message = "nombre cientifico ya existente"
+        if (error.original.code == 23503) {
+            message = "no existe referencia de esa planta o observacion"
         };
-
         res.status(500).json({
             message,
             data: []
@@ -38,23 +38,13 @@ export async function createPlant(req, res) {
 }
 export async function getAll(req, res) {
     try {
-        const plants = await Plant.findAll({
-            include: [
-                {
-                    model:PartPlant
-                },
-                {
-                    model:Image
-                },
-                
-                {
-                    model:Observation
-                },
-            ],
-           
+        const parts = await PartPlant.findAll({
+            include: {
+                model: Image
+            }
         });
         res.json({
-            data: plants
+            data: parts
         });
     } catch (error) {
         console.log(error);
@@ -64,10 +54,10 @@ export async function getAll(req, res) {
         })
     }
 }
-export async function getAllFilter(req, res) {
+/* export async function getAllFilter(req, res) {
     try {
         const { filter } = req.params;
-        const plants = await Plant.findAll({
+        const parts = await PartPlant.findAll({
             where: {
                 [Op.or]: {
                     name: {
@@ -82,7 +72,7 @@ export async function getAllFilter(req, res) {
 
         });
         res.json({
-            data: plants
+            data: parts
         });
     } catch (error) {
         console.log(error);
@@ -91,17 +81,17 @@ export async function getAllFilter(req, res) {
             data: []
         })
     }
-}
+} */
 //get all front
 export async function getAllF(req) {
     try {
-        const plants = await Plant.findAll({
+        const parts = await PartPlant.findAll({
             include: {
-                model: PartPlant
+                model: Image
             }
         });
 
-        return plants
+        return parts
 
     } catch (error) {
         console.log(error);
@@ -113,24 +103,23 @@ export async function getAllF(req) {
 
 export async function getOne(req, res) {
     try {
-        const { scientificname } = req.params;
-        // console.log(id);
-        const plant = await Plant.findOne({
+        const { id } = req.params;
+        const part = await PartPlant.findOne({
             where: {
-                scientificname
+                id
             },
             include: {
-                model: PartPlant
+                model: Image
             }
         });
-        if (plant) {
-            console.log(plant);
+        if (part) {
+            console.log(part);
             res.json({
-                data: plant
+                data: part
             });
         } else {
             res.status(404).json({
-                data: "Planta no encontrada"
+                data: "Parte no encontrada"
             })
         }
     } catch (error) {
@@ -145,26 +134,25 @@ export async function getOne(req, res) {
 
 export async function deleteOne(req, res) {
     try {
-        const { scientificname } = req.params;
-        console.log(scientificname);
-        const deleteRowCount = await Plant.destroy({
+        const { id } = req.params;
+        // console.log(id);
+        const deleteRowCount = await PartPlant.destroy({
             where: {
-                scientificname
+                id
             }
         });
         if (deleteRowCount == 1) {
             res.json({
-                data: "Planta eliminada satifactoriamente",
+                data: "Parte eliminada satifactoriamente",
                 count: deleteRowCount
             });
         } else {
             res.status(404).json({
-                data: "Planta no encontrada",
+                data: "Parte no encontrada",
                 count: deleteRowCount
             });
         }
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             message: "ocurrio un problema con el servidor",
             error
@@ -175,32 +163,32 @@ export async function deleteOne(req, res) {
 
 export async function setOne(req, res) {
     try {
-        const { scientificname } = req.params;
-        const { scientific_name, name, description, commonplace } = req.body;
+        const { id } = req.params;
+        const { scientific_name, name, description, idobservation } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
         //     }
         // });
         // console.log(plant);
-        const plantUpdated = await Plant.update({
+        const partUpdated = await PartPlant.update({
             scientific_name,
             name,
             description,
-            commonplace
+            idobservation
         }, {
             where: {
-                scientificname
+                id
             }
         })
-        if (plantUpdated[0]) {
+        if (partUpdated[0]) {
             res.json({
-                message: "Planta actualizada correctamente",
-                data: { scientific_name, name, description, commonplace }
+                message: "Parte actualizada correctamente",
+                data: { scientific_name, name, description, idobservation }
             });
         } else {
             res.status(404).json({
-                message: "Planta no encontrada",
+                message: "Parte no encontrada",
             });
 
         }

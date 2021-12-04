@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createImage, deleteOne, getAll, getImagesByPlant, getOne, setOne } from "../controllers/ImageController";
-import multer from 'multer'
+import { createObservation, deleteOne, getAll,  getOne, setOne } from "../controllers/observationController";
+/* 
 import path from 'path'
-
+import multer from 'multer'
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../../public/uploads'),
     filename: (req, file, cb) => {
@@ -24,20 +24,23 @@ const upload = multer({
         cb('error: el archivo debe ser una imagen valida (jpg|png|gif|jpeg)')
          
     }
-}).array('images');
+}).single('image')
+ */
+
 
 const router = Router();
 
-router.post('/', upload, createImage);
+router.post('/', createObservation);
 
 router.get('/', getAll);
 
 router.get('/:id', getOne)
+// router.get('/:filter', getAllFilter);
+
 
 router.delete('/:id', deleteOne)
 
 router.put('/:id', setOne)
 
-router.get('/plant/:id', getImagesByPlant)
 
 export default router;

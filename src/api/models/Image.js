@@ -12,11 +12,16 @@ const Image = sequelize.define("images", {
         allowNull: false,
     },
 
-    plant_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+    scientificname: {
+        type: Sequelize.STRING,
+    },
+
+    idpartplant:{
+        type:Sequelize.INTEGER
     }
 
 }, { timestamps: false })
+
+
 
 export default Image;

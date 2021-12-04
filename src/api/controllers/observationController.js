@@ -1,18 +1,20 @@
-import MPlant from "../models/MPlant";
+import Observation from "../models/Observation";
+import PartPlant from "../models/PartPlant";
 
-export async function createPlant(req, res) {
-    const { names, phone, latitud, longuitud, plant_id } = req.body;
+export async function createObservation(req, res) {
+    const { locale, checked, verified,  ci, scientificname } = req.body;
 
     try {
-        let newMPlant = await MPlant.create({
-            names, phone, latitud, longuitud, plant_id
+        console.log(ci);
+        let newObservation = await Observation.create({
+            locale, checked, verified,  ci, scientificname
         }, {
-            fields: ['names', 'phone', 'latitud', 'longuitud', 'plant_id']
+            fields: ['locale', 'checked', 'verified', "ci",'scientificname']
         })
-        if (newMPlant) {
+        if (newObservation) {
             return res.json({
-                message: "Planta insertada correctamente",
-                data: newMPlant
+                message: "Observation insertada correctamente",
+                data: newObservation
             })
         }
 
@@ -21,7 +23,7 @@ export async function createPlant(req, res) {
         console.log(error);
         let message = "ocurrio un problema con el servidor";
         if (error.original.code == 23503) {
-            message = "no existe referencia de esa planta"
+            message = "no existe referencia de esa Planta"
         };
 
         res.status(500).json({
@@ -30,11 +32,16 @@ export async function createPlant(req, res) {
         })
     }
 }
-export async function getall(req, res) {
+export async function getAll(req, res) {
     try {
-        const mplants = await MPlant.findAll();
+        
+        const observations = await Observation.findAll({
+            include: {
+                model: PartPlant
+            }
+        });
         res.json({
-            data: mplants
+            data: observations
         });
     } catch (error) {
         console.log(error);
@@ -48,18 +55,22 @@ export async function getall(req, res) {
 export async function getOne(req, res) {
     try {
         const { id } = req.params;
-        const mplant = await MPlant.findOne({
+        console.log(id);
+        const observation = await Observation.findOne({
             where: {
                 id
+            },
+            include: {
+                model: PartPlant
             }
         });
-        if (mplant) {
+        if (observation) {
             res.json({
-                data: mplant
+                data: observation
             });
         } else {
             res.status(404).json({
-                data: "planta no encontrada"
+                data: "Observation no encontrada"
             })
         }
     } catch (error) {
@@ -75,19 +86,19 @@ export async function getOne(req, res) {
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await MPlant.destroy({
+        const deleteRowCount = await Observation.destroy({
             where: {
                 id
             }
         });
         if (deleteRowCount == 1) {
             res.json({
-                data: "Planta eliminada satifactoriamente",
+                data: "Observation eliminada satifactoriamente",
                 count: deleteRowCount
             });
         } else {
             res.status(404).json({
-                data: "Planta no encontrada",
+                data: "Observation no encontrada",
                 count: deleteRowCount
             });
         }
@@ -103,28 +114,28 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { names, phone, latitud, longuitud, plant_id, checked, verified } = req.body;
+        const { locale, checked, verified,  scientificname } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
         //     }
         // });
         // console.log(plant);
-        const mplantUpdated = await MPlant.update({
-            names, phone, latitud, longuitud, plant_id, checked, verified,
+        const observationUpdated = await Observation.update({
+            locale, checked, verified,   scientificname
         }, {
             where: {
                 id
             }
         })
-        if (mplantUpdated[0]) {
+        if (observationUpdated[0]) {
             res.json({
-                message: "Planta actualizada correctamente",
-                data: { names, phone, latitud, longuitud, plant_id, checked, verified }
+                message: "Observation actualizada correctamente",
+                data: { locale, checked, verified,   scientificname }
             });
         } else {
             res.status(404).json({
-                message: "Planta no encontrada",
+                message: "Observation no encontrada",
             });
 
         }
@@ -134,7 +145,7 @@ export async function setOne(req, res) {
         console.log(error);
         let message = "ocurrio un problema con el servidor";
         if (error.original.code == 23503) {
-            message = "no existe referencia de esa planta"
+            message = "no existe referencia de esa Observation"
         };
 
         res.status(500).json({
@@ -145,18 +156,18 @@ export async function setOne(req, res) {
 
 
 
-export async function getMPlantByPlant(req, res) {
+export async function getObservationByPlant(req, res) {
     try {
-        const { id } = req.params;
-        const mplants = await MPlant.findAll({
+        const { scientificname } = req.params;
+        const observations = await Observation.findAll({
             where: {
-                plant_id: id
+                scientificname
             }
         })
-        if (mplants.length > 0) {
-            console.log(mplants);
+        if (observations.length > 0) {
+            console.log(observations);
             res.json({
-                data: mplants
+                data: observations
             });
         } else {
             res.status(404).json({

@@ -1,16 +1,12 @@
 import Sequelize from "sequelize";
 import { sequelize } from '../../database/database'
+import PartPlant from './PartPlant'
+import Observation from './Observation'
 import Image from './Image'
-import MPlant from './MPlant'
 const Plant = sequelize.define("plants", {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true
-    },
-    scientific_name: {
+    scientificname: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+        primaryKey: true
     },
     name: {
         type: Sequelize.STRING
@@ -18,17 +14,24 @@ const Plant = sequelize.define("plants", {
     description: {
         type: Sequelize.TEXT
     },
-    url: {
+    commonplace: {
         type: Sequelize.STRING,
     },
 
 }, { timestamps: false })
 
-Plant.hasMany(Image, { foreignKey: 'plant_id', sourceKey: 'id' });
-Image.belongsTo(Plant, { foreignKey: 'plant_id', sourceKey: 'id' });
+ Plant.hasMany(PartPlant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ PartPlant.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ 
+ Plant.hasMany(Observation, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ Observation.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ 
+ Plant.hasMany(Image, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ Image.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
 
+ /*
 Plant.hasMany(MPlant, { foreignKey: 'plant_id', sourceKey: 'id' });
 MPlant.belongsTo(Plant, { foreignKey: 'plant_id', sourceKey: 'id' });
-
+ */
 
 export default Plant;

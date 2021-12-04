@@ -27,7 +27,7 @@ export const login = async (req, res, next) => {
             const token = signToken(userExist.email);
             req.session.token = token;
             const {password, ...user} = userExist.dataValues;
-            console.log("user de averga: ",user);
+            console.log("user : ",user);
             return res.status(200).json({
                 user,
                 token,
@@ -45,8 +45,8 @@ export const login = async (req, res, next) => {
     }
 }
 
-export const ifExist = async (email) => {
-    const user = await User.findByPk(email/* {
+export const ifExist = async (ci) => {
+    const user = await User.findByPk(ci/* {
         where: {
             email, // and
             $or: [{
@@ -64,21 +64,26 @@ export const ifExist = async (email) => {
 
 export const createUser = async (req, res) => {
     const {
+        ci,
+        firstname,
+        lastname,
         email,
+        phone,
         password, } = req.body;
 
     try {
-        const userExist = await ifExist(email);
+        const userExist = await ifExist(ci);
         if (!userExist) {
             console.log(email, password);
             let passwordHash = await bcryptjs.hash(password, 8);
             console.log(passwordHash);
             const newUser = await User.create({
-                // first_name,
-                // last_name,
+                ci,
+                firstname,
+                lastname,
                 email,
                 password:passwordHash,
-                // phone
+                phone
             });
 
             if (newUser) {
@@ -110,15 +115,15 @@ export const createUser = async (req, res) => {
 
 }
 export const deletOne = async (req, res) => {
-    const { email } = req.params;
+    const { ci } = req.params;
 
     try {
-        const userExist=await ifExist(email);
+        const userExist=await ifExist(ci);
         if (userExist) {
 
             const userDeleted = await User.destroy({
                 where: {
-                    email
+                    ci
                 }
             });
             res.status(201).json({
@@ -139,12 +144,12 @@ export const deletOne = async (req, res) => {
 }
 
 
-/*
+
 
 export const getAll = async (req, res) => {
     try {
         const users = await User.findAll({
-            attributes: ['id', 'first_name', 'last_name', 'email',  'phone']
+            attributes: ['ci', 'firstname', 'lastname', 'email',  'phone']
         });
         res.status(200).json({
             data: users
@@ -159,14 +164,19 @@ export const getAll = async (req, res) => {
 }
 
 export const getOne = async (req, res) => {
-    const { id } = req.params;
+    const { ci } = req.params;
 
     try {
         const user = await User.findOne({
-            where: { id }
+            where: { ci }
         });
-
-        res.status(200).json(user)
+        if(user){
+            return res.json({user})
+        }else{
+            res.status(404).json({
+                data: "User no encontrado"
+            })
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -178,30 +188,30 @@ export const getOne = async (req, res) => {
 
 
 
-export const updateOne = async (req, res) => {
-    const { id } = req.params;
+export const setOne = async (req, res) => {
+    const { ci } = req.params;
     const {
-        first_name,
-        last_name,
+        firstname,
+        lastname,
         email,
         password,
         phone } = req.body;
 
     try {
         const updatedUser = await User.update({
-            first_name,
-            last_name,
+            firstname,
+            lastname,
             email,
             password,
             phone
-        }, { where: { id } })
+        }, { where: { ci } })
 
         if (updatedUser[0]) {
             res.status(200).json({
                 message: 'User updated successfully',
                 data: {
-                    first_name,
-                    last_name,
+                    firstname,
+                    lastname,
                     email,
                     phone
                 }
@@ -218,4 +228,4 @@ export const updateOne = async (req, res) => {
         })
     }
 
-} */
+}
