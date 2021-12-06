@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPartPlant, deleteOne, getAll,  getOne, setOne } from "../controllers/partController";
+import { createPartPlant, deleteOne, getAll,  getOne, getPartByPlant, setOne } from "../controllers/partController";
 /* 
 import path from 'path'
 import multer from 'multer'
@@ -33,6 +33,7 @@ const router = Router();
 router.post('/', createPartPlant);
 
 router.get('/', getAll);
+router.get('/plant/:scientificname', getPartByPlant);
 router.get('/:id', getOne)
 // router.get('/:filter', getAllFilter);
 

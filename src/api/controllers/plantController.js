@@ -4,13 +4,17 @@ import { Op } from 'sequelize'
 import PartPlant from "../models/PartPlant";
 import Image from "../models/Image";
 import Observation from "../models/Observation";
+import slug from "slug";
 
 export async function createPlant(req, res) {
     const { scientificname, name, description, commonplace } = req.body;
+    console.log(scientificname)
     // const url = 'uploads/'+req.file.originalname;
+    const nc_ = slug(scientificname, "_");
+    console.log(nc_);
     try {
         let newPlant = await Plant.create({
-            scientificname,
+            scientificname:nc_,
             name,
             description,
             commonplace
@@ -41,17 +45,17 @@ export async function getAll(req, res) {
         const plants = await Plant.findAll({
             include: [
                 {
-                    model:PartPlant
+                    model: PartPlant
                 },
                 {
-                    model:Image
+                    model: Image
                 },
-                
+
                 {
-                    model:Observation
+                    model: Observation
                 },
             ],
-           
+
         });
         res.json({
             data: plants

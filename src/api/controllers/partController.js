@@ -201,3 +201,31 @@ export async function setOne(req, res) {
         })
     }
 }
+
+
+export async function getPartByPlant(req, res) {
+    try {
+        console.log(req.params);
+        const { scientificname } = req.params
+        const part = await PartPlant.findAll({
+            where: {
+                scientificname
+            }
+        })
+        console.log(part);
+        if (part.length > 0) {
+            res.json({
+                data: part
+            });
+        } else {
+            res.status(404).json({
+                data: "partes no encontradas"
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor"
+        })
+    }
+}
