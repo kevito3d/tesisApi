@@ -2,9 +2,10 @@ import User from "../models/User";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 
-const signToken = (email) => {
+const signToken = (ci) => {
     return jwt.sign({
-        email
+        ci,
+        role
     }, 'mi-secreto', {
         expiresIn: 60 * 60 * 24 * 365
     });
@@ -24,7 +25,7 @@ export const login = async (req, res, next) => {
         let compare = await bcryptjs.compare(password, userExist.password);
         console.log(compare);
         if (compare) {
-            const token = signToken(userExist.email);
+            const token = signToken(userExist.ci, userExist.role);
             req.session.token = token;
             const {password, ...user} = userExist.dataValues;
             console.log("user : ",user);

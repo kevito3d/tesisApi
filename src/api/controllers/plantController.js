@@ -5,6 +5,7 @@ import PartPlant from "../models/PartPlant";
 import Image from "../models/Image";
 import Observation from "../models/Observation";
 import slug from "slug";
+import PlantReference from "../models/PlantReference";
 
 export async function createPlant(req, res) {
     const { scientificname, name, description, commonplace } = req.body;
@@ -50,9 +51,11 @@ export async function getAll(req, res) {
                 {
                     model: Image
                 },
-
                 {
                     model: Observation
+                },
+                {
+                    model: PlantReference
                 },
             ],
 

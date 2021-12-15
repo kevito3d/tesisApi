@@ -6,7 +6,7 @@ import Image from "../models/Image";
 export async function createPartPlant(req, res) {
     const { scientificname, name, description, idobservation } = req.body;
     // const url = 'uploads/'+req.file.originalname;
-    
+
     try {
         let newPart = await PartPlant.create({
             scientificname,
@@ -14,7 +14,7 @@ export async function createPartPlant(req, res) {
             description,
             idobservation,
         }, {
-            fields: [ 'name', 'description', 'scientificname', "idobservation"]
+            fields: ['name', 'description', 'scientificname', "idobservation"]
         })
         if (newPart) {
             return res.json({
@@ -210,10 +210,12 @@ export async function getPartByPlant(req, res) {
         const part = await PartPlant.findAll({
             where: {
                 scientificname
+            }, include: {
+                model: Image
             }
         })
-        console.log(part);
         if (part.length > 0) {
+            console.log(part);
             res.json({
                 data: part
             });

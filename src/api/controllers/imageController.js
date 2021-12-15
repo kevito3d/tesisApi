@@ -2,10 +2,80 @@ import Image from '../models/Image';
 
 
 export async function createImage(req, res) {
-    console.log("files: " + req.files);
+    
 
     const files = req.files;
-    const { scientificname, idpartplant } = req.body;
+    const { scientificname, idpartplant, idobservation } = req.body;
+    const newImages = []
+    const urls = [];
+    const urlsNO = [];
+    let banderaError = false;
+
+    
+
+    for (const file of files) {
+        const url = 'uploads/' + file.originalname;
+        
+        try {
+            let newImage =  await Image.create({
+                url,
+                scientificname,
+                idpartplant,
+                idobservation
+            }, {
+                fields: ['url', 'scientificname', 'idpartplant','idobservation']
+            })
+            
+            if (newImage) {
+                newImages.push(newImage.dataValues);
+                urls.push(file.originalname);
+                /*  return res.json({
+                     message: "Imagen insertada correctamente",
+                     data: newImage
+                 }) */
+            }
+
+        } catch (error) {
+            console.log(error);
+             //si se suplica la llave unica
+            /*  console.log(error);
+             let message = "ocurrio un problema con el servidor";
+             if (error.original.code == 23503) {
+                 message = "no existe referencia de esa planta o parte de plant"
+             };
+ 
+             res.status(500).json({
+                 message,
+             }) */
+            banderaError = true;
+            urlsNO.push(file.originalname);
+
+        }
+
+
+
+    };
+    if (!banderaError) {
+        return res.json({
+            message: "Imagenes insertadas correctamente",
+            data: newImages
+        })
+    } else {
+        return res.status(206).json({
+            si: urls,
+            no: urlsNO
+        })
+    }
+
+
+
+
+}
+export async function createImageObservation(req, res) {
+    
+
+    const files = req.files;
+    const { scientificname, idpartplant, idobservation } = req.body;
     const newImages = []
     const urls = [];
     const urlsNO = [];
@@ -19,9 +89,10 @@ export async function createImage(req, res) {
             let newImage =  await Image.create({
                 url,
                 scientificname,
-                idpartplant
+                idpartplant,
+                idobservation
             }, {
-                fields: ['url', 'scientificname', 'idpartplant']
+                fields: ['url', 'scientificname', 'idpartplant','idobservation']
             })
             console.log(newImage);
             if (newImage) {

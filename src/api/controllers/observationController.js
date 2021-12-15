@@ -2,19 +2,19 @@ import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
 
 export async function createObservation(req, res) {
-    const { locale, checked, verified,  ci, scientificname } = req.body;
+    const { latitude,longitude,   ci, scientificname } = req.body;
 
     try {
         console.log(ci);
         let newObservation = await Observation.create({
-            locale, checked, verified,  ci, scientificname
+            latitude, longitude, ci,scientificname
         }, {
-            fields: ['locale', 'checked', 'verified', "ci",'scientificname']
+            fields: ['latitude',"longitude", 'ci','scientificname']
         })
         if (newObservation) {
             return res.json({
+                data: newObservation,
                 message: "Observation insertada correctamente",
-                data: newObservation
             })
         }
 

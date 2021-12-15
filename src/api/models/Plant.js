@@ -3,6 +3,7 @@ import { sequelize } from '../../database/database'
 import PartPlant from './PartPlant'
 import Observation from './Observation'
 import Image from './Image'
+import PlantReference from "./PlantReference";
 const Plant = sequelize.define("plants", {
     scientificname: {
         type: Sequelize.STRING,
@@ -28,6 +29,10 @@ const Plant = sequelize.define("plants", {
  
  Plant.hasMany(Image, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
  Image.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ 
+ Plant.hasMany(PlantReference, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ PlantReference.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+
 
  /*
 Plant.hasMany(MPlant, { foreignKey: 'plant_id', sourceKey: 'id' });

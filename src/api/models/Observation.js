@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import { sequelize } from '../../database/database'
+import Image from "./Image";
 
 import PartPlant from './PartPlant'
 const Observation = sequelize.define("observations", {
@@ -8,8 +9,11 @@ const Observation = sequelize.define("observations", {
         primaryKey: true
     },
 
-    locale: {
-        type: Sequelize.STRING,
+    longitude: {
+        type: Sequelize.FLOAT,
+    },
+    latitude: {
+        type: Sequelize.FLOAT,
     },
 
     checked: {
@@ -35,6 +39,9 @@ const Observation = sequelize.define("observations", {
 
 Observation.hasMany(PartPlant, { foreignKey: 'idobservation', sourceKey: 'id'});
 PartPlant.belongsTo(Observation, { foreignKey: 'idobservation', sourceKey: 'id' });
+
+Observation.hasMany(Image, { foreignKey: 'idobservation', sourceKey: 'id' });
+Image.belongsTo(Observation, { foreignKey: 'idobservation', sourceKey: 'id' });
 
 
 

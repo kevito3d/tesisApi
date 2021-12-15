@@ -172,6 +172,7 @@ const createPlant = (imgs,img, name, scn, desc, form) => {
                 for(var x = 0; x<filex.length; x++) {
                     formData2.append('images', filex[x]);
                 }
+                
 
                 // formData2.append('images', filex.files)
                 fetch(`${location.origin}/api/image`, {
