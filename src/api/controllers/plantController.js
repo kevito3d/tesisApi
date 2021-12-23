@@ -74,13 +74,14 @@ export async function getAll(req, res) {
 export async function getAllFilter(req, res) {
     try {
         const { filter } = req.params;
+        console.log(filter);
         const plants = await Plant.findAll({
             where: {
                 [Op.or]: {
                     name: {
                         [Op.like]: `%${filter}%`
                     },
-                    scientific_name: {
+                    scientificname: {
                         [Op.like]: `%${filter}%`
                     },
                 }
@@ -88,7 +89,7 @@ export async function getAllFilter(req, res) {
             }
 
         });
-        res.json({
+        return res.json({
             data: plants
         });
     } catch (error) {
@@ -100,7 +101,7 @@ export async function getAllFilter(req, res) {
     }
 }
 //get all front
-export async function getAllF(req) {
+/* export async function getAllF(req) {
     try {
         const plants = await Plant.findAll({
             include: {
@@ -116,7 +117,7 @@ export async function getAllF(req) {
             message: "ocurrio un problema con el servidor",
         })
     }
-}
+} */
 
 export async function getOne(req, res) {
     try {

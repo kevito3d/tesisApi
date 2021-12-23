@@ -18,44 +18,50 @@ const setEmail = (email, element) => {
 const search = (search, element) => {
     console.log("search");
     const $search = d.getElementById(search);
-    $search.addEventListener("change", (e) => {
-
-        fetch(`${location.origin}/api/plant/${e.target.value}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-        }).then(x => x.json()
-
-            // return x.json();
-        ).then(res => {
-            const plants = res['data']
-            const $grid = d.getElementById('grid');
-            $grid.innerHTML = "";
-            if (plants.length > 0) {
-                plants.forEach(e => {
-                    $grid.innerHTML += `<div class="cardPlant">
-                <div>
-                    <div class="name">
-                        ${e.name}
-                    </div>
-                    <div class="scientific_name">
-                    ${e.scientific_name}
-                    </div>
-                   <!--  <div class="description">
-                    </div> -->
-                    <img src=${e.url} alt="">
-                </div>
-            
-            </div>`
-                });
-            } else {
-                $grid.innerHTML = `<div>no hay datos</div>`;
+    $search.addEventListener("keydown", (e) => {
+        if(e.key=='Enter'){
+            var url = `${location.origin}/api/plant/filter/${e.target.value}`;
+            if (e.target.value.length==0){
+                url = `${location.origin}/api/plant`
             }
-        }).catch(e => {
-            console.log(e);
-        })
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+    
+            }).then(x => x.json()
+    
+                // return x.json();
+            ).then(res => {
+                const plants = res['data']
+                const $grid = d.getElementById('grid');
+                $grid.innerHTML = "";
+                if (plants.length > 0) {
+                    plants.forEach(e => {
+                        $grid.innerHTML += `<div class="cardPlant">
+                    <div>
+                        <div class="name">
+                            ${e.name}
+                        </div>
+                        <div class="scientific_name">
+                        ${e.scientific_name}
+                        </div>
+                       <!--  <div class="description">
+                        </div> -->
+                        <img src=${e.url} alt="">
+                    </div>
+                
+                </div>`
+                    });
+                } else {
+                    $grid.innerHTML = `<div>no hay datos</div>`;
+                }
+            }).catch(e => {
+                console.log(e);
+            })
+        }
+        
     })
 }
 
@@ -187,9 +193,10 @@ const createPlant = (imgs,img, name, scn, desc, form) => {
     }
 }
 
+
 d.addEventListener('DOMContentLoaded', () => {
-    /* funcionArrow('.user',".otp",".logout",".oscuro")
-    loadDates(".institution", ".nameuser") */
+    // funcionArrow('.user',".otp",".logout",".oscuro")
+    // loadDates(".institution", ".nameuser") 
     setEmail(localStorage.getItem('email'), "email");
     insertar('email')
     search('search', 'grid');

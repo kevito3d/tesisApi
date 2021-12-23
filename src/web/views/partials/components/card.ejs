@@ -1,17 +1,31 @@
-<div class="cardPlant">
+<div class="cardplant">
     <div>
         <div class="name">
             <%= plant.name %>
         </div>
         <div class="scientific_name">
-            <%= plant.scientific_name %>
-        </div>  
-       <!--  <div class="description">
+            <%= plant.scientificname %>
+        </div>
+          <div class="description">
             <%= plant.description %>
-        </div> -->
+        </div> 
         <div id="divImg">
-            
-            <img src=<%=plant.url %> alt="">
+
+            <% plant.images.forEach(element=> { %>
+                
+                <!-- <img src=<%=element.url %> alt=""> -->
+                
+                <!-- <script>
+                    
+                    var images = element;
+                    const lol = (a)=>{
+
+                    }
+
+                </script> -->
+                <% }); %>
+                    
+
         </div>
     </div>
 

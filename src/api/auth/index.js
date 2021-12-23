@@ -16,6 +16,8 @@ export const isAuthenticated = async (req, res, next) => {
             if(user){
                 req.user = user;
                 next();
+            }else{
+                res.sendStatus(403);
             }
             /* User.findOne({ _id }).exec()
                 .then(users => {
@@ -46,6 +48,8 @@ export const isAdmin= async (req, res, next) => {
                 
                 req.user = user;
                 next();
+            }else{
+                res.sendStatus(403);
             }
             /* User.findOne({ _id }).exec()
                 .then(users => {
@@ -54,7 +58,7 @@ export const isAdmin= async (req, res, next) => {
                     next();
                 }) */
         }else{
-            res.sendStatus(403)
+            res.sendStatus(403);
         }
     })
 }

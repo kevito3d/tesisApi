@@ -4,8 +4,7 @@ import jwt from 'jsonwebtoken';
 
 const signToken = (ci) => {
     return jwt.sign({
-        ci,
-        role
+        ci
     }, 'mi-secreto', {
         expiresIn: 60 * 60 * 24 * 365
     });
@@ -15,17 +14,19 @@ const signToken = (ci) => {
 export const login = async (req, res, next) => {
     const {
         email,
-        // user,
+        ci,
         password
     } = req.body;
-    const userExist=await ifExist(email);
+    console.log(email,password);
+
+    const userExist=await ifExist(ci);
    
     if (userExist) {
         // let passwordHash = await bcryptjs.hash(password, 8); //esto es para guardarla
         let compare = await bcryptjs.compare(password, userExist.password);
-        console.log(compare);
+        console.log("compare ",compare);
         if (compare) {
-            const token = signToken(userExist.ci, userExist.role);
+            const token = signToken(userExist.ci);
             req.session.token = token;
             const {password, ...user} = userExist.dataValues;
             console.log("user : ",user);
@@ -64,6 +65,7 @@ export const ifExist = async (ci) => {
 
 
 export const createUser = async (req, res) => {
+    console.log(req.body);
     const {
         ci,
         firstname,
@@ -74,6 +76,7 @@ export const createUser = async (req, res) => {
 
     try {
         const userExist = await ifExist(ci);
+        console.log(userExist);
         if (!userExist) {
             console.log(email, password);
             let passwordHash = await bcryptjs.hash(password, 8);
@@ -100,7 +103,7 @@ export const createUser = async (req, res) => {
                 })
             }
         } else {
-            res.status(500).json({
+            res.status(409).json({
                 message: 'User exist',
             })
         }
@@ -149,8 +152,9 @@ export const deletOne = async (req, res) => {
 
 export const getAll = async (req, res) => {
     try {
-        const users = await User.findAll({
-            attributes: ['ci', 'firstname', 'lastname', 'email',  'phone']
+        const users = await User.findAndCountAll({
+            offset:0,
+            limit:5
         });
         res.status(200).json({
             data: users
@@ -229,4 +233,9 @@ export const setOne = async (req, res) => {
         })
     }
 
+}
+
+export const logOut=(req, res, next) => {
+    delete req.session.token;
+    res.send("chao mundo");
 }

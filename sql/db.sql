@@ -36,10 +36,10 @@ create table if not exists users(
     ci varchar (10) primary key,
     firstname varchar (50),
     lastname varchar (50),
-    email varchar (50),
+    email varchar (50) ,
     phone varchar (15),
     password varchar,
-    role varchar (10) 
+    role varchar (10) default 'student' 
 );
 
 

@@ -8,7 +8,7 @@ router.post('/', createPlant);
 
 router.get('/', getAll);
 router.get('/:scientificname', getOne)
-router.get('/:filter', getAllFilter);
+router.get('/filter/:filter', getAllFilter);
 
 
 router.delete('/:scientificname', deleteOne)
