@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+/* import Sequelize from "sequelize";
 import { sequelize } from '../../../database/database'
 import PlantReference from "../PlantReference";
 
@@ -27,3 +27,4 @@ PlantReference.belongsTo(Parish, { foreignKey: 'idparish', sourceKey: 'id' });
 
 
 export default Parish;
+ */

@@ -1,4 +1,4 @@
-import Parish from '../../models/references/Parishs';
+/* import Parish from '../../models/references/Parishs';
 
 
 export async function createParish(req, res) {
@@ -34,12 +34,6 @@ export async function createParish(req, res) {
         
 
     }
-
-
-
-   
-
-
 
 
 }
@@ -185,3 +179,4 @@ export async function getParishsByCanton(req, res) {
     }
 }
 
+ */

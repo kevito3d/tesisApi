@@ -13,7 +13,7 @@ router.get('/filter/:filter', getAllFilter);
 
 router.delete('/:scientificname', deleteOne)
 
-router.put('/:scientificname', setOne)
+router.put('/:scientificnameU', setOne)
 
 
 export default router;

@@ -1,261 +1,288 @@
 <% include partials/base -%>
     <%- include('partials/header', {selected:"plants"}) %>
 
-        <body>
-            <div class="container mt-5 pt-5">
-                <div class="table-responsive">
-                    <div class="table-wrapper">
-                        <div class="table-title">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h2>Administrar <b>Plantas</b></h2>
-                                </div>
-                                <div class="col-md-4">
-                                    <!-- <form class="form-inline my-2 my-lg-0">
-                                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                                        <button class="btn btn-success my-2 my-sm-0"
-                                            type="submit">Search</button>
-                                    </form> -->
-                                </div>
-
-                                <div class="col-md-4">
-                                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i
-                                            class="material-icons">&#xE147;</i> <span>Agregar Planta</span></a>
-                                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i
-                                            class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>
-                                </div>
-                            </div>
+    <div class="container col-10 mt-5 pt-5">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h2>Administrar <b>Plantas</b></h2>
                         </div>
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <span class="custom-checkbox">
-                                            <input type="checkbox" id="selectAll">
-                                            <label for="selectAll"></label>
-                                        </span>
-                                    </th>
-                                    <th>Nombre Sientifico</th>
-                                    <th>Nombre Comun</th>
-                                    <th>Descripcion</th>
-                                    <th>Lugar Comun</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for( let index=0; index < plants.length; index++ ) { %>
-                                    <tr>
-                                        <td>
-                                            <span class="custom-checkbox">
-                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                                <label for="checkbox1"></label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <%= plants[index].scientificname %>
-                                        </td>
-                                        <td>
-                                            <%= plants[index].name %>
-                                        </td>
-                                        <td>
-                                            <%= plants[index].description %>
-                                        </td>
-                                        <td>
-                                            <%= plants[index].commonplace %>
-                                        </td>
-                                       
-                                        <td>
-                                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i
-                                                    class="material-icons" data-toggle="tooltip"
-                                                    title="Edit">&#xE254;</i></a>
-                                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i
-                                                    class="material-icons" data-toggle="tooltip"
-                                                    title="Delete">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
+                        <div class="col-md-4">
+                            <div class="input-group rounded">
+                                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                                aria-describedby="search-addon" />
+                                <span class="input-group-text border-0" id="search-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                      </svg>
+                                </span>
+                              </div>
+                        </div>
 
+                        <div class="col-md-4">
+                            <a href="/plant/add" class="btn btn-success" ><i
+                                    class="material-icons">&#xE147;</i> <span>Agregar Planta</span></a>
+                           <!--  <a href="#deletePlantModal" class="btn btn-danger" data-toggle="modal"><i
+                                    class="material-icons">&#xE15C;</i> <span>Eliminar</span></a> -->
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Nombre Sientifico</th>
+                            <th>Nombre Comun</th>
+                            <th>Descripcion</th>
+                            <!-- <th>Lugar Comun</th> -->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for( let index=0; index < plants.length; index++ ) { %>
+                            <tr id=<%= plants[index].scientificname %>>
+                                <td>
+                                    <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                        <label for="checkbox1"></label>
+                                    </span>
+                                </td>
+                                <td>
+                                    <%= plants[index].scientificname %>
+                                </td>
+                                <td>
+                                    <%= plants[index].name %>
+                                </td>
+                                <td>
+                                    <%= plants[index].description %>
+                                </td>
+                                <!-- <td>
+                                    <%= plants[index].commonplace %>
+                                </td> -->
+                                
+                                <td>
+                                    <a href="/plant/edit/<%= plants[index].scientificname %> "  id="btnEdit"  class="edit" ><i
+                                            class="material-icons" data-toggle="tooltip"
+                                            title="Edit">&#xE254;</i></a>
+                                    <a href="#deletePlantModal" id="btnDelete" onclick="setDeleteItem('<%= plants[index].scientificname %>')" class="delete" data-toggle="modal"><i
+                                            class="material-icons" data-toggle="tooltip"
+                                            title="Delete">&#xE872;</i></a>
+                                </td>
+                            </tr>
+
+                            <% } %>
+
+
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <%  %> 
+                    <div class="hint-text">Showing <b>
+                            <%= plants.length %>
+                        </b> out of <b>
+                            <%= count %>
+                        </b> entries</div>
+                        
+                    <ul class="pagination">
+                        <% if(pages > 0) { %> <!-- show pagination if there is pages -->
+                            <nav class="mx-auto">
+                                <ul class="pagination">
+                                <!-- FIRST ITEM -->
+                                <% if(current == 1) { %>
+                                    <li class="page-item disabled">
+                                    <a class="page-link" href="#">First</a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                    <a class="page-link" href="/plant/1">First</a>
+                                    </li>
+                                <% } %>
+                                <!-- ITEMS  -->
+                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                <% if(i !== 1) { %>
+                                    <li class="page-item disabled">
+                                    <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                                <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                    <% if(i == current) { %>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="<%= i %>">
+                                        <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/plant/<%= i %>">
+                                        <%= i %>
+                                        </a>
+                                    </li>
                                     <% } %>
-
-
-                            </tbody>
-                        </table>
-                        <div class="clearfix">
-                            <%  %> 
-                            <div class="hint-text">Showing <b>
-                                    <%= plants.length %>
-                                </b> out of <b>
-                                    <%= count %>
-                                </b> entries</div>
-                                
-                            <ul class="pagination">
-                                <% if(pages > 0) { %> <!-- show pagination if there is pages -->
-                                    <nav class="mx-auto">
-                                      <ul class="pagination">
-                                        <!-- FIRST ITEM -->
-                                        <% if(current == 1) { %>
-                                          <li class="page-item disabled">
-                                            <a class="page-link" href="#">First</a>
-                                          </li>
-                                        <% } else { %>
-                                          <li class="page-item">
-                                            <a class="page-link" href="/plant/1">First</a>
-                                          </li>
-                                        <% } %>
-                                        <!-- ITEMS  -->
-                                        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                                        <% if(i !== 1) { %>
-                                          <li class="page-item disabled">
-                                            <a class="page-link" href="#">...</a>
-                                          </li>
-                                        <% } %>
-                                        <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                          <% if(i == current) { %>
-                                            <li class="page-item active">
-                                              <a class="page-link" href="<%= i %>">
-                                                <%= i %>
-                                              </a>
-                                            </li>
-                                          <% } else { %>
-                                            <li class="page-item">
-                                              <a class="page-link" href="/plant/<%= i %>">
-                                                <%= i %>
-                                              </a>
-                                            </li>
-                                          <% } %>
-                                          <% if (i == Number(current) + 4 && i < pages) { %>
-                                             <li class="page-item disabled">
-                                               <a class="page-link" href="#">...</a>
-                                             </li>
-                                          <% } %>
-                                        <% } %>
-                                        <!-- LAST ITEM -->
-                                        <% if(current == pages) { %>
-                                          <li class="page-item disabled">
-                                            <a class="page-link" href="#">
-                                              Last
-                                            </a>
-                                          </li>
-                                        <% } else { %>
-                                          <li class="page-item">
-                                            <a class="page-link" href="/plant/<%= pages %>">
-                                              Last
-                                            </a>
-                                          </li>
-                                        <% } %>
-                                      </ul>
-                                    </nav>
-                                  <% } %>
-                            </ul>
+                                    <% if (i == Number(current) + 4 && i < pages) { %>
+                                        <li class="page-item disabled">
+                                        <a class="page-link" href="#">...</a>
+                                        </li>
+                                    <% } %>
+                                <% } %>
+                                <!-- LAST ITEM -->
+                                <% if(current == pages) { %>
+                                    <li class="page-item disabled">
+                                    <a class="page-link" href="#">
+                                        Last
+                                    </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                    <a class="page-link" href="/plant/<%= pages %>">
+                                        Last
+                                    </a>
+                                    </li>
+                                <% } %>
+                                </ul>
+                            </nav>
+                            <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal HTML -->
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Agregar Planta</h4>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nombre Cientifico</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre Comun</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input class="form-control" required></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Rol</label>
+                            <select class="form-control" name="example">
+                                <option value="student">Studiante</option>
+                                <option value="admin">Administrador</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- Edit Modal HTML -->
-            <div id="addEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header">
-                                <h4 class="modal-title">Agregar Planta</h4>
-                                <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Cedula</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nombres</label>
-                                    <input type="email" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input class="form-control" required></input>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Contraseña</label>
-                                    <input type="password" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Rol</label>
-                                    <select class="form-control" name="example">
-                                        <option value="student">Studiante</option>
-                                        <option value="admin">Administrador</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-success" value="Add">
-                            </div>
-                        </form>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-success" value="Add">
                     </div>
-                </div>
+                </form>
             </div>
-            <!-- Edit Modal HTML -->
-            <div id="editEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header">
-                                <h4 class="modal-title">Edit Employee</h4>
-                                <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Nombres</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Role</label>
-                                    <textarea class="form-control" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-info" value="Save">
-                            </div>
-                        </form>
+        </div>
+    </div>
+    <!-- Edit Modal HTML -->
+    <div id="editEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Employee</h4>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
                     </div>
-                </div>
-            </div>
-            <!-- Delete Modal HTML -->
-            <div id="deleteEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form id="eliminar" action="/api/plant/" method="">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Eliminar Planta</h4>
-                                <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿ Esta seguro de eliminar este registro ?,  (<b id="plantDelete"></b>)</p>
-                                
-                                
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-danger" value="Delete">
-                            </div>
-                            <input type="text" name="scientificname" id="" hidden>
-                        </form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nombres</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <textarea class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" required>
+                        </div>
                     </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-info" value="Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal HTML -->
+    <div id="deletePlantModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deletePlant" >
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar Planta</h4>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿ Esta seguro de eliminar este registro ?,  (<b id="plantDelete"></b>)</p>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </div>
+                    <input type="text" name="scientificname" id="scientificname" hidden>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- <div id="myModalS" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE876;</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4>Great!</h4>	
+                    <p>Your account has been created successfully.</p>
+                    <button class="btn btn-success" data-dismiss="modal"><span>Start Exploring</span> <i class="material-icons">&#xE5C8;</i></button>
                 </div>
             </div>
+        </div>
+    </div>  -->
+    
+    
+    
+    <script src="/js/index.js"></script>
             
-            <% include partials/footer %>
+<% include partials/footer %>

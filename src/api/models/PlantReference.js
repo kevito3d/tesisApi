@@ -4,11 +4,15 @@ import { sequelize } from '../../database/database'
 
 const PlantReference = sequelize.define("plantsreferences", {
 
-    idparish: {
+    idcanton: {
         type: Sequelize.INTEGER,
         primaryKey: true,
     },
     scientificname: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+    },
+    locality: {
         type: Sequelize.STRING,
     },
     

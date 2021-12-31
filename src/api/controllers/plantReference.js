@@ -6,24 +6,21 @@ import Image from "../models/Image";
 import Observation from "../models/Observation";
 import slug from "slug";
 import PlantReference from "../models/PlantReference";
-import { deleteImages } from './imageController'
+import Canton from "../models/references/Canton";
+import Province from "../models/references/Province";
 
-export async function createPlant(req, res) {
-    const { scientificname, name, description } = req.body;
+export async function createReference(req, res) {
+    const { scientificname, idcanton, locality } = req.body;
     console.log(req.body)
-    // const url = 'uploads/'+req.file.originalname;
-    let nc_ = slug(scientificname, "_");
-    nc_ = nc_.replace(" ", "");
-    console.log(nc_);
     try {
-        let newPlant = await Plant.create({
-            scientificname: nc_,
-            name,
-            description,
+        let newPlant = await PlantReference.create({
+            scientificname,
+            idcanton,
+            locality,
         })
         if (newPlant) {
             return res.json({
-                message: "Planta insertada correctamente",
+                message: "referencia insertada correctamente",
                 data: newPlant
             })
         }
@@ -32,9 +29,9 @@ export async function createPlant(req, res) {
         //si se suplica la llave unica
         console.log(error);
         let message = "ocurrio un problema con el servidor";
-        if (error.original.code == 23505) {
-            message = "nombre cientifico ya existente"
-        };
+        /*  if (error.original.code == 23505) {
+             message = "nombre cientifico ya existente"
+         }; */
 
         res.status(500).json({
             message,
@@ -44,25 +41,17 @@ export async function createPlant(req, res) {
 }
 export async function getAll(req, res) {
     try {
-        const plants = await Plant.findAll({
-            include: [
+        console.log("tet");
+        const plants = await PlantReference.findAll({
+           /*  include: [
                 {
-                    model: PartPlant,
-                    include: {
-                        model: Image
-                    }
+                    model: Plant
                 },
                 {
-                    model: Image
-                },
-                {
-                    model: Observation
-                },
-                {
-                    model: PlantReference
+                    model: Canton
                 },
 
-            ],
+            ], */
 
         });
         res.json({
@@ -80,7 +69,11 @@ export async function getAllFilter(req, res) {
     try {
         const { filter } = req.params;
         console.log(filter);
-        const plants = await Plant.findAll({
+        const plants = await PlantReference.findAll({
+            include: [
+                { model: Canton },
+                { model: Plant }
+            ],
             where: {
                 [Op.or]: {
                     name: {
@@ -106,15 +99,23 @@ export async function getAllFilter(req, res) {
     }
 }
 //get all front
-/* export async function getAllF(req) {
+export async function getAllF(scn) {
     try {
-        const plants = await Plant.findAll({
-            include: {
-                model: PartPlant
-            }
-        });
+        const canton = await PlantReference.findAll({
+             include: [
+                {
+                    model: Canton,
+                    include:{
+                        model:Province
+                    }
+                },
+                
 
-        return plants
+            ],
+            where: { scientificname: scn },
+        });
+        
+        return canton;
 
     } catch (error) {
         console.log(error);
@@ -122,91 +123,12 @@ export async function getAllFilter(req, res) {
             message: "ocurrio un problema con el servidor",
         })
     }
-} */
-
-export async function getOne(req, res) {
-    try {
-        const { scientificname } = req.params;
-        // console.log(id);
-        const plant = await Plant.findOne({
-            where: {
-                scientificname
-            },
-            include: [
-                {
-                    model: PartPlant,
-                    include: {
-                        model: Image
-                    }
-                },
-                {
-                    model: Image
-                },
-                {
-                    model: Observation
-                },
-                {
-                    model: PlantReference
-                },
-
-            ],
-        });
-        if (plant) {
-            res.json({
-                data: plant
-            });
-        } else {
-            res.status(404).json({
-                data: "Planta no encontrada"
-            })
-        }
-    } catch (error) {
-
-        console.log(error);
-        res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
-        })
-    }
 }
-
 export async function deleteOne(req, res) {
     try {
         const { scientificname } = req.params;
-        const plant = await Plant.findOne({
-            where: {
-                scientificname
-            },
-            include: [
-                {
-                    model: PartPlant,
-                    include: {
-                        model: Image
-                    }
-                },
-                {
-                    model: Image
-                },
-            ],
-
-        })
-
-        if (plant.images.length > 0) {
-            plant.images.forEach(element => {
-                deleteImages(element.url)
-            });
-        }
-        if (plant.partplants.length > 0) {
-
-            plant.partplants.forEach(element => {
-                if (element.images.length > 0) {
-                    element.images.forEach(e => {
-                        deleteImages(e.url)
-                    });
-                }
-            });
-        }
-        const deleteRowCount = await Plant.destroy({
+         console.log("cs en delete: ",scientificname);
+        const deleteRowCount = await PlantReference.destroy({
             where: {
                 scientificname
             }
@@ -232,33 +154,64 @@ export async function deleteOne(req, res) {
 
 }
 
+/* export async function getOne(req, res) {
+    try {
+        const { scientificname } = req.params;
+        // console.log(id);
+        const plant = await PlantReference.findOne({
+            where: {
+                scientificname
+            },
+            include: {
+                model: PartPlant
+            }
+        });
+        if (plant) {
+            console.log(plant);
+            res.json({
+                data: plant
+            });
+        } else {
+            res.status(404).json({
+                data: "Planta no encontrada"
+            })
+        }
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor",
+            data: []
+        })
+    }
+}
+
+
+
 export async function setOne(req, res) {
     try {
-        const { scientificnameU } = req.params;
-        const { scientificname, name, description } = req.body;
+        const { scientificname } = req.params;
+        const { scientific_name, name, description, commonplace } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
         //     }
         // });
         // console.log(plant);
-
-        let nc_ = slug(scientificname, "_");
-        nc_ = nc_.replace(" ", "");
-        console.log(nc_);
         const plantUpdated = await Plant.update({
-            scientificname:nc_,
+            scientific_name,
             name,
             description,
+            commonplace
         }, {
             where: {
-                scientificname: scientificnameU
+                scientificname
             }
         })
         if (plantUpdated[0]) {
             res.json({
                 message: "Planta actualizada correctamente",
-                data: { scientificname:nc_, name, description }
+                data: { scientific_name, name, description, commonplace }
             });
         } else {
             res.status(404).json({
@@ -275,3 +228,4 @@ export async function setOne(req, res) {
         })
     }
 }
+ */

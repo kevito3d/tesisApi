@@ -2,20 +2,25 @@ import express from 'express';
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import { isAuthenticated } from '../../api/auth/index'
-import { getAllF } from '../../api/controllers/plantController'
 import Image from '../../api/models/Image';
 import PartPlant from '../../api/models/PartPlant';
 import Plant from '../../api/models/Plant';
+import Province from '../../api/models/references/Province';
 import User from '../../api/models/User';
+import Cantons from "../../api/models/references/Canton";
+import {getAllF} from '../../api/controllers/PlantReference';
+import Observation from '../../api/models/Observation';
+import Canton from '../../api/models/references/Canton';
+import PlantReference from '../../api/models/PlantReference';
 
 const router = Router();
 
 
 router.get('/user/:page?', async (req, res) => {
-    var page = req.params.page || 1;
-
-    if (page<1){
-        page=1
+    let page = req.params.page || 1;
+    console.log(page);
+    if (page < 1) {
+        page = 1
     }
     var perPage = 8
 
@@ -30,7 +35,7 @@ router.get('/user/:page?', async (req, res) => {
                 offset: (page * perPage) - perPage, limit: perPage
             });
             console.log(users.rows);
-            return res.render('user', { title: "home", users: users.rows,current:page,count: users.count , pages:Math.ceil(users.count / perPage), });
+            return res.render('user', { title: "home", users: users.rows, current: page, count: users.count, pages: Math.ceil(users.count / perPage), });
 
         } catch (error) {
             console.log(error);
@@ -44,41 +49,140 @@ router.get('/user/:page?', async (req, res) => {
     }
 
 });
+
+router.get('/plant/add', async (req, res) => {
+    try {
+        const provinces = await Province.findAll({
+            include: [
+                { model: Cantons }
+            ],
+            order: [
+                ['name', 'ASC'],
+            ],
+        });
+        console.log(provinces);
+        return res.render('addPlants', { title: "Agrega Planta", provinces });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "ocurrio un problema con el servidor",
+            data: []
+        })
+    }
+
+
+});
+router.get('/plant/edit/:scientificname', async (req, res) => {
+    try {
+        const { scientificname } = req.params;
+        const provinces = await Province.findAll({
+            include: [
+                { model: Cantons }
+            ],
+            order: [
+                ['name', 'ASC'],
+            ],
+        });
+        let plant = {};
+        const p = await Plant.findOne({
+            where: {
+                scientificname
+            },
+            include: [
+                {
+                    model: PartPlant
+                },
+                {
+                    model: Image
+                },
+                {
+                    model: Observation
+                },
+                {
+                    model: PlantReference
+                },
+
+            ],
+        });
+        plant.name = p.name;
+        plant.description = p.description;
+        plant.scn = p.scientificname;
+        plant.images = p.images
+        console.log(p.description);
+        
+        plant.parts = await PartPlant.findAll({
+            where: {
+                scientificname: p.scientificname
+            },
+            include: {
+                model: Image
+            }
+        })
+        const reference = await getAllF(p.scientificname);
+        plant.reference = reference;
+        /* 
+        console.log("references");
+        console.log(plant.reference); */
+        /* console.log(p.dataValues.plantsreferences);
+        console.log("imprimiendo longuitud de images: ", plant.images.length); */
+        const {viewImages} = require('../../public/js/helper')
+        return res.render('editPlant', { title: "Edita Planta", provinces, plant, viewImages });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "ocurrio un problema con el servidor",
+            data: []
+        })
+    }
+
+
+});
+
+
 router.get('/plant/:page?', async (req, res) => {
 
-    var page = req.params.page || 1;
-
-    if (page<1){
-        page=1
+    let page = req.params.page || 1;
+    console.log(page);
+    if (page < 1) {
+        page = 1
     }
     var perPage = 7
 
 
 
 
-    if (req.session.token) {
-        try {
-            const plants = await Plant.findAndCountAll({
-                offset: (page * perPage) - perPage, limit: perPage
-            });
-            return res.render('index', { title: "home", plants: plants.rows,current:page,count: plants.count , pages:Math.ceil(plants.count / perPage), });
+    // if (req.session.token) {
+    try {
+        const plants = await Plant.findAndCountAll({
+            offset: (page * perPage) - perPage, limit: perPage
+        });
+        return res.render('index', { title: "home", plants: plants.rows, current: page, count: plants.count, pages: Math.ceil(plants.count / perPage), });
 
-        } catch (error) {
-            console.log(error);
-            return ({
-                message: "ocurrio un problema con el servidor",
-            })
-        }
-    } else {
-
-        return res.render('signin')
+    } catch (error) {
+        console.log(error);
+        return ({
+            message: "ocurrio un problema con el servidor",
+        })
     }
+    // } else {
+
+    //     return res.render('signin')
+    // }
 
 });
 
-router.get('/', async (req, res) => {
 
-    
+router.post('/logout', async (req, res) => {
+    req.session.destroy();
+    res.redirect("/")
+
+})
+
+router.get('/', (req, res) => {
+
+
 
     /* var plants = await getAllF(req);
         return res.render('index', { title: "home", plants}); */

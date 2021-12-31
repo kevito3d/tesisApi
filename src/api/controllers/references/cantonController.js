@@ -1,187 +1,117 @@
-import Canton from '../../models/references/Canton';
+import Cantons from '../../models/references/Canton';
+import Provinces from '../../models/references/Province';
 
-
-export async function createParish(req, res) {
-    const { id, name, id } = req.body;
+export const createCanton = async (req, res) => {
+    const { name, idprovince } = req.body;
 
     try {
-        let newParish = await Canton.create({
-            id,
+
+        const newCanton = await Cantons.create({
             name,
             idprovince
-        }, {
-            fields: ['id', 'name', 'idprovince']
-        })
-        if (newParish) {
-            return res.json({
-                message: "Canton insertada correctamente",
-                data: newParish
+        }, { fields: ['name', 'idprovince'] });
+
+        if (newCanton) {
+            res.status(201).json({
+                message: 'Canton created successfully',
+                data: { name }
             })
         }
 
     } catch (error) {
-        console.log(error);
-        //si se suplica la llave unica
-         console.log(error);
-         let message = "ocurrio un problema con el servidor";
-         if (error.original.code == 23505) {
-             message = "id de canton ya existe"
-         };
- 
-         res.status(500).json({
-             message,
-         })
-        
-
+        res.status(500).json({
+            message: 'Something went wrong',
+            error
+        })
     }
 
-
-
-   
-
-
-
-
 }
-export async function getAll(req, res) {
+
+export const getCantons = async (req, res) => {
     try {
-        const cantons = await Canton.findAll();
-        console.log(cantons);
-        res.json({
+        const cantons = await Cantons.findAll({
+            include: [
+                { model: Provinces }
+            ]
+        });
+
+        res.status(200).json({
+            count: cantons.length,
             data: cantons
-        });
+        })
     } catch (error) {
-        console.log(error);
         res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
+            message: 'Something went wrong',
+            error
         })
     }
 }
 
-export async function getOne(req, res) {
-    try {
-        const { id } = req.params;
-        console.log(id);
-        const cantons = await Canton.findOne({
-            where: {
-                id
-            }
-        });
-        if (cantons) {
-            res.json({
-                data: cantons
-            });
-        } else {
-            res.status(404).json({
-                data: "canton no encontrada"
-            })
-        }
-    } catch (error) {
+export const getOneCanton = async (req, res) => {
+    const { id } = req.params;
 
-        console.log(error);
+    try {
+        const canton = await Cantons.findOne({
+            where: { id },
+            include: [
+                { model: Provinces }
+            ]
+        });
+
+        res.status(200).json(canton)
+    } catch (error) {
         res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
+            message: 'Something went wrong',
+            error
         })
     }
 }
 
-export async function deleteOne(req, res) {
-    try {
-        const { id } = req.params;
-        const deleteRowCount = await Canton.destroy({
-            where: {
-                id
-            }
-        });
-        if (deleteRowCount == 1) {
-            res.json({
-                data: "canton eliminada satifactoriamente",
-                count: deleteRowCount
-            });
-        } else {
-            res.status(404).json({
-                data: "canton no encontrada",
-                count: deleteRowCount
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
-        })
-    }
+export const updateCanton = async (req, res) => {
+    const { id } = req.params;
+    const { name, idprovince } = req.body;
 
-}
-
-export async function setOne(req, res) {
     try {
-        const { id } = req.params;
-        const { name, idprovince } = req.body;
-        // const plant = await Plant.findOne({
-        //     where: {
-        //         id
-        //     }
-        // });
-        // console.log(plant);
-        const deleted = await Canton.update({
-            name,
-            idprovince,
-        }, {
-            where: {
-                id
-            }
-        })
-        console.log(deleted);
-        if (deleted[0]) {
-            res.json({
-                message: "canton actualizada correctamente",
+
+        const updatedCanton = await Cantons.update({ name, idprovince }, { where: { id } })
+
+        if (updatedCanton[0]) {
+            res.status(200).json({
+                message: 'Canton updated successfully',
                 data: { name, idprovince }
-            });
-        } else {
-            res.status(404).json({
-                message: "canton no encontrada / body mal",
-            });
-
-        }
-
-    } catch (error) {
-        //si se suplica la llave unica
-        console.log(error);
-        let message = "ocurrio un problema con el servidor";
-        if (error.original.code == 23503) {
-            message = "no existe referencia de ese canton"
-        };
-
-        res.status(500).json({
-            message,
-        })
-    }
-}
-
-export async function getParishsByProvince(req, res) {
-    try {
-        const { idprovince } = req.params
-        const cantons = await Canton.findAll({
-            where: {
-                idprovince
-            }
-        })
-        if (cantons.length > 0) {
-            res.json({
-                data: cantons
-            });
-        } else {
-            res.status(404).json({
-                data: "provincia no encontrado"
             })
+        } else {
+            res.status(404).json({ message: 'Canton not found!' })
         }
+
     } catch (error) {
-        console.log(error);
         res.status(500).json({
-            message: "ocurrio un problema con el servidor"
+            message: 'Something went wrong',
+            error
+        })
+    }
+
+}
+
+export const deletedCanton = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const CantonDeleted = await Cantons.destroy({
+            where: {
+                id
+            }
+        });
+
+        res.status(200).json({
+            message: 'Canton deleted successfully',
+            count: CantonDeleted
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Something went wrong',
+            error
         })
     }
 }
-

@@ -35,6 +35,7 @@ const renderLogin = () => {
                 },
                 body: JSON.stringify({
                     ci: ussername,
+                    email: ussername,
                     // user: ussername,
                     password: password
                 })
@@ -42,7 +43,7 @@ const renderLogin = () => {
                 if (x.status == 200) {
                     console.log("entre");
                     const res = await  x.json();
-                    window.localStorage['email'] = res.user.email
+                    window.localStorage['email'] = JSON.stringify(res.user)
                     // console.log(res);
                     location.replace(location.origin+"/plant");
                     // setCookie("email", res.user.email, 365);

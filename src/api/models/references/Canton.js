@@ -1,7 +1,6 @@
 import Sequelize from "sequelize";
 import { sequelize } from '../../../database/database'
-import Parish from "./Parishs";
-
+import PlantReference from "../PlantReference";
 
 const Canton = sequelize.define("cantons", {
     id: {
@@ -20,8 +19,8 @@ const Canton = sequelize.define("cantons", {
 
 }, { timestamps: false });
 
-Canton.hasMany(Parish, { foreignKey: 'id', sourceKey: 'idcanton' });
-Parish.belongsTo(Canton, { foreignKey: 'id', sourceKey: 'idcanton' });
+Canton.hasMany(PlantReference, { foreignKey: 'idcanton', sourceKey: 'id' });
+PlantReference.belongsTo(Canton, { foreignKey: 'idcanton', sourceKey: 'id' });
 
 
 

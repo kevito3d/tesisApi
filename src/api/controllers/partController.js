@@ -1,5 +1,5 @@
 import PartPlant from "../models/PartPlant";
-
+import {deleteImages} from './imageController'
 import { Op } from 'sequelize'
 import Image from "../models/Image";
 
@@ -83,11 +83,11 @@ export async function getAll(req, res) {
     }
 } */
 //get all front
-export async function getAllF(req) {
+/* export async function getAllPartsFilter(scientificname) {
     try {
         const parts = await PartPlant.findAll({
-            include: {
-                model: Image
+            where:{
+                scientificname
             }
         });
 
@@ -99,7 +99,7 @@ export async function getAllF(req) {
             message: "ocurrio un problema con el servidor",
         })
     }
-}
+} */
 
 export async function getOne(req, res) {
     try {
@@ -136,12 +136,26 @@ export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
         // console.log(id);
+        const part = await PartPlant.findOne({
+            where:{
+                id
+            },
+            include:{
+                model:Image
+            }
+        })
         const deleteRowCount = await PartPlant.destroy({
             where: {
                 id
             }
         });
         if (deleteRowCount == 1) {
+            if(part.images.length>0){
+            
+                part.images.forEach(element => {
+                    deleteImages(element.url)
+                });
+            }
             res.json({
                 data: "Parte eliminada satifactoriamente",
                 count: deleteRowCount

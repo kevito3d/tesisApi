@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken';
+const { Op } = require("sequelize");
 
 const signToken = (ci) => {
     return jwt.sign({
@@ -17,19 +18,19 @@ export const login = async (req, res, next) => {
         ci,
         password
     } = req.body;
-    console.log(email,password);
+    console.log(email, password);
 
-    const userExist=await ifExist(ci);
-   
+    const userExist = await ifExist(ci, email);
+
     if (userExist) {
         // let passwordHash = await bcryptjs.hash(password, 8); //esto es para guardarla
         let compare = await bcryptjs.compare(password, userExist.password);
-        console.log("compare ",compare);
+        console.log("compare ", compare);
         if (compare) {
             const token = signToken(userExist.ci);
             req.session.token = token;
-            const {password, ...user} = userExist.dataValues;
-            console.log("user : ",user);
+            const { password, ...user } = userExist.dataValues;
+            console.log("user : ", user);
             return res.status(200).json({
                 user,
                 token,
@@ -47,19 +48,16 @@ export const login = async (req, res, next) => {
     }
 }
 
-export const ifExist = async (ci) => {
-    const user = await User.findByPk(ci/* {
-        where: {
-            email, // and
-            $or: [{
-                "email": email
-            },
-            {
-                "user": user
-            }
-            ]
+export const ifExist = async (ci, email) => {
+
+    const user = await User.findOne({
+        where: {// and
+            [Op.or]: [
+                { email: email },
+                { ci: ci }
+              ]
         }
-    } */);
+    });
     return user;
 }
 
@@ -86,7 +84,7 @@ export const createUser = async (req, res) => {
                 firstname,
                 lastname,
                 email,
-                password:passwordHash,
+                password: passwordHash,
                 phone
             });
 
@@ -122,7 +120,7 @@ export const deletOne = async (req, res) => {
     const { ci } = req.params;
 
     try {
-        const userExist=await ifExist(ci);
+        const userExist = await ifExist(ci);
         if (userExist) {
 
             const userDeleted = await User.destroy({
@@ -153,8 +151,8 @@ export const deletOne = async (req, res) => {
 export const getAll = async (req, res) => {
     try {
         const users = await User.findAndCountAll({
-            offset:0,
-            limit:5
+            offset: 0,
+            limit: 5
         });
         res.status(200).json({
             data: users
@@ -175,9 +173,9 @@ export const getOne = async (req, res) => {
         const user = await User.findOne({
             where: { ci }
         });
-        if(user){
-            return res.json({user})
-        }else{
+        if (user) {
+            return res.json({ user })
+        } else {
             res.status(404).json({
                 data: "User no encontrado"
             })
@@ -235,7 +233,7 @@ export const setOne = async (req, res) => {
 
 }
 
-export const logOut=(req, res, next) => {
+export const logOut = (req, res, next) => {
     delete req.session.token;
     res.send("chao mundo");
 }

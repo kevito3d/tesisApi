@@ -1,8 +1,11 @@
 import Image from '../models/Image';
+import path from 'path';
+const fs = require('fs')
+
 
 
 export async function createImage(req, res) {
-    
+
 
     const files = req.files;
     const { scientificname, idpartplant, idobservation } = req.body;
@@ -11,21 +14,21 @@ export async function createImage(req, res) {
     const urlsNO = [];
     let banderaError = false;
 
-    
+
 
     for (const file of files) {
         const url = 'uploads/' + file.originalname;
-        
+
         try {
-            let newImage =  await Image.create({
+            let newImage = await Image.create({
                 url,
                 scientificname,
                 idpartplant,
                 idobservation
             }, {
-                fields: ['url', 'scientificname', 'idpartplant','idobservation']
+                fields: ['url', 'scientificname', 'idpartplant', 'idobservation']
             })
-            
+
             if (newImage) {
                 newImages.push(newImage.dataValues);
                 urls.push(file.originalname);
@@ -37,7 +40,7 @@ export async function createImage(req, res) {
 
         } catch (error) {
             console.log(error);
-             //si se suplica la llave unica
+            //si se suplica la llave unica
             /*  console.log(error);
              let message = "ocurrio un problema con el servidor";
              if (error.original.code == 23503) {
@@ -72,7 +75,7 @@ export async function createImage(req, res) {
 
 }
 export async function createImageObservation(req, res) {
-    
+
 
     const files = req.files;
     const { scientificname, idpartplant, idobservation } = req.body;
@@ -86,13 +89,13 @@ export async function createImageObservation(req, res) {
         const url = 'uploads/' + file.originalname;
         console.log(url);
         try {
-            let newImage =  await Image.create({
+            let newImage = await Image.create({
                 url,
                 scientificname,
                 idpartplant,
                 idobservation
             }, {
-                fields: ['url', 'scientificname', 'idpartplant','idobservation']
+                fields: ['url', 'scientificname', 'idpartplant', 'idobservation']
             })
             console.log(newImage);
             if (newImage) {
@@ -106,7 +109,7 @@ export async function createImageObservation(req, res) {
 
         } catch (error) {
             console.log(error);
-             //si se suplica la llave unica
+            //si se suplica la llave unica
             /*  console.log(error);
              let message = "ocurrio un problema con el servidor";
              if (error.original.code == 23503) {
@@ -155,6 +158,35 @@ export async function getAll(req, res) {
         })
     }
 }
+/* export async function getAllPlant(scientificname) {
+    try {
+        const images = await Image.findAll({
+            where: {
+                scientificname
+            }
+        });
+        console.log(images);
+        return images
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+export async function getAllPart(idpartplant) {
+    try {
+        const images = await Image.findAll({
+            where: {
+                idpartplant
+            }
+        });
+        console.log(images);
+        return images
+
+    } catch (error) {
+        console.log(error);
+        return null
+    }
+} */
 
 export async function getOne(req, res) {
     try {
@@ -184,9 +216,26 @@ export async function getOne(req, res) {
     }
 }
 
+export function deleteImages( url) {
+
+    try {
+        fs.unlinkSync(path.join(__dirname, `../../public/${url}`));
+        console.log('File removed')
+        return true;
+    } catch (err) {
+        console.error('Something wrong happened removing the file', err)
+        return false;
+    }
+    
+
+
+}
+
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
+        const { url } = req.body;
+
         const deleteRowCount = await Image.destroy({
             where: {
                 id
@@ -197,6 +246,12 @@ export async function deleteOne(req, res) {
                 data: "Imagen eliminada satifactoriamente",
                 count: deleteRowCount
             });
+            try {
+                fs.unlinkSync(path.join(__dirname, `../../public/${url}`));
+                console.log('File removed')
+            } catch (err) {
+                console.error('Something wrong happened removing the file', err)
+            }
         } else {
             res.status(404).json({
                 data: "Imagen no encontrada",

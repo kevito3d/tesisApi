@@ -13,6 +13,10 @@ import plant from './api/routes/plant'
 import images from './api/routes/image'
 import partPlant from "./api/routes/partPlant";
 import observation from "./api/routes/observation";
+import province from "./api/routes/references/province";
+import canton from "./api/routes/references/canton";
+import plantReference from "./api/routes/plantReference";
+// import parish from "./api/routes/references/parish";
 // import MImage from './api/routes/mimage'
 
 import user from './api/routes/user';
@@ -59,6 +63,10 @@ app.use(session({
 //routes
 app.use('/', index);
 app.use('/api/plant', plant);
+app.use('/api/province', province );
+app.use('/api/canton', canton);
+app.use('/api/plantreference', plantReference);
+// app.use('/api/parish', parish);
 app.use('/api/user', user);
 app.use('/api/image', images);
 app.use('/api/partplant', partPlant);

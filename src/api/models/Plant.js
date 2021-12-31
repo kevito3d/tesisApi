@@ -15,13 +15,11 @@ const Plant = sequelize.define("plants", {
     description: {
         type: Sequelize.TEXT
     },
-    commonplace: {
-        type: Sequelize.STRING,
-    },
+   
 
 }, { timestamps: false })
 
- Plant.hasMany(PartPlant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
+ Plant.hasMany(PartPlant, { foreignKey: 'scientificname', sourceKey: 'scientificname'});
  PartPlant.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
  
  Plant.hasMany(Observation, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
@@ -34,9 +32,6 @@ const Plant = sequelize.define("plants", {
  PlantReference.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
 
 
- /*
-Plant.hasMany(MPlant, { foreignKey: 'plant_id', sourceKey: 'id' });
-MPlant.belongsTo(Plant, { foreignKey: 'plant_id', sourceKey: 'id' });
- */
+
 
 export default Plant;
