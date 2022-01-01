@@ -1,11 +1,10 @@
 <% include partials/base -%>
-    <%- include('partials/header', {selected:"plants"}) %>
+    <%- include('partials/header', {selected:"plant"}) %>
 
-    <div class="container col-10 mt-5 pt-5">
-        <div class="table-responsive">
-            <div class="table-wrapper">
+    <div class="container col-10 mt-2 rounded bg-light" >
+        <div class="table-responsive py-2 ">
                 
-                <div class="table-title">
+                <div class="table-title p-2">
                     <div class="row">
                         <div class="col-md-4">
                             <h2>Administrar <b>Plantas</b></h2>
@@ -22,9 +21,9 @@
                               </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <a href="/plant/add" class="btn btn-success" ><i
-                                    class="material-icons">&#xE147;</i> <span>Agregar Planta</span></a>
+                        <div class="col-md-4 d-flex justify-content-end align-center">
+                            <a href="/plant/add" class="btn btn-success" ><i style = "color:whitesmoke;"
+                                    class="material-icons">&#xE147;</i> <span >Agregar Planta</span></a>
                            <!--  <a href="#deletePlantModal" class="btn btn-danger" data-toggle="modal"><i
                                     class="material-icons">&#xE15C;</i> <span>Eliminar</span></a> -->
                         </div>
@@ -33,28 +32,28 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
+                            <!-- <th>
                                 <span class="custom-checkbox">
                                     <input type="checkbox" id="selectAll">
                                     <label for="selectAll"></label>
                                 </span>
-                            </th>
+                            </th> -->
                             <th>Nombre Sientifico</th>
                             <th>Nombre Comun</th>
                             <th>Descripcion</th>
                             <!-- <th>Lugar Comun</th> -->
-                            <th>Actions</th>
+                            <th style="display: flex; justify-content: flex-end;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for( let index=0; index < plants.length; index++ ) { %>
                             <tr id=<%= plants[index].scientificname %>>
-                                <td>
+                                <!-- <td>
                                     <span class="custom-checkbox">
                                         <input type="checkbox" id="checkbox1" name="options[]" value="1">
                                         <label for="checkbox1"></label>
                                     </span>
-                                </td>
+                                </td> -->
                                 <td>
                                     <%= plants[index].scientificname %>
                                 </td>
@@ -68,11 +67,11 @@
                                     <%= plants[index].commonplace %>
                                 </td> -->
                                 
-                                <td>
-                                    <a href="/plant/edit/<%= plants[index].scientificname %> "  id="btnEdit"  class="edit" ><i
+                                <td style="display: flex; justify-content: flex-end;">
+                                    <a href="/plant/edit/<%= plants[index].scientificname %> "  id="btnEdit"  class="edit" ><i style = "color:burlywood;"
                                             class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i></a>
-                                    <a href="#deletePlantModal" id="btnDelete" onclick="setDeleteItem('<%= plants[index].scientificname %>')" class="delete" data-toggle="modal"><i
+                                    <a href="#deletePlantModal" id="btnDelete" onclick="setDeleteItem('<%= plants[index].scientificname %>')" class="delete" data-toggle="modal"><i style = "color:red;"
                                             class="material-icons" data-toggle="tooltip"
                                             title="Delete">&#xE872;</i></a>
                                 </td>
@@ -84,16 +83,18 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <%  %> 
                     <div class="hint-text">Showing <b>
                             <%= plants.length %>
                         </b> out of <b>
                             <%= count %>
-                        </b> entries</div>
+                        </b> entries
+                    
+                    
+                    </div>
                         
-                    <ul class="pagination">
+                    <ul class="d-flex justify-content-end">
                         <% if(pages > 0) { %> <!-- show pagination if there is pages -->
-                            <nav class="mx-auto">
+                            <nav class="">
                                 <ul class="pagination">
                                 <!-- FIRST ITEM -->
                                 <% if(current == 1) { %>
@@ -151,7 +152,6 @@
                             <% } %>
                     </ul>
                 </div>
-            </div>
         </div>
     </div>
     <!-- Edit Modal HTML -->

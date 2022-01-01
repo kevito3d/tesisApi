@@ -1,0 +1,193 @@
+<% include partials/base -%>
+  <%- include('partials/header', {selected:"plants"}) %>
+
+    <form id="addPlant" class=" mt-5 pt-5">
+      <div class="container pt-5">
+        
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <div class="form-group row col-md-12">
+              <label for="scientificname">Nombre Cientifico</label>
+              <input type="text" class="form-control" id="scientificname" placeholder="Nombre Cientifico" required>
+            </div>
+            <div class="form-group row col-md-12">
+                <label for="name">Nombre Comun</label>
+                <input type="text" class="form-control" id="name" placeholder="Nombre Comun" required>
+            
+            </div>
+            <div class="form-group row col-md-12">
+              <label for="description">Descripcion</label>
+              <textarea class="form-control" name="description" id="description" cols="30" rows="2" required></textarea>
+            </div>
+           
+          </div>
+          <div class="form-group col-md-6">
+            <div class="form-group  moreImages">
+              <label class="form-row form-label" for="">Imagenes</label>
+              <input class="form-row form-control" type="file" name="image" id="images"
+                accept="image/jpg, image/png, image/jpeg" multiple>
+              <div class="images" id="imgsContent"></div>
+
+            </div>
+          
+
+          </div>
+          
+        </div>
+        <div class="form-row">
+         
+         
+
+
+        </div>
+
+        <!-- <div class="form-row">
+          <label for="inputAddress2">Address 2</label>
+          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div> -->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <div class="col-12 ">
+              <div class="row">
+                <label class="" for="">Parte espcifica</label>
+                <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal" role="button">Agregar</a>
+              </div>
+
+              <div class="form-group" id="parts">
+
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-12 ">
+              <div class="row">
+                <label class="" for="">Referencias</label>
+                <a class="btn btn-secondary ml-5" href="#openaddReference" data-toggle="modal" role="button">Agregar</a>
+              </div>
+              <div class="form-group" id="references">
+
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+    </div>
+
+    <div id="openaddReference" class="modal fade">
+      <div class="modal-dialog modal-">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Agrega Referencia</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <div class="form-group ">
+              <div class="form-row pb-1">
+                <label for="province">Provincia</label>
+                <select id="province" class="form-control">
+                  <% for( let index=0; index < provinces.length; index++ ) { %>
+
+                    <option value=<%=provinces[index].id %> ><%= provinces[index].name %>
+                    </option>
+                    <% } %>
+                </select>
+              </div>
+              <div class="form-row  pb-1">
+                <label for="canton">Canton</label>
+                <select id="canton" class="form-control">
+                  <% for( let index=0; index < provinces[0].cantons.length; index++ ) { %>
+                    <option value=<%=provinces[0].cantons[index].id %> ><%= provinces[0].cantons[index].name %>
+                    </option>
+                    <% } %>
+                </select>
+              </div>
+
+              <div class="form-row ">
+                <label for="locality">Locatidad</label>
+                <input type="text" class="form-control" id="locality" placeholder="Locatidad">
+
+              </div>
+
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="addReference">Agregar Referencia</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="openaddPartPlant" class="modal fade">
+      <div class="modal-dialog modal-">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Agrega parte de planta</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="addPart">
+            <div class="modal-body text-center">
+              <div class="form-group ">
+
+                <div class="form-row pb-2">
+                  <label for="name">Nombre</label>
+                  <input type="text" class="form-control" id="namePart" placeholder="Nombre" required>
+
+                </div>
+                <div class="form-row ">
+                  <label for="locality">Descripcion</label>
+                  <input type="text" class="form-control" id="partDescripcion" placeholder="Descripcion">
+
+                </div>
+
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+
+    <% include partials/footer %>
+      <script src="/js/addPlant.js"></script>
+      <script>
+
+        $('#province').on('change', function () {
+          $('#canton').html('');
+          $("#canton").val([]);
+          console.log($('#province').val());
+
+          $.ajax({
+            method: "GET",
+            url: `/api/province/${$('#province').val()}`,
+
+          }).done(function (msg) {
+            console.log(msg);
+            let cantonsOptions;
+            if (msg.length <= 0) {
+              cantonsOptions = '<option value="0">Sin padre</option>'
+            } else {
+              $.each(msg.cantons, function (i, canton) {
+                cantonsOptions += '<option value=' + canton.id + '>' + canton.name +
+                  '</option>';
+              });
+            }
+            $('#canton').html(cantonsOptions);
+          });
+        });
+
+      </script>
