@@ -63,17 +63,16 @@ export const ifExist = async (ci, email) => {
 
 
 export const createUser = async (req, res) => {
-    console.log(req.body);
     const {
         ci,
         firstname,
         lastname,
         email,
-        phone,
+        role,  
         password, } = req.body;
 
     try {
-        const userExist = await ifExist(ci);
+        const userExist = await ifExist(ci,email);
         console.log(userExist);
         if (!userExist) {
             console.log(email, password);
@@ -85,7 +84,7 @@ export const createUser = async (req, res) => {
                 lastname,
                 email,
                 password: passwordHash,
-                phone
+                role
             });
 
             if (newUser) {
@@ -109,8 +108,12 @@ export const createUser = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        let message = 'ocurrio un problema con el servidor';
+        if(error.original.code == '22001'){
+            message = error.original;
+        }
         res.status(500).json({
-            message: 'ocurrio un problema con el servidor',
+            message: message.toString(),
             data: {}
         })
     }
@@ -120,7 +123,7 @@ export const deletOne = async (req, res) => {
     const { ci } = req.params;
 
     try {
-        const userExist = await ifExist(ci);
+        const userExist = await ifExist(ci,ci);
         if (userExist) {
 
             const userDeleted = await User.destroy({
@@ -140,6 +143,7 @@ export const deletOne = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({
+            error,
             message: "ocurrio un problema con el servidor",
         })
     }
@@ -198,7 +202,7 @@ export const setOne = async (req, res) => {
         lastname,
         email,
         password,
-        phone } = req.body;
+        role } = req.body;
 
     try {
         const updatedUser = await User.update({
@@ -206,7 +210,7 @@ export const setOne = async (req, res) => {
             lastname,
             email,
             password,
-            phone
+            role
         }, { where: { ci } })
 
         if (updatedUser[0]) {
@@ -216,7 +220,7 @@ export const setOne = async (req, res) => {
                     firstname,
                     lastname,
                     email,
-                    phone
+                    role
                 }
             })
         } else {

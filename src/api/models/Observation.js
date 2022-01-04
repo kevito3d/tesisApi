@@ -28,6 +28,10 @@ const Observation = sequelize.define("observations", {
         type:Sequelize.STRING
     },
 
+   /*  idcanton: {
+        type: Sequelize.INTEGER,
+    },
+ */
     scientificname: {
         type: Sequelize.STRING,
         allowNull:false

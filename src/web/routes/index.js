@@ -22,14 +22,14 @@ router.get('/user/:page?', async (req, res) => {
     if (page < 1) {
         page = 1
     }
-    var perPage = 8
+    let perPage = 8
 
 
 
     /* var plants = await getAllF(req);
         return res.render('index', { title: "home", plants}); */
 
-    if (req.session.token) {
+    /* if (req.session.token) { */
         try {
             const users = await User.findAndCountAll({
                 offset: (page * perPage) - perPage, limit: perPage
@@ -43,36 +43,41 @@ router.get('/user/:page?', async (req, res) => {
                 message: "ocurrio un problema con el servidor",
             })
         }
-    } else {
+   /*  } else {
 
         return res.render('signin')
-    }
+    } */
 
 });
 
-router.get('/plant/add', async (req, res) => {
-    try {
-        const provinces = await Province.findAll({
-            include: [
-                { model: Cantons }
-            ],
-            order: [
-                ['name', 'ASC'],
-            ],
-        });
-        console.log(provinces);
-        return res.render('addPlants', { title: "Agrega Planta", provinces });
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: "ocurrio un problema con el servidor",
-            data: []
-        })
+router.get('/observation/:page?', async (req,res) =>{
+    let page = req.params.page || 1;
+    console.log(page);
+    if (page < 1) {
+        page = 1
     }
+    let perPage = 8
+    /* if (req.session.token) { */
+        try {
+            const observations = await Observation.findAndCountAll({
+                offset: (page * perPage) - perPage, limit: perPage,
+                include:[
+                    /* {model:} */
+                ]
+            });
+            return res.render('observation', { title: "home", observarions: observations.rows, current: page, count: observations.count, pages: Math.ceil(observations.count / perPage), });
 
+        } catch (error) {
+            console.log(error);
+            return ({
+                message: "ocurrio un problema con el servidor",
+            })
+        }
+   /*  } else {
 
-});
+        return res.render('signin')
+    } */
+})
 router.get('/plant/edit/:scientificname', async (req, res) => {
     try {
         const { scientificname } = req.params;
