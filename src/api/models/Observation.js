@@ -16,6 +16,10 @@ const Observation = sequelize.define("observations", {
         type: Sequelize.FLOAT,
     },
 
+    locality: {
+        type: Sequelize.STRING,
+    },
+
     checked: {
         type: Sequelize.BOOLEAN,
     },
@@ -28,10 +32,10 @@ const Observation = sequelize.define("observations", {
         type:Sequelize.STRING
     },
 
-   /*  idcanton: {
+    idcanton: {
         type: Sequelize.INTEGER,
     },
- */
+
     scientificname: {
         type: Sequelize.STRING,
         allowNull:false

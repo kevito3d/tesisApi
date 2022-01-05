@@ -1,17 +1,49 @@
+import Image from "../models/Image";
 import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
+import Canton from "../models/references/Canton";
+import Province from "../models/references/Province";
 
 export async function createObservation(req, res) {
-    const { latitude,longitude,   ci, scientificname } = req.body;
+    const { latitude, longitude, ci, scientificname, province, canton, locality } = req.body;
 
     try {
+        const cantons = await Canton.findAll({
+            where: {
+                name: canton
+            }
+        })
+        console.log("lo que me llega en canton: ", canton);
+        console.log(cantons);
+        let idcanton;
+        if (cantons.length == 1) {
+            idcanton = cantons[0].id;
+        } else if (cantons.length > 1) {
+            const prov = await Province.findOne({
+                where: {
+                    name: province
+                }
+            })
+            console.log(prov);
+            for (let index = 0; index < cantons.length; index++) {
+                if (cantons[index].idprovince == prov.id) {
+                    idcanton = cantons[index].id;
+                    break;
+                }
+
+            };
+        }
+
         console.log(ci);
+        console.log("id canton: ", idcanton);
         let newObservation = await Observation.create({
-            latitude, longitude, ci,scientificname
+            latitude, longitude, ci, scientificname, locality, idcanton
         }, {
-            fields: ['latitude',"longitude", 'ci','scientificname']
+            fields: ['latitude', "longitude", 'ci', 'scientificname', 'locality', 'idcanton']
         })
         if (newObservation) {
+
+
             return res.json({
                 data: newObservation,
                 message: "Observation insertada correctamente",
@@ -34,11 +66,12 @@ export async function createObservation(req, res) {
 }
 export async function getAll(req, res) {
     try {
-        
+
         const observations = await Observation.findAll({
-            include: {
-                model: PartPlant
-            }
+            include: [
+                { model: PartPlant },
+                { model: Image }
+            ]
         });
         res.json({
             data: observations
@@ -84,6 +117,7 @@ export async function getOne(req, res) {
 }
 
 export async function deleteOne(req, res) {
+    console.log("hola mundo de mar: ");
     try {
         const { id } = req.params;
         const deleteRowCount = await Observation.destroy({
@@ -103,6 +137,7 @@ export async function deleteOne(req, res) {
             });
         }
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: "ocurrio un problema con el servidor",
             data: []
@@ -114,7 +149,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { locale, checked, verified,  scientificname } = req.body;
+        const { locale, checked, verified, scientificname } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -122,7 +157,7 @@ export async function setOne(req, res) {
         // });
         // console.log(plant);
         const observationUpdated = await Observation.update({
-            locale, checked, verified,   scientificname
+            locale, checked, verified, scientificname
         }, {
             where: {
                 id
@@ -131,7 +166,7 @@ export async function setOne(req, res) {
         if (observationUpdated[0]) {
             res.json({
                 message: "Observation actualizada correctamente",
-                data: { locale, checked, verified,   scientificname }
+                data: { locale, checked, verified, scientificname }
             });
         } else {
             res.status(404).json({

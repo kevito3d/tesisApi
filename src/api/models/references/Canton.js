@@ -23,9 +23,9 @@ const Canton = sequelize.define("cantons", {
 Canton.hasMany(PlantReference, { foreignKey: 'idcanton', sourceKey: 'id' });
 PlantReference.belongsTo(Canton, { foreignKey: 'idcanton', sourceKey: 'id' });
 
-/* Canton.hasMany(Observation, { foreignKey: 'idcanton', sourceKey: 'id' });
+Canton.hasMany(Observation, { foreignKey: 'idcanton', sourceKey: 'id' });
 Observation.belongsTo(Canton, { foreignKey: 'idcanton', sourceKey: 'id' });
- */
+
 
 
 

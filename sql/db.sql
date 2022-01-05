@@ -47,12 +47,14 @@ create table if not exists observations(
     id serial primary key,
     latitude varchar (15),
     longitude varchar (15),
+    locality varchar(50),
     checked boolean default false,
     verified boolean default false,
     ci varchar (10) not null,
     scientificname  varchar (100)  not null,
-    /* reference varchar (50) */
-    foreign key (ci) references users(ci) ON DELETE CASCADE  ON UPDATE CASCADE ,
+    idcanton  integer,
+    foreign key (idcanton) references cantons(id) ON DELETE CASCADE  ON UPDATE CASCADE,
+    foreign key (ci) references users(ci) ON DELETE CASCADE  ON UPDATE CASCADE,
     foreign key (scientificname) references plants(scientificname) ON DELETE CASCADE  ON UPDATE CASCADE
 );
 
@@ -82,7 +84,7 @@ create table if not exists images(
     idobservation integer ,
     foreign key (scientificname) references plants(scientificname) ON DELETE CASCADE  ON UPDATE CASCADE,
     foreign key (idpartplant) references partplants(id) ON DELETE CASCADE  ON UPDATE CASCADE,
-    foreign key (idobservation) references observations(id)
+    foreign key (idobservation) references observations(id) ON DELETE CASCADE  ON UPDATE CASCADE
 );
 
 
@@ -339,3 +341,31 @@ insert into provinces (name) values('Zamora-Chinchipe');
         insert into cantons (name, idprovince) values('Balao',  20);
         insert into cantons (name, idprovince) values('Santa Elena', 20);
         insert into cantons (name, idprovince) values('La Libertad', 20);
+        
+        
+        insert into cantons (name, idprovince) values('', 1);
+        insert into cantons (name, idprovince) values('', 2);
+        insert into cantons (name, idprovince) values('', 3);
+        insert into cantons (name, idprovince) values('', 4);
+        insert into cantons (name, idprovince) values('', 5);
+        insert into cantons (name, idprovince) values('', 6);
+        insert into cantons (name, idprovince) values('', 7);
+        insert into cantons (name, idprovince) values('', 8);
+        insert into cantons (name, idprovince) values('', 9);
+        insert into cantons (name, idprovince) values('', 10);
+        insert into cantons (name, idprovince) values('', 11);
+        insert into cantons (name, idprovince) values('', 12);
+        insert into cantons (name, idprovince) values('', 13);
+        insert into cantons (name, idprovince) values('', 14);
+        insert into cantons (name, idprovince) values('', 15);
+        insert into cantons (name, idprovince) values('', 16);
+        insert into cantons (name, idprovince) values('', 17);
+        insert into cantons (name, idprovince) values('', 18);
+        insert into cantons (name, idprovince) values('', 19);
+        insert into cantons (name, idprovince) values('', 20);
+        insert into cantons (name, idprovince) values('', 21);
+        insert into cantons (name, idprovince) values('', 22);
+        insert into cantons (name, idprovince) values('', 23);
+        insert into cantons (name, idprovince) values('', 24);
+
+

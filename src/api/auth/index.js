@@ -12,7 +12,7 @@ export const isAuthenticated = async (req, res, next) => {
         if(decoded){
             console.log(decoded);
             const { ci } = decoded;
-            const user = await ifExist(ci);
+            const user = await ifExist(ci,ci);
             if(user){
                 req.user = user;
                 next();
