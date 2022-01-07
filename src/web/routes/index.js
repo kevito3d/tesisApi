@@ -116,6 +116,7 @@ router.get('/plant/:page?', async (req, res) => {
 
 });
 router.get('/add/plant', async (req,res)=>{
+    let decoder = new TextDecoder('utf-8');
     if (req.session.token) {
         const provinces = await Province.findAll({
             include: [
@@ -125,12 +126,22 @@ router.get('/add/plant', async (req,res)=>{
                 ['name', 'ASC'],
             ],
         });
+        console.log(provinces);
         res.render("addPlants", { title: "Agregar", provinces})
     } else {
 
         return res.redirect('/')
     }
 })
+
+function utf8_to_str(a) {
+    for(var i=0, s=''; i<a.length; i++) {
+        var h = a[i].toString(16)
+        if(h.length < 2) h = '0' + h
+        s += '%' + h
+    }
+    return decodeURIComponent(s)
+}
 
 router.get('/plant/edit/:scientificname', async (req, res) => {
     try {

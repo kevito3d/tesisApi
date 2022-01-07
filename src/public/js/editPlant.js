@@ -105,9 +105,7 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
 
   $form.onsubmit = (e) => {
     e.preventDefault();
-
-
-
+    
     data = {};
     $("#loading").modal('show')
     data.name = d.getElementById(name).value;

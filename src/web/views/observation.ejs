@@ -42,7 +42,7 @@
                             <th>Canton</th>
                             <th>Locatidad</th>
                             <!-- <th>Lugar Comun</th> -->
-                            <th style="display: flex; justify-content: flex-end;">Actions</th>
+                            <th >Actions</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -55,13 +55,11 @@
                                 <td><%= observations[index].canton.name %></td>
                                 <td><%= observations[index].locality %></td>
                                 
-                                <td style="display: flex; justify-content: flex-end;">
+                                <td style="display: flex; justify-content: center;">
                                     <a href="#editEmployeeModal" data-toggle="modal" role="button" id="btnEdit"  onclick="setEditItem('<%= observations[index].id %>')"  class="edit" ><i style = "color:burlywood;"
                                             class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteUserModal" id="btnDelete" onclick="setDeleteItem('<%= observations[index].id %>')" class="delete" data-toggle="modal"><i style = "color:red;"
-                                            class="material-icons" data-toggle="tooltip"
-                                            title="Delete">&#xE872;</i></a>
+                                   
                                 </td>
                             </tr>
 

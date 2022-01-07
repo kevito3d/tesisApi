@@ -5,7 +5,7 @@ import Canton from "./Canton";
 
 const Province = sequelize.define("provinces", {
     id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER ,
         primaryKey: true,
     },
     name: {
@@ -14,7 +14,12 @@ const Province = sequelize.define("provinces", {
     },
 
 
-}, { timestamps: false });
+
+}, {
+    timestamps: false,
+
+
+});
 
 Province.hasMany(Canton, { foreignKey: 'idprovince', sourceKey: 'id' });
 Canton.belongsTo(Province, { foreignKey: 'idprovince', sourceKey: 'id' });

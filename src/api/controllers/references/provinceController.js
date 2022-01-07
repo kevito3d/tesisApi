@@ -37,7 +37,7 @@ export const getProvinces = async (req, res) => {
                 ['name', 'ASC'],
             ],
         });
-
+        console.log("provinces: ", provinces);
         res.status(200).json({
             count: provinces.length,
             data: provinces
