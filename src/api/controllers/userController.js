@@ -1,10 +1,11 @@
 import User from "../models/User";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken';
+const { Op } = require("sequelize");
 
-const signToken = (email) => {
+const signToken = (ci) => {
     return jwt.sign({
-        email
+        ci
     }, 'mi-secreto', {
         expiresIn: 60 * 60 * 24 * 365
     });
@@ -14,20 +15,22 @@ const signToken = (email) => {
 export const login = async (req, res, next) => {
     const {
         email,
-        // user,
+        ci,
         password
     } = req.body;
-    const userExist=await ifExist(email);
-   
+    console.log(email, password);
+
+    const userExist = await ifExist(ci, email);
+
     if (userExist) {
         // let passwordHash = await bcryptjs.hash(password, 8); //esto es para guardarla
         let compare = await bcryptjs.compare(password, userExist.password);
-        console.log(compare);
+        console.log("compare ", compare);
         if (compare) {
-            const token = signToken(userExist.email);
+            const token = signToken(userExist.ci);
             req.session.token = token;
-            const {password, ...user} = userExist.dataValues;
-            console.log("user de averga: ",user);
+            const { password, ...user } = userExist.dataValues;
+            console.log("user : ", user);
             return res.status(200).json({
                 user,
                 token,
@@ -45,40 +48,43 @@ export const login = async (req, res, next) => {
     }
 }
 
-export const ifExist = async (email) => {
-    const user = await User.findByPk(email/* {
-        where: {
-            email, // and
-            $or: [{
-                "email": email
-            },
-            {
-                "user": user
-            }
-            ]
+export const ifExist = async (ci, email) => {
+
+    const user = await User.findOne({
+        where: {// and
+            [Op.or]: [
+                { email: email },
+                { ci: ci }
+              ]
         }
-    } */);
+    });
     return user;
 }
 
 
 export const createUser = async (req, res) => {
     const {
+        ci,
+        firstname,
+        lastname,
         email,
+        role,  
         password, } = req.body;
 
     try {
-        const userExist = await ifExist(email);
+        const userExist = await ifExist(ci,email);
+        console.log(userExist);
         if (!userExist) {
             console.log(email, password);
             let passwordHash = await bcryptjs.hash(password, 8);
             console.log(passwordHash);
             const newUser = await User.create({
-                // first_name,
-                // last_name,
+                ci,
+                firstname,
+                lastname,
                 email,
-                password:passwordHash,
-                // phone
+                password: passwordHash,
+                role
             });
 
             if (newUser) {
@@ -94,7 +100,7 @@ export const createUser = async (req, res) => {
                 })
             }
         } else {
-            res.status(500).json({
+            res.status(409).json({
                 message: 'User exist',
             })
         }
@@ -102,23 +108,27 @@ export const createUser = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        let message = 'ocurrio un problema con el servidor';
+        if(error.original.code == '22001'){
+            message = error.original;
+        }
         res.status(500).json({
-            message: 'ocurrio un problema con el servidor',
+            message: message.toString(),
             data: {}
         })
     }
 
 }
 export const deletOne = async (req, res) => {
-    const { email } = req.params;
+    const { ci } = req.params;
 
     try {
-        const userExist=await ifExist(email);
+        const userExist = await ifExist(ci,ci);
         if (userExist) {
 
             const userDeleted = await User.destroy({
                 where: {
-                    email
+                    ci
                 }
             });
             res.status(201).json({
@@ -133,18 +143,20 @@ export const deletOne = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({
+            error,
             message: "ocurrio un problema con el servidor",
         })
     }
 }
 
 
-/*
+
 
 export const getAll = async (req, res) => {
     try {
-        const users = await User.findAll({
-            attributes: ['id', 'first_name', 'last_name', 'email',  'phone']
+        const users = await User.findAndCountAll({
+            offset: 0,
+            limit: 5
         });
         res.status(200).json({
             data: users
@@ -159,14 +171,19 @@ export const getAll = async (req, res) => {
 }
 
 export const getOne = async (req, res) => {
-    const { id } = req.params;
+    const { ci } = req.params;
 
     try {
         const user = await User.findOne({
-            where: { id }
+            where: { ci }
         });
-
-        res.status(200).json(user)
+        if (user) {
+            return res.json({ user })
+        } else {
+            res.status(404).json({
+                data: "User no encontrado"
+            })
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -178,32 +195,32 @@ export const getOne = async (req, res) => {
 
 
 
-export const updateOne = async (req, res) => {
-    const { id } = req.params;
+export const setOne = async (req, res) => {
+    const { ci } = req.params;
     const {
-        first_name,
-        last_name,
+        firstname,
+        lastname,
         email,
         password,
-        phone } = req.body;
+        role } = req.body;
 
     try {
         const updatedUser = await User.update({
-            first_name,
-            last_name,
+            firstname,
+            lastname,
             email,
             password,
-            phone
-        }, { where: { id } })
+            role
+        }, { where: { ci } })
 
         if (updatedUser[0]) {
             res.status(200).json({
                 message: 'User updated successfully',
                 data: {
-                    first_name,
-                    last_name,
+                    firstname,
+                    lastname,
                     email,
-                    phone
+                    role
                 }
             })
         } else {
@@ -218,4 +235,9 @@ export const updateOne = async (req, res) => {
         })
     }
 
-} */
+}
+
+export const logOut = (req, res, next) => {
+    delete req.session.token;
+    res.send("chao mundo");
+}

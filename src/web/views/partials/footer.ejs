@@ -1,1 +1,81 @@
-<script src="js/index.js"></script>
+<div id="loading" class="modal " tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-body">
+            <div class="row"><img src="/images/loading.gif" alt=""></div>
+        </div>
+    </div>
+</div>
+<!-- modal succes -->
+<div class="modal fade" id="myModalS" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="thank-you-pop">
+                    <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
+                    <h1>Registro <b id="case"></b> Correctamente!</h1>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalE" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="thank-you-pop">
+                    <img src="/images/error.png" alt="">
+                    <h1>Ocurrio un problema.</h1>
+                    <p id="problem"></p>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/popper/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Select/Deselect checkboxes
+        var checkbox = $('table tbody input[type="checkbox"]');
+        $("#selectAll").click(function () {
+            if (this.checked) {
+                checkbox.each(function () {
+                    this.checked = true;
+                });
+            } else {
+                checkbox.each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        checkbox.click(function () {
+            if (!this.checked) {
+                $("#selectAll").prop("checked", false);
+            }
+        });
+    });
+</script>
+</script>

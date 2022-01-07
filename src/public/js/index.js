@@ -1,6 +1,8 @@
 // import {insertar,setEmail} from'./index/nav.js';
 // import {getCookie,setCookie} from './cookie'
-
+/* 
+const e = require("connect-flash");
+ */
 const d = document;
 
 const insertar = (btn) => {
@@ -18,44 +20,50 @@ const setEmail = (email, element) => {
 const search = (search, element) => {
     console.log("search");
     const $search = d.getElementById(search);
-    $search.addEventListener("change", (e) => {
-
-        fetch(`${location.origin}/api/plant/${e.target.value}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-        }).then(x => x.json()
-
-            // return x.json();
-        ).then(res => {
-            const plants = res['data']
-            const $grid = d.getElementById('grid');
-            $grid.innerHTML = "";
-            if (plants.length > 0) {
-                plants.forEach(e => {
-                    $grid.innerHTML += `<div class="cardPlant">
-                <div>
-                    <div class="name">
-                        ${e.name}
-                    </div>
-                    <div class="scientific_name">
-                    ${e.scientific_name}
-                    </div>
-                   <!--  <div class="description">
-                    </div> -->
-                    <img src=${e.url} alt="">
-                </div>
-            
-            </div>`
-                });
-            } else {
-                $grid.innerHTML = `<div>no hay datos</div>`;
+    $search.addEventListener("keydown", (e) => {
+        if (e.key == 'Enter') {
+            var url = `${location.origin}/api/plant/filter/${e.target.value}`;
+            if (e.target.value.length == 0) {
+                url = `${location.origin}/api/plant`
             }
-        }).catch(e => {
-            console.log(e);
-        })
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+            }).then(x => x.json()
+
+                // return x.json();
+            ).then(res => {
+                const plants = res['data']
+                const $grid = d.getElementById('grid');
+                $grid.innerHTML = "";
+                if (plants.length > 0) {
+                    plants.forEach(e => {
+                        $grid.innerHTML += `<div class="cardPlant">
+                    <div>
+                        <div class="name">
+                            ${e.name}
+                        </div>
+                        <div class="scientific_name">
+                        ${e.scientific_name}
+                        </div>
+                       <!--  <div class="description">
+                        </div> -->
+                        <img src=${e.url} alt="">
+                    </div>
+                
+                </div>`
+                    });
+                } else {
+                    $grid.innerHTML = `<div>no hay datos</div>`;
+                }
+            }).catch(e => {
+                console.log(e);
+            })
+        }
+
     })
 }
 
@@ -87,7 +95,10 @@ const viewImage = (fileu, imgu) => {
 }
 
 const viewImages = (fileu, imgu) => {
+    console.log("easdasdas");
     document.getElementById(fileu).addEventListener('change', function () {
+        clear(imgu);
+        console.log("hola");
         var files = document.getElementById(fileu).files
         console.log(files);
 
@@ -122,6 +133,15 @@ const viewImages = (fileu, imgu) => {
 
     })
 }
+const clear = (element)=>{
+    const $e =d.getElementById(element);
+    console.log("0000");
+    while (e.firstChild) {
+        console.log("removiendo");
+        //The list is LIVE so it will re-index each call
+        e.removeChild(e.firstChild);
+    }
+}
 
 const closeModal = (close, modal) => {
     const $modal = d.getElementById(modal);
@@ -129,11 +149,12 @@ const closeModal = (close, modal) => {
     $btn.addEventListener('click', (e) => {
         $modal.style = "display:none"
     })
-    window.onclick = function(event) {
+    window.onclick = function (event) {
+        
         if (event.target == $modal) {
-          $modal.style.display = "none";
+            $modal.style.display = "none";
         }
-      }
+    }
 }
 /* FileList.prototype.toArray = function () {
     return Array.from(this).map(function (file) {
@@ -141,24 +162,23 @@ const closeModal = (close, modal) => {
     })
   } */
 
-const createPlant = (imgs,img, name, scn, desc, form) => {
+const createPlant = (imgs, img, name, scn, desc, form) => {
     const $form = document.getElementById(form);
 
     $form.onsubmit = (e) => {
         const file = d.getElementById(img);
         console.log(file);
-        
+
         const formData = new FormData();
-        console.log(file.files[0]);
         formData.append('image', file.files[0]);
         formData.append('name', d.getElementById(name).value);
         formData.append('scientific_name', d.getElementById(scn).value);
         formData.append('description', d.getElementById(desc).value);
-        
+
         e.preventDefault();
         fetch(`${location.origin}/api/plant`, {
             method: 'POST',
-            
+
             body: formData
         }).then(async x => {
             if (x.status == 200) {
@@ -167,36 +187,104 @@ const createPlant = (imgs,img, name, scn, desc, form) => {
                 const filex = d.getElementById(imgs).files;
                 const formData2 = new FormData();
                 formData2.append('plant_id', res.data.id)
-                // console.log(filex.files);
-                ;
-                for(var x = 0; x<filex.length; x++) {
+                    // console.log(filex.files);
+                    ;
+                for (var x = 0; x < filex.length; x++) {
                     formData2.append('images', filex[x]);
                 }
+
 
                 // formData2.append('images', filex.files)
                 fetch(`${location.origin}/api/image`, {
                     method: 'POST',
-                    
+
                     body: formData2
                 })
 
-                
+
             }
         })
     }
 }
 
-d.addEventListener('DOMContentLoaded', () => {
-    /* funcionArrow('.user',".otp",".logout",".oscuro")
-    loadDates(".institution", ".nameuser") */
-    setEmail(localStorage.getItem('email'), "email");
-    insertar('email')
-    search('search', 'grid');
-    openModal('insert', 'myModal');
-    closeModal('close', 'myModal')
-    viewImage('image', 'imgContent');
-    viewImages('images', 'imgsContent');
+const setDeleteItem = (item, e) => {
 
-    createPlant('images','image', 'namePlant', 'namescPlant', 'descrPlant', 'form-create')
+
+    const $text = d.getElementById('plantDelete');
+    $text.innerText = item;
+    const $send = d.getElementById('scientificname').value = item;
+
+
+}
+const DeleteItem = (form, scientificname) => {
+
+
+    const $form = document.getElementById(form);
+    const $eliminar = document.getElementById(scientificname);
+    console.log("ttttttttttt: ",$eliminar.value);
+    $form.onsubmit = (e) => {
+        e.preventDefault();
+        console.log($eliminar.value);
+        try {
+            fetch(`${location.origin}/api/plant/${$eliminar.value}`, {
+                method: 'DELETE',
+            }).then(async x => {
+                console.log(x);
+                $("#deletePlantModal").modal("hide")
+                if (x.status != 200) {
+                    res = await x.json()
+                    console.log("entre al error");
+                    $("#problem").text(res.error.original.detail)
+                    $("#myModalE").modal("show")
+                } else {
+                    const $eliminated = d.getElementById($eliminar.value);
+                    console.log($eliminated);
+                    $eliminated.parentElement.removeChild($eliminated)
+                    $('#case').text('eliminado')
+                    $("#myModalS").modal("show")
+                }
+            })
+
+
+        } catch (error) {
+            console.log("aaaaaaaaaaa");
+        }
+
+
+    }
+
+
+}
+
+/* const addItem = (form, sci,name,desc,) => {
+    const $form = document.getElementById(form);
+    console.log($eliminar.value);
+    data = {};
+    data.scientificname = 
+    $form.onsubmit = (e) => {
+        e.preventDefault();
+        fetch(`${location.origin}/api/plant/`,{
+            method:"POST",
+            body:
+        })
+    }
+}
+ */
+
+d.addEventListener('DOMContentLoaded', () => {
+    // funcionArrow('.user',".otp",".logout",".oscuro")
+    // loadDates(".institution", ".nameuser") 
+    setDeleteItem("btnDelete");
+    DeleteItem("deletePlant", "scientificname");
+    
+    /*   setEmail(localStorage.getItem('email'), "email");
+      insertar('email')
+      search('search', 'grid');
+      openModal('insert', 'myModal');
+      closeModal('close', 'myModal')
+      viewImage('image', 'imgContent');
+      viewImages('images', 'imgsContent');
+  
+      createPlant('images', 'image', 'namePlant', 'namescPlant', 'descrPlant', 'form-create') */
 
 })

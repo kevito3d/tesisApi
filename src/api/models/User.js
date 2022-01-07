@@ -1,30 +1,35 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../../database/database'
 
-// import Pets from './pet.model';
+import Observation from './Observation';
 
 const User = sequelize.define('users', {
-   
-   /*  first_name: {
-        type: Sequelize.STRING
-    },
-    last_name: {
-        type: Sequelize.STRING
-    }, */
-    email: {
+    ci: {
         type: Sequelize.STRING,
         primaryKey: true
+    },
+
+    firstname: {
+        type: Sequelize.STRING
+    },
+    lastname: {
+        type: Sequelize.STRING
+    },
+    email: {
+        type: Sequelize.STRING,
+        
+    },
+    role:{
+        type:Sequelize.STRING
     },
     password: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-   /*  salt: {
-        type: Sequelize.STRING
-    } */
+     
 }, { timestamps: false })
 
-// User.hasMany(Pets, { foreingKey: 'owner', sourceKey: 'id' })
-// Pets.belongsTo(User, { foreingKey: 'owner', sourceKey: 'id' })
+User.hasMany(Observation, { foreignKey: 'ci', sourceKey: 'ci' })
+Observation.belongsTo(User, { foreignKey: 'ci', sourceKey: 'ci' })
 
 export default User;

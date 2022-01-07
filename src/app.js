@@ -11,8 +11,13 @@ import engine from 'ejs-mate';
 import index from './web/routes/index';
 import plant from './api/routes/plant'
 import images from './api/routes/image'
-import MPlant from "./api/routes/mplant";
-import MImage from './api/routes/mimage'
+import partPlant from "./api/routes/partPlant";
+import observation from "./api/routes/observation";
+import province from "./api/routes/references/province";
+import canton from "./api/routes/references/canton";
+import plantReference from "./api/routes/plantReference";
+// import parish from "./api/routes/references/parish";
+// import MImage from './api/routes/mimage'
 
 import user from './api/routes/user';
 
@@ -58,10 +63,15 @@ app.use(session({
 //routes
 app.use('/', index);
 app.use('/api/plant', plant);
-app.use('/api/image', images);
-app.use('/api/mplant', MPlant);
-app.use('/api/mimage', MImage);
+app.use('/api/province', province );
+app.use('/api/canton', canton);
+app.use('/api/plantreference', plantReference);
+// app.use('/api/parish', parish);
 app.use('/api/user', user);
+app.use('/api/image', images);
+app.use('/api/partplant', partPlant);
+app.use('/api/observation', observation);
+// app.use('/api/mimage', MImage);
 /* para cualquier ruta que no exista */
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")

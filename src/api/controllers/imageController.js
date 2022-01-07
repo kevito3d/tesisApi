@@ -1,28 +1,36 @@
 import Image from '../models/Image';
+import path from 'path';
+const fs = require('fs')
+
+
+
 export async function createImage(req, res) {
-    console.log("files: "+req.files);
+
 
     const files = req.files;
-    const { plant_id } = req.body;
-   let newImages = []
+    const { scientificname, idpartplant, idobservation } = req.body;
+    const newImages = []
     const urls = [];
     const urlsNO = [];
     let banderaError = false;
 
-    await files.forEach(async file => {
-        console.log("file : "+file);
+
+
+    for (const file of files) {
         const url = 'uploads/' + file.originalname;
-        console.log(url);
+
         try {
             let newImage = await Image.create({
                 url,
-                plant_id,
+                scientificname,
+                idpartplant,
+                idobservation
             }, {
-                fields: ['url', 'plant_id']
+                fields: ['url', 'scientificname', 'idpartplant', 'idobservation']
             })
+
             if (newImage) {
-                console.log(newImage);
-                newImages.push(newImage);
+                newImages.push(newImage.dataValues);
                 urls.push(file.originalname);
                 /*  return res.json({
                      message: "Imagen insertada correctamente",
@@ -31,33 +39,103 @@ export async function createImage(req, res) {
             }
 
         } catch (error) {
-            /*  //si se suplica la llave unica
-             console.log(error);
+            console.log(error);
+            //si se suplica la llave unica
+            /*  console.log(error);
              let message = "ocurrio un problema con el servidor";
              if (error.original.code == 23503) {
-                 message = "no existe referencia de esa planta"
+                 message = "no existe referencia de esa planta o parte de plant"
              };
  
              res.status(500).json({
                  message,
              }) */
-             banderaError=true;
+            banderaError = true;
             urlsNO.push(file.originalname);
 
         }
-        
 
 
-    });
+
+    };
     if (!banderaError) {
         return res.json({
             message: "Imagenes insertadas correctamente",
             data: newImages
         })
-    }else{
+    } else {
         return res.status(206).json({
             si: urls,
-            no:urlsNO
+            no: urlsNO
+        })
+    }
+
+
+
+
+}
+export async function createImageObservation(req, res) {
+
+
+    const files = req.files;
+    const { scientificname, idpartplant, idobservation } = req.body;
+    const newImages = []
+    const urls = [];
+    const urlsNO = [];
+    let banderaError = false;
+    console.log(files.length);
+
+    for (const file of files) {
+        const url = 'uploads/' + file.originalname;
+        console.log(url);
+        try {
+            let newImage = await Image.create({
+                url,
+                scientificname,
+                idpartplant,
+                idobservation
+            }, {
+                fields: ['url', 'scientificname', 'idpartplant', 'idobservation']
+            })
+            console.log(newImage);
+            if (newImage) {
+                newImages.push(newImage.dataValues);
+                urls.push(file.originalname);
+                /*  return res.json({
+                     message: "Imagen insertada correctamente",
+                     data: newImage
+                 }) */
+            }
+
+        } catch (error) {
+            console.log(error);
+            //si se suplica la llave unica
+            /*  console.log(error);
+             let message = "ocurrio un problema con el servidor";
+             if (error.original.code == 23503) {
+                 message = "no existe referencia de esa planta o parte de plant"
+             };
+ 
+             res.status(500).json({
+                 message,
+             }) */
+            banderaError = true;
+            urlsNO.push(file.originalname);
+
+        }
+
+
+
+    };
+    if (!banderaError) {
+        return res.json({
+            message: "Imagenes insertadas correctamente",
+            data: newImages
+        })
+    } else {
+        return res.status(206).json({
+            si: urls,
+            no: urlsNO
         })
     }
 
@@ -68,6 +146,7 @@ export async function createImage(req, res) {
 export async function getAll(req, res) {
     try {
         const images = await Image.findAll();
+        console.log(images);
         res.json({
             data: images
         });
@@ -79,6 +158,35 @@ export async function getAll(req, res) {
         })
     }
 }
+/* export async function getAllPlant(scientificname) {
+    try {
+        const images = await Image.findAll({
+            where: {
+                scientificname
+            }
+        });
+        console.log(images);
+        return images
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+export async function getAllPart(idpartplant) {
+    try {
+        const images = await Image.findAll({
+            where: {
+                idpartplant
+            }
+        });
+        console.log(images);
+        return images
+
+    } catch (error) {
+        console.log(error);
+        return null
+    }
+} */
 
 export async function getOne(req, res) {
     try {
@@ -108,9 +216,26 @@ export async function getOne(req, res) {
     }
 }
 
+export function deleteImages( url) {
+
+    try {
+        fs.unlinkSync(path.join(__dirname, `../../public/${url}`));
+        console.log('File removed')
+        return true;
+    } catch (err) {
+        console.error('Something wrong happened removing the file', err)
+        return false;
+    }
+    
+
+
+}
+
 export async function deleteOne(req, res) {
     try {
         const { id } = req.params;
+        const { url } = req.body;
+
         const deleteRowCount = await Image.destroy({
             where: {
                 id
@@ -121,6 +246,12 @@ export async function deleteOne(req, res) {
                 data: "Imagen eliminada satifactoriamente",
                 count: deleteRowCount
             });
+            try {
+                fs.unlinkSync(path.join(__dirname, `../../public/${url}`));
+                console.log('File removed')
+            } catch (err) {
+                console.error('Something wrong happened removing the file', err)
+            }
         } else {
             res.status(404).json({
                 data: "Imagen no encontrada",
@@ -139,7 +270,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { url, plant_id } = req.body;
+        const { url, scientificname, idpartplant } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -148,7 +279,8 @@ export async function setOne(req, res) {
         // console.log(plant);
         const deleted = await Image.update({
             url,
-            plant_id,
+            scientificname,
+            idpartplant
         }, {
             where: {
                 id
@@ -183,10 +315,35 @@ export async function setOne(req, res) {
 
 export async function getImagesByPlant(req, res) {
     try {
-        const { id } = req.params
+        const { scientificname } = req.params
         const images = await Image.findAll({
             where: {
-                plant_id: id
+                scientificname
+            }
+        })
+        if (images.length > 0) {
+            res.json({
+                data: images
+            });
+        } else {
+            res.status(404).json({
+                data: "Planta no encontrada"
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor"
+        })
+    }
+}
+
+export async function getImagesByPart(req, res) {
+    try {
+        const { idpartplant } = req.params
+        const images = await Image.findAll({
+            where: {
+                idpartplant
             }
         })
         if (images.length > 0) {

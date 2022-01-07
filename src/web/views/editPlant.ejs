@@ -1,0 +1,267 @@
+<% include partials/base -%>
+  <%- include('partials/header', {selected:"plants"}) %>
+
+    <form id="editPlant" class=" ">
+      <div class="container">
+
+        <div class="form-row pt-2">
+          <div class="form-group col-md-6">
+            <div class="form-group row col-md-12">
+              <label for="scientificname">Nombre Cientifico</label>
+              <input type="text" class="form-control" id="scientificname" placeholder="Nombre Cientifico"
+                value='<%= plant.scn %>' required>
+            </div>
+            <div class="form-group row col-md-12">
+              <label for="name">Nombre Comun</label>
+              <input type="text" class="form-control" id="name" placeholder="Nombre Comun" value='<%= plant.name %>'
+                required>
+
+            </div>
+            <div class="form-group row col-md-12">
+              <label for="description">Descripcion</label>
+              <textarea class="form-control" name="description" id="description" cols="30"
+                rows="2"><%= plant.description %></textarea>
+            </div>
+
+            <input type="checkbox" name="" id="" hidden>
+
+          </div>
+          <div class="form-group col-md-6  moreImages">
+            <label class="form-row form-label" for="">Imagenes</label>
+            <input class="form-row form-control" type="file" name="image" id="images"
+              accept="image/jpg, image/png, image/jpeg" multiple>
+            <div class="images" id="imgsContent">
+              <% for( var index=0; index < plant.images.length; index++ ) { %>
+                <div class="divImg">
+                  <img src='/<%= plant.images[index].url %>' alt="" class="imgs">
+                </div>
+                <% } %>
+            </div>
+
+          </div>
+         
+          
+
+
+
+        </div>
+
+
+        <!-- <div class="form-row">
+          <label for="inputAddress2">Address 2</label>
+          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div> -->
+        <div class="form-row">
+         
+          <div class="form-group col-md-6">
+            <div class="col-12 ">
+              <div class="row">
+                <label class="" for="">Referencias</label>
+                <a class="btn btn-secondary ml-5" href="#openaddReference" data-toggle="modal" role="button">Agregar</a>
+              </div>
+              <div class="form-group" id="references">
+                <% for( let index=0; index < plant.reference.length; index++ ) { %>
+                  <div class="row bg-secondary text-light rounded m-2 d-flex justify-content-between">
+                    <div class="col-3 ">
+                      <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                        <%= plant.reference[index].canton.province.name %>
+                      </label>
+                      <input type="text" name="" id="" value='<%= plant.reference[index].canton.province.id %>' hidden>
+                    </div>
+                    <div class="col-4 ">
+                      <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                        <%= plant.reference[index].canton.name %>
+                      </label>
+                      <input type="text" name="" id="" value='<%= plant.reference[index].canton.id %>' hidden>
+                    </div>
+                    <div class="col-3 ">
+                      <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                        <%= plant.reference[index].locality %>
+                      </label>
+                      <input type="text" name="" id="" value='<%= plant.reference[index].locality %>' hidden>
+                    </div>
+                    <div onclick="deleteItemReference(this)"
+                      class="col-2 d-flex justify-content-center align-items-center">
+                      <i class="material-icons text-danger" title="Delete">&#xE872;</i>
+                    </div>
+  
+  
+                  </div>
+                  <% } %>
+              </div>
+            </div>
+            <div class="col-12 "><button type="submit" class="btn btn-primary">Editar</button></div>
+  
+          </div>
+
+          <div class="form-group col-md-6">
+            <div class="col-12 ">
+              <div class="row">
+                <label class="" for="">Parte espcifica</label>
+                <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal" role="button">Agregar</a>
+              </div>
+
+              <div class="form-group" id="parts">
+                <% for( let index=0; index < plant.parts.length; index++ ) { %>
+                  <div class="form-group">
+                    <div class="row bg-secondary text-light rounded m-2 d-flex justify-content-between">
+                      <div class="col-4">
+                        <input type="text" name="" id="" value='<%= plant.parts[index].id %>' hidden>
+                        <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+
+                          <%= plant.parts[index].name %>
+                        </label>
+                        <input type="text" name="" id="" value='<%= plant.parts[index].name %>' hidden>
+                      </div>
+                      <div class="col-6 ">
+                        <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                          <%= plant.parts[index].description %>
+                        </label>
+                        <input type="text" name="" id="" value='<%= plant.parts[index].description %>' hidden>
+                      </div>
+                      <div onclick="eliminaItem(this)" class="col-2 d-flex justify-content-center align-items-center">
+                        <i class="material-icons text-danger" title="Delete">&#xE872;</i>
+                      </div>
+                      <input type="checkbox" name="" id="" hidden>
+                    </div>
+                    <div class="form-group moreImages">
+                      <label class="form-row form-label" for="">Imagenes para <%= plant.parts[index].name %></label>
+                      <input class="form-row form-control imagesDinamic" type="file" name="image"
+                        id="images<%= plant.parts[index].name %>" accept="image/jpg, image/png, image/jpeg" multiple>
+                      <div class="images imgsContentDinamic" id="imgsContent<%= plant.parts[index].name %>">
+                        <% for( let index2=0; index2 < plant.parts[index].images.length; index2++ ) { %>
+                          <div class="divImg">
+                            <img src='/<%= plant.parts[index].images[index2].url %>' alt="" class="imgs">
+                          </div>
+                          <% } %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- todo view images -->
+                  <% } %>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        
+
+    </form>
+    </div>
+
+    <div id="openaddReference" class="modal fade">
+      <div class="modal-dialog modal-">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Agrega Referencia</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <div class="form-group ">
+              <div class="form-row pb-1">
+                <label for="province">Provincia</label>
+                <select id="province" class="form-control">
+                  <% for( let index=0; index < provinces.length; index++ ) { %>
+
+                    <option value=<%=provinces[index].id %> ><%= provinces[index].name %>
+                    </option>
+                    <% } %>
+                </select>
+              </div>
+              <div class="form-row  pb-1">
+                <label for="canton">Canton</label>
+                <select id="canton" class="form-control">
+                  <% for( let index=0; index < provinces[0].cantons.length; index++ ) { %>
+                    <option value=<%=provinces[0].cantons[index].id %> ><%= provinces[0].cantons[index].name %>
+                    </option>
+                    <% } %>
+                </select>
+              </div>
+
+              <div class="form-row ">
+                <label for="locality">Locatidad</label>
+                <input type="text" class="form-control" id="locality" placeholder="Locatidad">
+
+              </div>
+
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="addReference">Agregar Referencia</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="openaddPartPlant" class="modal fade">
+      <div class="modal-dialog modal-">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Agrega parte de planta</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="addPart">
+            <div class="modal-body text-center">
+              <div class="form-group ">
+
+                <div class="form-row pb-2">
+                  <label for="name">Nombre</label>
+                  <input type="text" class="form-control" id="namePart" placeholder="Nombre" required>
+
+                </div>
+                <div class="form-row ">
+                  <label for="locality">Descripcion</label>
+                  <input type="text" class="form-control" id="partDescripcion" placeholder="Descripcion">
+
+                </div>
+
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+
+    <% include partials/footer %>
+      <script src="/js/editPlant.js"></script>
+      <script>
+
+        $('#province').on('change', function () {
+          $('#canton').html('');
+          $("#canton").val([]);
+          console.log($('#province').val());
+
+          $.ajax({
+            method: "GET",
+            url: `/api/province/${$('#province').val()}`,
+
+          }).done(function (msg) {
+            console.log(msg);
+            let cantonsOptions;
+            if (msg.length <= 0) {
+              cantonsOptions = '<option value="0">Sin padre</option>'
+            } else {
+              $.each(msg.cantons, function (i, canton) {
+                cantonsOptions += '<option value=' + canton.id + '>' + canton.name +
+                  '</option>';
+              });
+            }
+            $('#canton').html(cantonsOptions);
+          });
+        });
+
+      </script>
