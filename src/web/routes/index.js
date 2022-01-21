@@ -11,6 +11,11 @@ import Observation from '../../api/models/Observation';
 import Canton from '../../api/models/references/Canton';
 import PlantReference from '../../api/models/PlantReference';
 
+import { ifExist, signToken } from '../../api/controllers/userController'
+import bcryptjs from 'bcryptjs'
+import jwt from 'jsonwebtoken';
+const { Op } = require("sequelize");
+
 const router = Router();
 
 
@@ -57,7 +62,7 @@ router.get('/observation/:page?', async (req, res) => {
     let perPage = 8
     /* if (req.session.token) { */
     try {
-    const observations = await Observation.findAndCountAll({
+        const observations = await Observation.findAndCountAll({
             offset: (page * perPage) - perPage, limit: perPage,
             include: [
                 {
@@ -68,7 +73,7 @@ router.get('/observation/:page?', async (req, res) => {
                 }
             ]
         });
-        console.log("observations: ",observations.rows);
+        console.log("observations: ", observations.rows);
         return res.render('observation', { title: "home", observations: observations.rows, current: page, count: observations.count, pages: Math.ceil(observations.count / perPage), });
 
     } catch (error) {
@@ -87,7 +92,7 @@ router.get('/observation/:page?', async (req, res) => {
 router.get('/plant/:page?', async (req, res) => {
 
     let page = req.params.page || 1;
-    console.log("pague xd: ",page);
+    console.log("pague xd: ", page);
     if (page < 1) {
         page = 1
     }
@@ -115,7 +120,7 @@ router.get('/plant/:page?', async (req, res) => {
     // }
 
 });
-router.get('/add/plant', async (req,res)=>{
+router.get('/add/plant', async (req, res) => {
     let decoder = new TextDecoder('utf-8');
     if (req.session.token) {
         const provinces = await Province.findAll({
@@ -127,21 +132,44 @@ router.get('/add/plant', async (req,res)=>{
             ],
         });
         console.log(provinces);
-        res.render("addPlants", { title: "Agregar", provinces})
+        res.render("addPlants", { title: "Agregar", provinces })
     } else {
-
         return res.redirect('/')
     }
 })
 
 function utf8_to_str(a) {
-    for(var i=0, s=''; i<a.length; i++) {
+    for (var i = 0, s = ''; i < a.length; i++) {
         var h = a[i].toString(16)
-        if(h.length < 2) h = '0' + h
+        if (h.length < 2) h = '0' + h
         s += '%' + h
     }
     return decodeURIComponent(s)
 }
+
+router.get('/observation/edit/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const obs = await Observation.findByPk(id, {
+            include: [
+                {
+                    model: PartPlant,
+                    include:
+                        { model: Image }
+
+                },
+                {
+                    model: Image
+                }
+            ]
+        });
+        console.log("partes:",obs.partplants);
+        return res.render('editObservation', { obs, title: "Observacion" })
+
+    } catch (error) {
+
+    }
+})
 
 router.get('/plant/edit/:scientificname', async (req, res) => {
     try {
@@ -180,7 +208,7 @@ router.get('/plant/edit/:scientificname', async (req, res) => {
         plant.scn = p.scientificname;
         plant.images = p.images
         console.log(p.description);
-        
+
         plant.parts = await PartPlant.findAll({
             where: {
                 scientificname: p.scientificname
@@ -196,7 +224,7 @@ router.get('/plant/edit/:scientificname', async (req, res) => {
         console.log(plant.reference); */
         /* console.log(p.dataValues.plantsreferences);
         console.log("imprimiendo longuitud de images: ", plant.images.length); */
-        const {viewImages} = require('../../public/js/helper')
+        const { viewImages } = require('../../public/js/helper')
         return res.render('editPlant', { title: "Edita Planta", provinces, plant, viewImages });
 
     } catch (error) {
@@ -209,6 +237,49 @@ router.get('/plant/edit/:scientificname', async (req, res) => {
 
 
 });
+
+router.post('/login', async (req, res, next) => {
+    const {
+        email,
+        ci,
+        password
+    } = req.body;
+    console.log(email, password);
+
+    const userExist = await ifExist(ci, email);
+
+    if (userExist) {
+        console.log(userExist);
+        if (userExist.role != 'admin') {
+            return res.status(403).json({
+                message: "dont permission",
+            });
+        }
+        // let passwordHash = await bcryptjs.hash(password, 8); //esto es para guardarla
+        let compare = await bcryptjs.compare(password, userExist.password);
+        console.log("compare ", compare);
+        if (compare) {
+            const token = signToken(userExist.ci);
+            req.session.token = token;
+            const { password, ...user } = userExist.dataValues;
+            console.log("user : ", user);
+            return res.status(200).json({
+                user,
+                token,
+                message: "correct credentials"
+            });
+        } else {
+            return res.status(404).json({
+                message: "password dont match",
+            });
+        }
+    } else {
+        return res.status(404).json({
+            message: "user not found",
+        });
+    }
+});
+
 
 
 router.post('/logout', async (req, res) => {

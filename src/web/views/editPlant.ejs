@@ -80,8 +80,8 @@
                       </label>
                       <input type="text" name="" id="" value='<%= plant.reference[index].locality %>' hidden>
                     </div>
-                    <div onclick="deleteItemReference(this)"
-                      class="col-2 d-flex justify-content-center align-items-center">
+                    <div   onclick="deleteItemReference(this)"
+                      class="col-2 d-flex justify-content-center align-items-center deleteItem">
                       <i class="material-icons text-danger" title="Delete">&#xE872;</i>
                     </div>
   
@@ -119,7 +119,7 @@
                         </label>
                         <input type="text" name="" id="" value='<%= plant.parts[index].description %>' hidden>
                       </div>
-                      <div onclick="eliminaItem(this)" class="col-2 d-flex justify-content-center align-items-center">
+                      <div onclick="eliminaItem(this)" class="col-2 d-flex justify-content-center align-items-center deleteItemp">
                         <i class="material-icons text-danger" title="Delete">&#xE872;</i>
                       </div>
                       <input type="checkbox" name="" id="" hidden>

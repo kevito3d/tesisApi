@@ -1,5 +1,5 @@
 <% include partials/base -%>
-    <%- include('partials/header', {selected:"user"}) %>
+    <%- include('partials/header', {selected:"observation"}) %>
     <div class="container col-10 mt-2 rounded bg-light" >
         <div class="table-responsive py-2 ">
                 <div class="table-title p-2">
@@ -51,12 +51,13 @@
                                
                                 <td><%= observations[index].ci %></td>
                                 <td><%=observations[index].scientificname%></td>
-                                <td><%=observations[index].canton.province.name %></td>
+                                 <td><%=observations[index].canton.province.name %></td>
                                 <td><%= observations[index].canton.name %></td>
+                                
                                 <td><%= observations[index].locality %></td>
                                 
                                 <td style="display: flex; justify-content: center;">
-                                    <a href="#editEmployeeModal" data-toggle="modal" role="button" id="btnEdit"  onclick="setEditItem('<%= observations[index].id %>')"  class="edit" ><i style = "color:burlywood;"
+                                    <a href="/observation/edit/<%= observations[index].id %>" id="btnEdit"   class="edit" ><i style = "color:burlywood;"
                                             class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i></a>
                                    
@@ -288,7 +289,7 @@
     </div>  -->
     
     
-    
-    <script src="/js/user.js"></script>
+    <!-- 
+    <script src="/js/user.js"></script> -->
             
 <% include partials/footer %>

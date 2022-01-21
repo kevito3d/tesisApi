@@ -12,5 +12,4 @@ router.get('/', getAll);
 router.get('/:ci', getOne);
 router.put('/:ci', setOne);
 
-
 export default router;

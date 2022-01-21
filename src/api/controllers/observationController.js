@@ -6,7 +6,7 @@ import Province from "../models/references/Province";
 
 export async function createObservation(req, res) {
     const { latitude, longitude, ci, scientificname, province, canton, locality } = req.body;
-
+    console.log("provincia: ", province);
     try {
         const cantons = await Canton.findAll({
             where: {
@@ -14,7 +14,7 @@ export async function createObservation(req, res) {
             }
         })
         console.log("lo que me llega en canton: ", canton);
-        console.log(cantons);
+        console.log("Canton encontrado: ",cantons);
         let idcanton;
         if (cantons.length == 1) {
             idcanton = cantons[0].id;
@@ -42,8 +42,6 @@ export async function createObservation(req, res) {
             fields: ['latitude', "longitude", 'ci', 'scientificname', 'locality', 'idcanton']
         })
         if (newObservation) {
-
-
             return res.json({
                 data: newObservation,
                 message: "Observation insertada correctamente",
@@ -93,9 +91,11 @@ export async function getOne(req, res) {
             where: {
                 id
             },
-            include: {
+            include: [{
                 model: PartPlant
-            }
+            },{
+                model: Image
+            }]
         });
         if (observation) {
             res.json({

@@ -3,7 +3,7 @@ import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 const { Op } = require("sequelize");
 
-const signToken = (ci) => {
+export const signToken = (ci) => {
     return jwt.sign({
         ci
     }, 'mi-secreto', {
