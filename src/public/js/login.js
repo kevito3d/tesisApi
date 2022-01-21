@@ -11,7 +11,7 @@ function cierraAlert() {
 
 const renderLogin = () => {
     // const cookies = new Cookies();
-    
+
     console.log("me cago");
     const loginView = document.getElementById('login-view');
     const login = document.getElementById('login');
@@ -28,7 +28,7 @@ const renderLogin = () => {
         const ussername = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         try {
-            fetch(`${location.origin}/api/user/login`, {
+            fetch(`${location.origin}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,18 +39,22 @@ const renderLogin = () => {
                     // user: ussername,
                     password: password
                 })
-            }).then(async x =>  {
+            }).then(async x => {
                 if (x.status == 200) {
                     console.log("entre");
-                    const res = await  x.json();
-                    window.localStorage['email'] = JSON.stringify(res.user)
+                    const res = await x.json();
+                    window.localStorage['user'] = JSON.stringify(res.user)
                     // console.log(res);
-                    location.replace(location.origin+"/plant");
+                    location.replace(location.origin + "/plant");
                     // setCookie("email", res.user.email, 365);
                     // cookies.set('email', , { path: '/' });
                 } else {
-                    console.log("no entre");
+                    if (x.status == 403) {
 
+                        alert.firstElementChild.lastElementChild.innerText = "Este usuario no tiene permisos"
+                    }else{
+                        alert.firstElementChild.lastElementChild.innerText = "Usuario y/o contraseña incorrecta !"
+                    }
                     alert.style = 'display:flex';
                 }
                 login.style = "display:block"
