@@ -1,30 +1,30 @@
 <% include partials/base -%>
-  <%- include('partials/header', {selected:"plants"}) %>
+  <%- include('partials/header', {selected:"plant"}) %>
 
     <form id="addPlant" class=" ">
       <div class="container pt-5">
         
         <div class="form-row pt-2">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-6 left">
             <div class="form-group row col-md-12">
-              <label for="scientificname">Nombre Cientifico</label>
-              <input type="text" class="form-control" id="scientificname" placeholder="Nombre Cientifico" required>
+              <label for="scientificname">Nombre Científico</label>
+              <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico" required>
             </div>
             <div class="form-group row col-md-12">
-                <label for="name">Nombre Comun</label>
-                <input type="text" class="form-control" id="name" placeholder="Nombre Comun" required>
+                <label for="name">Nombre Común</label>
+                <input type="text" class="" id="name" placeholder="Nombre Comun" required>
             
             </div>
             <div class="form-group row col-md-12">
-              <label for="description">Descripcion</label>
-              <textarea class="form-control" name="description" id="description" cols="30" rows="2" required></textarea>
+              <label for="description">Descripción</label>
+              <textarea class="" name="description" id="description" cols="30" rows="2" required></textarea>
             </div>
            
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-6 left">
             <div class="form-group  moreImages">
-              <label class="form-row form-label" for="">Imagenes</label>
-              <input class="form-row form-control" type="file" name="image" id="images"
+              <label class="form-row form-label" for="">Imágenes</label>
+              <input class="form-row " type="file" name="image" id="images"
                 accept="image/jpg, image/png, image/jpeg" multiple>
               <div class="images" id="imgsContent"></div>
 
@@ -43,13 +43,13 @@
 
         <!-- <div class="form-row">
           <label for="inputAddress2">Address 2</label>
-          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+          <input type="text" class="" id="inputAddress2" placeholder="Apartment, studio, or floor">
         </div> -->
-        <div class="form-row">
-          <div class="form-group col-md-6">
+        <div class="form-row ">
+          <div class="form-group col-md-6 left">
             <div class="col-12 ">
               <div class="row">
-                <label class="" for="">Parte espcifica</label>
+                <label class="" for="">Parte Espcífica</label>
                 <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal" role="button">Agregar</a>
               </div>
 
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-6 left">
             <div class="col-12 ">
               <div class="row">
                 <label class="" for="">Referencias</label>
@@ -92,7 +92,7 @@
             <div class="form-group ">
               <div class="form-row pb-1">
                 <label for="province">Provincia</label>
-                <select id="province" class="form-control">
+                <select id="province" class="">
                   <% for( let index=0; index < provinces.length; index++ ) { %>
 
                     <option value=<%=provinces[index].id %> ><%= provinces[index].name %>
@@ -112,7 +112,7 @@
 
               <div class="form-row ">
                 <label for="locality">Locatidad</label>
-                <input type="text" class="form-control" id="locality" placeholder="Locatidad">
+                <input type="text" class="" id="locality" placeholder="Locatidad">
 
               </div>
 

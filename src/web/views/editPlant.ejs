@@ -1,34 +1,34 @@
 <% include partials/base -%>
-  <%- include('partials/header', {selected:"plants"}) %>
+  <%- include('partials/header', {selected:"plant"}) %>
 
     <form id="editPlant" class=" ">
       <div class="container">
 
-        <div class="form-row pt-2">
-          <div class="form-group col-md-6">
+        <div class="form-row pt-2 ">
+          <div class="form-group col-md-6 left " >
             <div class="form-group row col-md-12">
-              <label for="scientificname">Nombre Cientifico</label>
-              <input type="text" class="form-control" id="scientificname" placeholder="Nombre Cientifico"
+              <label for="scientificname">Nombre Científico</label>
+              <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico"
                 value='<%= plant.scn %>' required>
             </div>
             <div class="form-group row col-md-12">
-              <label for="name">Nombre Comun</label>
-              <input type="text" class="form-control" id="name" placeholder="Nombre Comun" value='<%= plant.name %>'
+              <label for="name">Nombre Común</label>
+              <input type="text" class="" id="name" placeholder="Nombre Comun" value='<%= plant.name %>'
                 required>
 
             </div>
             <div class="form-group row col-md-12">
-              <label for="description">Descripcion</label>
-              <textarea class="form-control" name="description" id="description" cols="30"
+              <label for="description">Descripción</label>
+              <textarea class="" name="description" id="description" cols="30"
                 rows="2"><%= plant.description %></textarea>
             </div>
 
             <input type="checkbox" name="" id="" hidden>
 
           </div>
-          <div class="form-group col-md-6  moreImages">
-            <label class="form-row form-label" for="">Imagenes</label>
-            <input class="form-row form-control" type="file" name="image" id="images"
+          <div class="form-group col-md-6  moreImages left">
+            <label class="form-row form-label" for="">Imágenes</label>
+            <input class="form-row " type="file" name="image" id="images"
               accept="image/jpg, image/png, image/jpeg" multiple>
             <div class="images" id="imgsContent">
               <% for( var index=0; index < plant.images.length; index++ ) { %>
@@ -53,7 +53,7 @@
         </div> -->
         <div class="form-row">
          
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-6 left">
             <div class="col-12 ">
               <div class="row">
                 <label class="" for="">Referencias</label>
@@ -90,11 +90,11 @@
                   <% } %>
               </div>
             </div>
-            <div class="col-12 "><button type="submit" class="btn btn-primary">Editar</button></div>
+            <div class="col-12 "><button type="submit" class="btn btn-primary">Guardar Cambios</button></div>
   
           </div>
 
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-6 left">
             <div class="col-12 ">
               <div class="row">
                 <label class="" for="">Parte espcifica</label>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group moreImages">
                       <label class="form-row form-label" for="">Imagenes para <%= plant.parts[index].name %></label>
-                      <input class="form-row form-control imagesDinamic" type="file" name="image"
+                      <input class="form-row  imagesDinamic" type="file" name="image"
                         id="images<%= plant.parts[index].name %>" accept="image/jpg, image/png, image/jpeg" multiple>
                       <div class="images imgsContentDinamic" id="imgsContent<%= plant.parts[index].name %>">
                         <% for( let index2=0; index2 < plant.parts[index].images.length; index2++ ) { %>
@@ -186,7 +186,7 @@
 
               <div class="form-row ">
                 <label for="locality">Locatidad</label>
-                <input type="text" class="form-control" id="locality" placeholder="Locatidad">
+                <input type="text" class="" id="locality" placeholder="Locatidad">
 
               </div>
 

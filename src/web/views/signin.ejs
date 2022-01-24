@@ -1,59 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="height=device-height, 
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="height=device-height, 
                       width=device-width, initial-scale=1.0, 
                       minimum-scale=1.0, maximum-scale=1.0, 
-                      user-scalable=no"
-    />
-    <link rel="stylesheet" href="/css/login.css" />
+                      user-scalable=no" />
+  <link rel="stylesheet" href="/css/login.css" />
 
-    <title>Document</title>
-  </head>
+  <title>Document</title>
+</head>
 
-  <body>
-    <form id="form-signin" class="form-signin">
-      <div class="container">
-        <div class="center">
+<body>
+  <form id="form-signin" class="form-signin">
+    <div class="container">
+      <div class="header">
+
+        <img src="/images/fondo5.jpg" alt="">
+
+      </div>
+      <div class="center">
+        <div>
           <div class="title">
-            <p>Iniciar Secion</p>
+            <div class="text">
+              Sistema de Administración de Plantas
+            </div>
 
             <div id="alert" class="alert">
               <div class="text_alert">
-                <strong>Hey !</strong> <b id="messageError"></b>
+                <b id="messageError"></b>
               </div>
-              <button
-                onclick="cierraAlert()"
-                type="button"
-                class="close"
-                data-dismiss="alert"
-                aria-label="Close"
-              >
+              <button onclick="cierraAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true ">&times;</span>
               </button>
             </div>
           </div>
-          <div class="user">
-            <label for="username">Usuario</label>
-            <input id="username" name="user " type="text" required />
-          </div>
-          <div class="pass">
-            <label for="password">Contraseña</label>
-            <input id="password" name="pass " type="password" required/>
-          </div>
-          <button id="login" class="login">Entrar</button>
-          <div id="spinner" class="content">
-            <div class="spinner"></div>
-          </div>
-          <a class="createA" href="/signup">no tengo cuenta, registrame</a>
-        </div>
-      </div>
-    </form>
+          <div class="datos">
+            <div class="user">
+              <!-- <label for="username">Usuario</label> -->
+              <input id="username" name="user " type="text" placeholder="Usuario" required />
+            </div>
+            <div class="pass">
+              <!-- <label for="password">Contraseña</label> -->
+              <input id="password" name="pass " type="password" placeholder="Contraseña" required />
+            </div>
+            <button id="login" class="login">Ingresar</button>
+            <div id="spinner" class="content">
+              <div class="spinner"></div>
+            </div>
 
-    <script src="/js/login.js "></script>
-  </body>
+          </div>
+        </div>
+
+
+
+        <!-- <a class="createA" href="/signup">no tengo cuenta, registrame</a> -->
+      </div>
+    </div>
+  </form>
+
+  <section class="about">
+    <!-- <p class="about-links">
+      <a href="http://mail.utm.edu.ec/" target="_blank">Correo UTM</a>
+      <a href="http://www.sisman.utm.edu.ec/" target="_blank">SISMAN</a>
+      <a href="http://186.46.160.217/SED/" target="_blank">S.E.D.</a>
+      <a href="http://www.sga.utm.edu.ec/sga/manualingreso.html" target="_blank">Manual</a>
+    </p> -->
+    <p class="about-author">
+      <a href="http://www.utm.edu.ec/" target="_blank">© 2014 Universidad Técnica de Manabí</a>
+      <br>Unidad de Servicios Informáticos
+      <br>Área de Desarrollo de Sistemas
+    </p>
+  </section>
+
+  <script src="/js/login.js "></script>
+</body>
+
 </html>

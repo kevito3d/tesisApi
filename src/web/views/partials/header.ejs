@@ -65,19 +65,19 @@
 
 <nav class="navbar navbar-expand-md navbar-dark d-flex align-items-end" style="background-color: #3ea131ce; ">
     <div class="nav-item h2 d-flex align-items-end  " href="#"><img style="height: 4.5rem; padding-right: 1rem;"
-            src="/images/Logo_utm.png" alt=""><b>Plants UTM</b> </div>
+            src="/images/Logo_utm.png" alt=""><b>Plantas UTM</b> </div>
     <button class="navbar-toggler d-lg-none " type="button" data-toggle="collapse" data-target="#collapsibleNavId"
         aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse pl-5 " id="collapsibleNavId">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0  ">
-            <li class="nav-item h3 <% if(selected=="plant"){%> active <% } %>  ">
-                <a class="nav-link" href="/plant/">Plantas</a>
+    <div class="collapse navbar-collapse pl-3  " id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex justify-content-around ">
+            <li  class="nav-item h3 <% if(selected=="plant"){%> active <% } %> ">
+                <a class="nav-link " href="/plant/">Plantas</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link h3  <% if(selected=="observation"){%> active <% } %>" href="/observation">Observaciones</a>
+            <li class="nav-item h3  <% if(selected=="observation"){%> active <% } %>">
+                <a class="nav-link " href="/observation">Observaciones</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link h3  <% if(selected=="user"){%> active <% } %>" href="/user/">Usuarios</a>
+            <li class="nav-item <% if(selected=="user"){%> active <% } %>">
+                <a class="nav-link h3  " href="/user/">Usuarios</a>
             </li>
 
             <!-- <li class="nav-item dropdown">
@@ -87,8 +87,9 @@
                      <a class="dropdown-item" href="#">Action 2</a>
                  </div>
              </li> -->
+            
         </ul>
-        <div class="user">
+        <div class="user ">
             <div id ="email" class="email">asd</div>
          <form action="/logout" method="post">
              <button type="submit" class="btn btn-seccondary">Salir</button>
@@ -96,6 +97,7 @@
          </form>
             
         </div>
+        
         <!-- <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

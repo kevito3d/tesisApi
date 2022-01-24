@@ -11,7 +11,7 @@
                         </div>
                         <div class="col-md">
                             <div class="form-group input-group rounded">
-                                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                                <input type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search"
                                 aria-describedby="search-addon" />
                                 <span class="input-group-text border-0" id="search-addon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -38,11 +38,11 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th> -->
-                            <th>Nombre Sientifico</th>
-                            <th>Nombre Comun</th>
-                            <th>Descripcion</th>
+                            <th>Nombre Científico</th>
+                            <th>Nombre Común</th>
+                            <th>Descripción</th>
                             <!-- <th>Lugar Comun</th> -->
-                            <th style="display: flex; justify-content: flex-end;">Actions</th>
+                            <th style="display: flex; justify-content: flex-end;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,11 +83,11 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>
+                    <div class="hint-text">Mostrando <b>
                             <%= plants.length %>
-                        </b> out of <b>
+                        </b> de <b>
                             <%= count %>
-                        </b> entries
+                        </b> registros
                     
                     
                     </div>
@@ -99,7 +99,7 @@
                                 <!-- FIRST ITEM -->
                                 <% if(current == 1) { %>
                                     <li class="page-item disabled">
-                                    <a class="page-link" href="#">First</a>
+                                    <a class="page-link" href="#">Primero</a>
                                     </li>
                                 <% } else { %>
                                     <li class="page-item">
@@ -137,13 +137,13 @@
                                 <% if(current == pages) { %>
                                     <li class="page-item disabled">
                                     <a class="page-link" href="#">
-                                        Last
+                                        ÚLTIMO
                                     </a>
                                     </li>
                                 <% } else { %>
                                     <li class="page-item">
                                     <a class="page-link" href="/plant/<%= pages %>">
-                                        Last
+                                        Último
                                     </a>
                                     </li>
                                 <% } %>

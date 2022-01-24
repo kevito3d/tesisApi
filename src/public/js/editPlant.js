@@ -144,6 +144,8 @@ const addPart = (modal, form, container, name, description) => {
       $container.appendChild($part)
       $(modal).modal('hide');
       viewImages(`images${$name.value}`, `imgsContent${$name.value}`)
+      $name.value="";
+      $description.value="";
 
     }
 
@@ -432,7 +434,9 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
         $("#loading").modal('hide');
         $('#case').text('actualizado')
         $("#myModalS").modal("show")
-
+        setInterval(() => {
+          location.replace(`${location.origin}`)
+        }, 1000);
 
 
       } else {

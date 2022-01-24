@@ -1,5 +1,5 @@
 body {
-    background-color: aliceblue;
+    background-color: rgba(196, 225, 197);
 }
 
 .form-signin {
@@ -8,26 +8,70 @@ body {
     margin-top: 100px;
 }
 
+.datos input {
+    display: block;
+    width: 90%;
+    height: 37px;
+    margin-bottom: 20px;
+    padding: 0 9px;
+    color: white;
+    text-shadow: 0 1px black;
+    background: #035103;
+    border: 1px solid #001e00;
+    border-top-color: #001e00;
+    border-radius: 4px;
+    opacity: 0.85;
+}
+.datos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 
+.datos input:focus {
+    outline: 0;
+    background-color: #003300;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 4px 1px rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 4px 1px rgba(255, 255, 255, 0.6);
+    opacity: 1;
+  }
 
 .container {
-    width: 600px;
+    width: 280px;
     height: 400px;
-    margin: auto;
-    background-color: #eeeeee;
+    /* margin: auto; */
+    /* background-color: #eeeeee; */
+    background-image: url("/images/utm-fondo.png");
+    background-repeat: no-repeat;
+	background-position: bottom left;  
+	
     border: solid 1px 2px;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid;
+    border-color: #8ab78e #558259 #558259 #8ab78e;
+    border-radius: 5px;
 }
 
 .form-signin .title {
-    display: block;
     width: 100%;
-
+    padding-bottom: 0.5rem;
+    
 }
+.title .text{
+    font: 16px Tahoma ,'Lucida Grande', Arial, sans-serif;
+    font-weight: bold;
+  color: #000000;
+  text-align: center;
+  margin: 5px;
+}
+
 
 .container .center .alert {
     width: 80%;
@@ -35,7 +79,7 @@ body {
     justify-content: space-around;
     border: solid 1px;
     border-radius: 8px;
-    padding: 10px;
+    /* padding: 10px; */
     background-color: rgba(255, 0, 0, 0.37);
     margin: 0 auto;
     margin-top: 5px;
@@ -54,9 +98,9 @@ body {
 
 .container .center .text_alert {
     text-align: center;
+    font-size: 14px;
 }
-
-
+/* 
 .user {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -64,58 +108,62 @@ body {
     justify-content: center;
     box-sizing: border-box;
 }
-
+ */
 .center {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: min-content;
+}
+.header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.container img {
+    margin: 0 auto;
+    width:80%;
+    border-radius: 0.3rem;
+    /* padding-top: 1rem; */
 }
 
-.form{
-    width: max-content;
-}
 
-.form-signin p {
+
+/* .form-signin p {
     text-align: center;
     font-size: 2em;
     color: rgba(39, 93, 57, 0.952);
     margin: 0;
-}
+} */
 
-.pass {
+/* .pass {
     margin-bottom: 20px;
     display: flex;
     justify-content: center;
-}
+} */
 
-.container label {
+/* .container label {
     font-size: xx-large;
     float: left;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
     align-self: center;
     color: rgba(39, 93, 57, 0.952);
     margin: 0;
-}
+} */
 
-.container input {
-    font-size: xx-large;
-    font-family: 'Courier New', Courier, monospace;
-    display: block;
-    padding-left: 20px;
-    height: 40px;
-    align-self: center;
-}
 
 .container .login {
-    background-color: rgb(47, 255, 116);
-    color: white;
-    border: none;
+    background-color: rgba(196, 225, 197);
+    color: BLACK;
+    width:85%;
+    height: 2.5rem;
+    border: 1px solid green;
     border-radius: 10px;
-    font-size: xx-large;
-    text-transform: uppercase;
+    font-size: large;
+    /* text-transform: uppercase; */
     display: block;
     transition: 0.3s;
 }
@@ -127,15 +175,12 @@ body {
 }
 
 .login:hover {
-    background-color: white;
-    color: rgb(47, 255, 116);
+    background-color: green;
+    border: 1px solid black;
+    color: white;
 }
 
-.header h1 {
-    font-size: 42px;
-    text-transform: uppercase;
-    font-family: 'Courier New', Courier, monospace;
-}
+
 
 .content {
     width: 48px;
@@ -156,20 +201,73 @@ body {
     border-top-color: transparent;
     border-bottom-color: transparent;
     border-left-color: rgb(47, 255, 116);
-    animation:spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
     position: relative;
-
 }
 
 @keyframes spin {
-    0%{
-        background:transparent;
-        transform:rotate(900deg);
+    0% {
+        background: transparent;
+        transform: rotate(900deg);
     }
 }
 
+.about {
+    margin: 20px auto 20px;
+    padding: 4px;
+    width: 260px;
+    font: 11px Tahoma ,'Lucida Grande', Arial, sans-serif;
+    color: #bbb;
+    text-align: center;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.3);
+    background: #383838;
+    background: rgba(34, 34, 34, 0.8);
+    border-radius: 4px;
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2), 0 0 6px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2), 0 0 6px rgba(0, 0, 0, 0.4);
+  }
+  .about a {
+    color: #eee;
+    text-decoration: none;
+    border-radius: 2px;
+    -webkit-transition: background 0.1s;
+    -moz-transition: background 0.1s;
+    -o-transition: background 0.1s;
+    transition: background 0.1s;
+  }
+  .about a:hover {
+    text-decoration: none;
+    background: #555;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .about-links {
+      display: inline-block;
+      height: auto;
+      margin: 2px;
+  }
+  .about-links > a {
+      float: left;
+      width: auto;
+      font-size: 11px;
+      padding: 5px;
+      margin: 2px;
+  }
+  
+  .about-author {
+      height: auto;
+      margin: 5px;
+  }
+  .about-author > a {
+      padding: 1px 3px;
+      margin: 0 -1px;
+  }
 
-@media screen and (max-width:1980px) {
+/* @media screen and (max-width: 1980px) {
     .container {
         max-width: 600px;
     }
@@ -178,13 +276,13 @@ body {
         font-size: large;
         width: 220px;
         padding-left: 5px;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         margin-left: 15px;
         height: 40px;
     }
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width: 650px) {
     .container {
         max-width: 500px;
     }
@@ -193,7 +291,7 @@ body {
         font-size: large;
         width: 200px;
         padding-left: 5px;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         margin-left: 15px;
         height: 35px;
     }
@@ -201,11 +299,11 @@ body {
     .container label {
         font-size: xx-large;
         float: left;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
     }
 }
 
-@media screen and (max-width:550px) {
+@media screen and (max-width: 550px) {
     .container {
         max-width: 450px;
     }
@@ -214,7 +312,7 @@ body {
         font-size: large;
         width: 200px;
         padding-left: 5px;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         margin-left: 10px;
         height: 30px;
     }
@@ -222,11 +320,11 @@ body {
     .container label {
         font-size: xx-large;
         float: left;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
     }
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width: 500px) {
     .container {
         max-width: 350px;
     }
@@ -235,7 +333,7 @@ body {
         font-size: medium;
         width: 150px;
         padding-left: 5px;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         margin-left: 10px;
         height: 30px;
     }
@@ -243,6 +341,7 @@ body {
     .container label {
         font-size: x-large;
         float: left;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
     }
 }
+ */

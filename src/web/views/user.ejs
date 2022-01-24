@@ -6,7 +6,7 @@
                 <div class="table-title p-2">
                     <div class="row">
                         <div class="col-md">
-                            <h2>Administrar <b>useras</b></h2>
+                            <h2>Administrar <b>Usuarios</b></h2>
                         </div>
                         <div class="col-md">
                             <div class="input-group rounded">
@@ -40,13 +40,13 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th> -->
-                            <th>Cedula</th>
+                            <th>Cédula</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Email</th>
                             <th>Rol</th>
                             <!-- <th>Lugar Comun</th> -->
-                            <th style="display: flex; justify-content: flex-end;">Actions</th>
+                            <th style="display: flex; justify-content: flex-end;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -146,14 +146,14 @@
                                                                                                 class="page-item disabled">
                                                                                                 <a class="page-link"
                                                                                                     href="#">
-                                                                                                    Ultimo
+                                                                                                    Último
                                                                                                 </a>
                                                                                             </li>
                                                                                             <% } else { %>
                                                                                                 <li class="page-item">
                                                                                                     <a class="page-link"
                                                                                                         href="/user/<%= pages %>">
-                                                                                                        Ultimo
+                                                                                                        Último
                                                                                                     </a>
                                                                                                 </li>
                                                                                                 <% } %>
@@ -175,7 +175,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Cedula</label>
+                                <label>Cédula</label>
                                 <input type="text" class="form-control" id="identification" required>
                             </div>
                             <div class="form-group">
@@ -228,7 +228,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Cedula</label>
+                                <label>Cédula</label>
                                 <input type="text" class="form-control" id="ciE" required>
                             </div>
                             <div class="form-group">
@@ -260,8 +260,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Editar">
+                            <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Guardar Cambios">
                         </div>
                     </form>
                 </div>

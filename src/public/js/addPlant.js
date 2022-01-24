@@ -135,6 +135,8 @@ const addPart = (modal, form, container, name, description) => {
       $container.appendChild($part)
       $(modal).modal('hide');
       viewImages(`images${$name.value}`, `imgsContent${$name.value}`)
+      $name.value="";
+      $description.value="";
 
     }
 
@@ -299,10 +301,13 @@ const createPlant = (imgs, name, scn, desc, parts, references, form) => {
             errors.push("referencia de planta no se inserto ! :c")
           }
         })
-
+        
         $("#loading").modal('hide');
         $('#case').text('agregado')
         $("#myModalS").modal("show")
+        setInterval(() => {
+          location.replace(`${location.origin}`)
+        }, 1000);
 
 
 
