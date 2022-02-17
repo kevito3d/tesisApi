@@ -51,8 +51,9 @@
                                
                                 <td><%= observations[index].ci %></td>
                                 <td><%=observations[index].scientificname%></td>
-                                 <td><%=observations[index].canton.province.name %></td>
-                                <td><%= observations[index].canton.name %></td>
+                                
+                                 <td><% if (observations[index].canton!=null) { %> <%=observations[index].canton.province.name %> <% } %> </td>
+                                <td><%if(observations[index].canton!= null) { %> <%= observations[index].canton.name  %> <% } %>  </td>
                                 
                                 <td><%= observations[index].locality %></td>
                                 
@@ -86,7 +87,7 @@
                                     </li>
                                 <% } else { %>
                                     <li class="page-item">
-                                    <a class="page-link" href="/user/1">Primero</a>
+                                    <a class="page-link" href="/observation/1">Primero</a>
                                     </li>
                                 <% } %>
                                 <!-- ITEMS  -->
@@ -105,7 +106,7 @@
                                     </li>
                                     <% } else { %>
                                     <li class="page-item">
-                                        <a class="page-link" href="/user/<%= i %>">
+                                        <a class="page-link" href="/observation/<%= i %>">
                                         <%= i %>
                                         </a>
                                     </li>
@@ -125,7 +126,7 @@
                                     </li>
                                 <% } else { %>
                                     <li class="page-item">
-                                    <a class="page-link" href="/user/<%= pages %>">
+                                    <a class="page-link" href="/observation/<%= pages %>">
                                         Último
                                     </a>
                                     </li>

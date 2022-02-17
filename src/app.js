@@ -49,9 +49,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(urlencoded({ limit: '10mb', extended: true }))
-app.use(express.json({extended: true}));
+app.use(express.json({limit: '10mb'}));
+app.use(urlencoded({  extended: false }))
 app.use(cors());
+// app.options("*", cors());
 app.use(session({
   secret: "my secret key joptionpane 2.0",
   resave: false,

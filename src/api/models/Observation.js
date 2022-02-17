@@ -28,8 +28,8 @@ const Observation = sequelize.define("observations", {
         type: Sequelize.BOOLEAN,
     },
 
-    ci:{
-        type:Sequelize.STRING
+    ci: {
+        type: Sequelize.STRING
     },
 
     idcanton: {
@@ -38,14 +38,17 @@ const Observation = sequelize.define("observations", {
 
     scientificname: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false
     }
 
 
-}, { timestamps: false })
+}, {
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci', timestamps: false
+})
 
 
-Observation.hasMany(PartPlant, { foreignKey: 'idobservation', sourceKey: 'id'});
+Observation.hasMany(PartPlant, { foreignKey: 'idobservation', sourceKey: 'id' });
 PartPlant.belongsTo(Observation, { foreignKey: 'idobservation', sourceKey: 'id' });
 
 Observation.hasMany(Image, { foreignKey: 'idobservation', sourceKey: 'id' });

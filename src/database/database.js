@@ -7,7 +7,11 @@ export const sequelize = new Sequelize(
     {
         host: 'localhost',
         dialect: 'postgres',
-        
+
+        /* dialectOptions: {
+            client_encoding: 'UTF8'
+            
+        }, */
         pool: {
             max: 5,
             min: 0,

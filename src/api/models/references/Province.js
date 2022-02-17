@@ -16,6 +16,8 @@ const Province = sequelize.define("provinces", {
 
 
 }, {
+    // client_encoding: 'UTF8',
+    // collate: 'utf8_unicode_ci',
     timestamps: false,
 
 

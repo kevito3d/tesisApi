@@ -65,6 +65,7 @@ export async function getAll(req, res) {
             ],
 
         });
+        console.log("plantas retornadas: ",plants);
         res.json({
             data: plants
         });

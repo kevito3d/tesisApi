@@ -53,7 +53,7 @@ const renderLogin = () => {
 
                         alert.firstElementChild.lastElementChild.innerText = "Este usuario no tiene permisos"
                     }else{
-                        alert.firstElementChild.lastElementChild.innerText = "Usuario y/o contraseña incorrecta !"
+                        alert.firstElementChild.lastElementChild.innerText = "Usuario y/o contraseña incorrecta!"
                     }
                     alert.style = 'display:flex';
                 }

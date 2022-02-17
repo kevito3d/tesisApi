@@ -3,6 +3,7 @@
 /* 
 const e = require("connect-flash");
  */
+let $plants ;
 const d = document;
 
 const insertar = (btn) => {
@@ -24,37 +25,61 @@ const search = (search, element) => {
         if (e.key == 'Enter') {
             var url = `${location.origin}/api/plant/filter/${e.target.value}`;
             if (e.target.value.length == 0) {
-                url = `${location.origin}/api/plant`
+                location.replace(location.origin + "/plant");
             }
             fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
                 },
+                
+                
 
             }).then(x => x.json()
 
                 // return x.json();
             ).then(res => {
                 const plants = res['data']
-                const $grid = d.getElementById('grid');
+                console.log(plants);
+                const $grid = d.getElementById(element);
+                $plants = $grid.children;
                 $grid.innerHTML = "";
+
                 if (plants.length > 0) {
                     plants.forEach(e => {
-                        $grid.innerHTML += `<div class="cardPlant">
-                    <div>
-                        <div class="name">
-                            ${e.name}
-                        </div>
-                        <div class="scientific_name">
-                        ${e.scientific_name}
-                        </div>
-                       <!--  <div class="description">
-                        </div> -->
-                        <img src=${e.url} alt="">
-                    </div>
-                
-                </div>`
+                        $grid.innerHTML += `
+                        <tr id=${e.scientificname} >
+                        <!-- <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                <label for="checkbox1"></label>
+                            </span>
+                        </td> -->
+                        <td>
+                        ${e.scientificname}
+                        </td>
+                        <td>
+                        ${e.name}
+                        </td>
+                        <td>
+                            ${e.description}
+                        </td>
+                       
+
+                        <td style="display: flex; justify-content: flex-end;">
+                            <a href="/plant/edit/${e.scientificname} " id="btnEdit"
+                                class="edit"><i style="color:burlywood;" class="material-icons"
+                                    data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#deletePlantModal" id="btnDelete"
+                                onclick="setDeleteItem('${e.scientificname}')" class="delete"
+                                data-toggle="modal"><i style="color:red;" class="material-icons"
+                                    data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        </td>
+                    </tr>
+
+                        
+                        `
                     });
                 } else {
                     $grid.innerHTML = `<div>no hay datos</div>`;
@@ -133,8 +158,8 @@ const viewImages = (fileu, imgu) => {
 
     })
 }
-const clear = (element)=>{
-    const $e =d.getElementById(element);
+const clear = (element) => {
+    const $e = d.getElementById(element);
     console.log("0000");
     while (e.firstChild) {
         console.log("removiendo");
@@ -150,7 +175,7 @@ const closeModal = (close, modal) => {
         $modal.style = "display:none"
     })
     window.onclick = function (event) {
-        
+
         if (event.target == $modal) {
             $modal.style.display = "none";
         }
@@ -221,7 +246,7 @@ const DeleteItem = (form, scientificname) => {
 
     const $form = document.getElementById(form);
     const $eliminar = document.getElementById(scientificname);
-    console.log("ttttttttttt: ",$eliminar.value);
+    console.log("ttttttttttt: ", $eliminar.value);
     $form.onsubmit = (e) => {
         e.preventDefault();
         console.log($eliminar.value);
@@ -276,10 +301,10 @@ d.addEventListener('DOMContentLoaded', () => {
     // loadDates(".institution", ".nameuser") 
     setDeleteItem("btnDelete");
     DeleteItem("deletePlant", "scientificname");
-    
+
+    search('search', 'tablePlants');
     /*   setEmail(localStorage.getItem('email'), "email");
       insertar('email')
-      search('search', 'grid');
       openModal('insert', 'myModal');
       closeModal('close', 'myModal')
       viewImage('image', 'imgContent');

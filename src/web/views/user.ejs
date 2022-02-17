@@ -10,8 +10,9 @@
                         </div>
                         <div class="col-md">
                             <div class="input-group rounded">
-                                <input type="search" class="form-control rounded" placeholder="Search"
+                                <input id="search" type="search" class="form-control rounded" placeholder="Search"
                                     aria-label="Search" aria-describedby="search-addon" />
+
                                 <span class="input-group-text border-0" id="search-addon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-search" viewBox="0 0 16 16">
@@ -22,9 +23,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md ">
-                            <a href="#addEmployeeModal" data-toggle="modal" class="btn btn-success"><i
-                                    style="color:whitesmoke;" class="material-icons">&#xE147;</i> <span>Agregar
+                        <div class="col-md d-flex justify-content-end align-items-center">
+                            <a href="#addEmployeeModal" data-toggle="modal" class="btn btn-success"> <span>Agregar
                                     Usuario</span></a>
                             <!--  <a href="#deleteuserModal" class="btn btn-danger" data-toggle="modal"><i
                                     class="material-icons">&#xE15C;</i> <span>Eliminar</span></a> -->
@@ -44,6 +44,7 @@
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Email</th>
+                            <th>Teléfono</th>
                             <th>Rol</th>
                             <!-- <th>Lugar Comun</th> -->
                             <th style="display: flex; justify-content: flex-end;">Acciones</th>
@@ -51,7 +52,7 @@
                     </thead>
                     <tbody id="tableBody">
                         <% for( let index=0; index < users.length; index++ ) { %>
-                            <tr id=<%=users[index].ci %>>
+                            <tr id="<%=users[index].ci %>">
 
                                 <td>
                                     <%= users[index].ci %>
@@ -64,6 +65,9 @@
                                 </td>
                                 <td>
                                     <%= users[index].email %>
+                                </td>
+                                <td>
+                                    <%= users[index].phone %>
                                 </td>
                                 <td>
                                     <%= users[index].role %>
@@ -194,14 +198,11 @@
                                 <label>Contraseña</label>
                                 <input type="password" id="pass" class="form-control" required>
                             </div>
-                            <!-- <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" class="form-control" required>
-                        </div> -->
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" id="phone" class="form-control" required>
+                            </div>
+                           
                             <div class="form-group">
                                 <label>Rol</label>
                                 <select class="form-control" id="role" name="example">
@@ -243,14 +244,14 @@
                                 <label>Email</label>
                                 <input class="form-control" id="emailE" required></input>
                             </div>
-                            <!-- <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" class="form-control" required>
-                        </div> -->
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" id="phoneE" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Contraseña</label>
+                                <input type="password" class="form-control" required>
+                            </div> 
                             <div class="form-group">
                                 <label>Rol</label>
                                 <select class="form-control" id="roleE" name="example">

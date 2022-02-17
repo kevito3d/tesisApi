@@ -5,7 +5,7 @@
       <div class="container pt-5">
         
         <div class="form-row pt-2">
-          <div class="form-group col-md-6 left">
+          <div class="form-group col-md-5 left">
             <div class="form-group row col-md-12">
               <label for="scientificname">Nombre Científico</label>
               <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico" required>
@@ -17,7 +17,7 @@
             </div>
             <div class="form-group row col-md-12">
               <label for="description">Descripción</label>
-              <textarea class="" name="description" id="description" cols="30" rows="2" required></textarea>
+              <textarea style="height: 4rem;" class="" name="description" id="description" cols="30" rows="2" required></textarea>
             </div>
            
           </div>
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-md-6 left">
+          <div class="form-group col-md-5 left">
             <div class="col-12 ">
               <div class="row">
                 <label class="" for="">Referencias</label>
@@ -92,7 +92,7 @@
             <div class="form-group ">
               <div class="form-row pb-1">
                 <label for="province">Provincia</label>
-                <select id="province" class="">
+                <select id="province" class="form-control">
                   <% for( let index=0; index < provinces.length; index++ ) { %>
 
                     <option value=<%=provinces[index].id %> ><%= provinces[index].name %>
@@ -112,7 +112,7 @@
 
               <div class="form-row ">
                 <label for="locality">Locatidad</label>
-                <input type="text" class="" id="locality" placeholder="Locatidad">
+                <input type="text" class="form-control" id="locality" placeholder="Locatidad">
 
               </div>
 

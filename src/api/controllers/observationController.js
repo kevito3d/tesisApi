@@ -1,20 +1,32 @@
+import { transporter } from "../../database/mailer";
 import Image from "../models/Image";
 import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
 import Canton from "../models/references/Canton";
 import Province from "../models/references/Province";
+import User from "../models/User";
+import { Op } from 'sequelize'
+
 
 export async function createObservation(req, res) {
     const { latitude, longitude, ci, scientificname, province, canton, locality } = req.body;
     console.log("provincia: ", province);
+    console.log("canton: ", canton);
+    
     try {
         const cantons = await Canton.findAll({
             where: {
                 name: canton
             }
         })
+        const prov = await Province.findOne({
+            where: {
+                name: province
+            }
+        })
+        console.log("privincias: ", prov);
         console.log("lo que me llega en canton: ", canton);
-        console.log("Canton encontrado: ",cantons);
+        // console.log("Canton encontrado: ",cantons);
         let idcanton;
         if (cantons.length == 1) {
             idcanton = cantons[0].id;
@@ -33,6 +45,21 @@ export async function createObservation(req, res) {
 
             };
         }
+        if (idcanton == null) {
+            const prov2 = await Canton.findOne({
+                where: {
+
+                    [Op.and]: [
+                        { name: '' },
+                        { idprovince: prov.id }
+                    ]
+                }
+
+            })
+
+            idcanton = prov2.id;
+
+        }
 
         console.log(ci);
         console.log("id canton: ", idcanton);
@@ -42,6 +69,29 @@ export async function createObservation(req, res) {
             fields: ['latitude', "longitude", 'ci', 'scientificname', 'locality', 'idcanton']
         })
         if (newObservation) {
+            const users = await User.findAll({
+                where: {
+                    role: 'admin'
+                }
+            })
+            let emails = []
+            for (let index = 0; index < users.length; index++) {
+                emails.push(users[index].email);
+            }
+            const stringUsersMail = emails.join(', ')
+
+            console.log("emails concatenados : " + stringUsersMail);
+
+            await transporter.sendMail({
+                from: `"Plantas Utm 👻" <kcovena5034@utm.edu.ec>`, // sender address
+                to: stringUsersMail, // list of receivers
+                subject: "nueva observacion", // Subject line
+                text: "se ha agregado una nueva observacion de planta", // plain text body
+                html: `<b>clicke para verla </b> <a href='http://localhost:3000/observation/edit/:${newObservation.id}'>aqui</a>`, // html body
+            });
+
+            console.log('termina de enviar correos')
+
             return res.json({
                 data: newObservation,
                 message: "Observation insertada correctamente",
@@ -93,7 +143,7 @@ export async function getOne(req, res) {
             },
             include: [{
                 model: PartPlant
-            },{
+            }, {
                 model: Image
             }]
         });

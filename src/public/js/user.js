@@ -12,9 +12,9 @@ const search = (search, element) => {
     const $search = d.getElementById(search);
     $search.addEventListener("keydown", (e) => {
         if (e.key == 'Enter') {
-            var url = `${location.origin}/api/plant/filter/${e.target.value}`;
+            var url = `${location.origin}/api/user/filter/${e.target.value}`;
             if (e.target.value.length == 0) {
-                url = `${location.origin}/api/plant`
+                location.replace(location.origin + "/user");
             }
             fetch(url, {
                 method: 'GET',
@@ -27,24 +27,47 @@ const search = (search, element) => {
                 // return x.json();
             ).then(res => {
                 const plants = res['data']
-                const $grid = d.getElementById('grid');
+                const $grid = d.getElementById(element);
                 $grid.innerHTML = "";
                 if (plants.length > 0) {
                     plants.forEach(e => {
-                        $grid.innerHTML += `<div class="cardPlant">
-                    <div>
-                        <div class="name">
-                            ${e.name}
-                        </div>
-                        <div class="scientific_name">
-                        ${e.scientific_name}
-                        </div>
-                       <!--  <div class="description">
-                        </div> -->
-                        <img src=${e.url} alt="">
-                    </div>
-                
-                </div>`
+                        $grid.innerHTML += `
+                        
+                        <tr id="${e.ci}">
+
+                                <td>
+                                ${e.ci}
+                                </td>
+                                <td>
+                                ${e.firstname}
+                                </td>
+                                <td>
+                                    ${e.lastname}
+                                </td>
+                                <td>
+                                    ${e.email}
+                                </td>
+                                <td>
+                                    ${e.phone}
+                                </td>
+                                <td>
+                                    ${e.role}
+                                </td>
+
+                                <td style="display: flex; justify-content: flex-end;">
+                                    <a href="#editEmployeeModal" data-toggle="modal" role="button" id="btnEdit"
+                                        onclick="setEditItem('${e.ci}')" class="edit"><i
+                                            style="color:burlywood;" class="material-icons" data-toggle="tooltip"
+                                            title="Edit">&#xE254;</i></a>
+                                    <a href="#deleteUserModal" id="btnDelete"
+                                        onclick="setDeleteItem('${e.ci}')" class="delete"
+                                        data-toggle="modal"><i style="color:red;" class="material-icons"
+                                            data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                </td>
+                            </tr>
+                        
+
+                        `
                     });
                 } else {
                     $grid.innerHTML = `<div>no hay datos</div>`;
@@ -69,7 +92,6 @@ const search = (search, element) => {
 
 
 const setEditItem = (item) => {
-
     const $user = d.getElementById(item).children;
     const array = Array.from($user)
     d.getElementById('ciE').value = array[0].innerText;
@@ -77,13 +99,19 @@ const setEditItem = (item) => {
     d.getElementById('firstE').value = array[1].innerText;
     d.getElementById('lastE').value = array[2].innerText;
     d.getElementById('emailE').value = array[3].innerText;
-    d.getElementById('roleE').value = array[4].innerText;
+    d.getElementById('phoneE').value = array[4].innerText;
+    d.getElementById('roleE').value = array[5].innerText;
     /* $text.innerText = item;
     const $send = d.getElementById('scientificname').value = item; */
 
 
 }
-const updateUser = (firstname, lastname, ci, email, password, role, form) => {
+
+function limpiarFormulario(form) {
+    document.getElementById(form).reset();
+}
+
+const updateUser = (firstname, lastname, ci, email, phone, password, role, form) => {
     const $form = document.getElementById(form);
 
     $form.onsubmit = (e) => {
@@ -97,6 +125,7 @@ const updateUser = (firstname, lastname, ci, email, password, role, form) => {
         data.lastname = d.getElementById(lastname).value;
         data.firstname = d.getElementById(firstname).value;
         data.email = d.getElementById(email).value;
+        data.phone = d.getElementById(phone).value;
         console.log(data.email);
         data.role = $rol.value;
         console.log("me cago en la puta 31");
@@ -113,6 +142,7 @@ const updateUser = (firstname, lastname, ci, email, password, role, form) => {
             if (x.status == 200) {
                 const $user = d.getElementById(d.getElementById(ci).value).children;
                 console.log($user);
+                limpiarFormulario(form);
 
                 $user[1].innerText = d.getElementById(firstname).value;
                 $user[2].innerText = d.getElementById(lastname).value;
@@ -136,7 +166,7 @@ const updateUser = (firstname, lastname, ci, email, password, role, form) => {
     }
 }
 
-const createUser = (firstname, lastname, ci, email, password, role, form, body) => {
+const createUser = (firstname, lastname, ci, email, phone, password, role, form, body) => {
     const $form = document.getElementById(form);
 
     $form.onsubmit = (e) => {
@@ -149,7 +179,10 @@ const createUser = (firstname, lastname, ci, email, password, role, form, body) 
         data.password = d.getElementById(password).value;
         data.lastname = d.getElementById(lastname).value;
         data.firstname = d.getElementById(firstname).value;
+        console.log(email);
+        console.log(d.getElementById(email));
         data.email = d.getElementById(email).value;
+        data.phone = d.getElementById(phone).value;
         console.log(data.email);
         data.role = $rol.value;
         console.log("me cago en la puta 31");
@@ -165,12 +198,13 @@ const createUser = (firstname, lastname, ci, email, password, role, form, body) 
         }).then(async x => {
             if (x.status == 201) {
                 const $body = d.getElementById(body);
-                $body.innerHTML=`
+                $body.innerHTML = `
                 <tr id=${data.ci}>
                     <td>${data.ci}</td>
                     <td>${data.firstname}</td>
                     <td>${data.lastname}</td>
                     <td>${data.email}</td>
+                    <td>${data.phone}</td>
                     <td>${data.role}</td>
                     
                     <td style="display: flex; justify-content: flex-end;">
@@ -183,11 +217,11 @@ const createUser = (firstname, lastname, ci, email, password, role, form, body) 
                     </td>
                 </tr>
                 
-                `+$body.innerHTML;
+                `+ $body.innerHTML;
 
                 const $count = d.getElementById('countUsers').children;
-                $count[0].innerText= ""+(parseInt($count[0].innerText) + 1)
-                $count[1].innerText= ""+(parseInt($count[1].innerText) + 1)
+                $count[0].innerText = "" + (parseInt($count[0].innerText) + 1)
+                $count[1].innerText = "" + (parseInt($count[1].innerText) + 1)
 
 
                 $("#addEmployeeModal").modal('hide')
@@ -195,7 +229,7 @@ const createUser = (firstname, lastname, ci, email, password, role, form, body) 
                 $('#case').text('agregado')
                 $("#myModalS").modal("show")
 
-
+                limpiarFormulario(form);
 
             }
             else {
@@ -264,7 +298,10 @@ d.addEventListener('DOMContentLoaded', () => {
     setDeleteItem("btnDelete");
     DeleteItem("deleteUser", "ci");
 
-    createUser('firstname', 'lastname', 'identification', 'email', 'pass', 'role', 'addUser', 'tableBody');
-    updateUser('firstE', 'lastE', 'ciE', 'emailE', 'no cambia password', 'roleE', 'editUser');
+    createUser('firstname', 'lastname', 'identification', 'email', 'phone', 'pass', 'role', 'addUser', 'tableBody');
+    updateUser('firstE', 'lastE', 'ciE', 'emailE', 'phoneE', 'no cambia password', 'roleE', 'editUser');
+    
+
+    search('search', 'tableBody');
 
 })

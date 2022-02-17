@@ -23,6 +23,8 @@ export const login = async (req, res, next) => {
     const userExist = await ifExist(ci, email);
 
     if (userExist) {
+        console.log("user: ",userExist.dataValues);
+        console.log("user: ",userExist.dataValues.password.length);
         // let passwordHash = await bcryptjs.hash(password, 8); //esto es para guardarla
         let compare = await bcryptjs.compare(password, userExist.password);
         console.log("compare ", compare);
@@ -68,6 +70,7 @@ export const createUser = async (req, res) => {
         firstname,
         lastname,
         email,
+        phone,
         role,  
         password, } = req.body;
 
@@ -83,6 +86,7 @@ export const createUser = async (req, res) => {
                 firstname,
                 lastname,
                 email,
+                phone,
                 password: passwordHash,
                 role
             });
@@ -101,7 +105,7 @@ export const createUser = async (req, res) => {
             }
         } else {
             res.status(409).json({
-                message: 'User exist',
+                message: 'Cedula o Correo ya registrados',
             })
         }
 
@@ -190,6 +194,41 @@ export const getOne = async (req, res) => {
             message: "ocurrio un problema con el servidor",
             data: []
         })
+   
+    }
+}
+
+
+export async function getAllFilter(req, res) {
+    try {
+        const { filter } = req.params;
+        console.log(filter);
+        const users = await User.findAll({
+            where: {
+                [Op.or]: {
+                    ci: {
+                        [Op.like]: `%${filter}%`
+                    },
+                    lastname: {
+                        [Op.like]: `%${filter}%`
+                    },
+                    firstname: {
+                        [Op.like]: `%${filter}%`
+                    },
+                }
+
+            }
+
+        });
+        return res.json({
+            data: users
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "ocurrio un problema con el servidor",
+            data: []
+        })
     }
 }
 
@@ -201,6 +240,7 @@ export const setOne = async (req, res) => {
         firstname,
         lastname,
         email,
+        phone,
         password,
         role } = req.body;
 
@@ -209,6 +249,7 @@ export const setOne = async (req, res) => {
             firstname,
             lastname,
             email,
+            phone,
             password,
             role
         }, { where: { ci } })
@@ -220,6 +261,7 @@ export const setOne = async (req, res) => {
                     firstname,
                     lastname,
                     email,
+                    phone,
                     role
                 }
             })

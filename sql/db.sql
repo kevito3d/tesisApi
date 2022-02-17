@@ -1,3 +1,14 @@
+
+/* 
+
+1. Borra la DB.
+2. Abre un CMD nuevo.
+3. Ejecuta chcp 1252
+4. Entra a psql.
+5. Inserta un dato.
+6. Valida en pgadmin.
+
+ */
 CREATE TABLE IF NOT exists provinces(
     id serial  primary key,
     name varchar (50)
@@ -133,7 +144,8 @@ insert into provinces (name) values('Zamora-Chinchipe');
         insert into cantons (name, idprovince) values('Espejo', 4);
         insert into cantons (name, idprovince) values('Montufar', 4);
         insert into cantons (name, idprovince) values('San Pedro de Huaca', 4);
-        insert into cantons (name, idprovince) values('Bolivar (Carchi)', 4);
+        -- insert into cantons (name, idprovince) values('Bolivar (Carchi)', 4);
+        insert into cantons (name, idprovince) values('Bolivar', 4);
         insert into cantons (name, idprovince) values('Montalvo', 6);
         insert into cantons (name, idprovince) values('Sigchos', 6);
         insert into cantons (name, idprovince) values('La Mana', 6);
@@ -232,7 +244,8 @@ insert into provinces (name) values('Zamora-Chinchipe');
         insert into cantons (name, idprovince) values('Saraguro', 12);
         insert into cantons (name, idprovince) values('Loja', 12);
         insert into cantons (name, idprovince) values('Chaguarpamba', 12);
-        insert into cantons (name, idprovince) values('Olmedo (Loja)', 12);
+        -- insert into cantons (name, idprovince) values('Olmedo (Loja)', 12); 
+        insert into cantons (name, idprovince) values('Olmedo', 12); 
         insert into cantons (name, idprovince) values('Catamayo', 12);
         insert into cantons (name, idprovince) values('Paltas', 12);
         insert into cantons (name, idprovince) values('Puyango', 12);
@@ -266,7 +279,8 @@ insert into provinces (name) values('Zamora-Chinchipe');
         insert into cantons (name, idprovince) values('Tosagua', 14);
         insert into cantons (name, idprovince) values('Rocafuerte', 14);
         insert into cantons (name, idprovince) values('Junin', 14);
-        insert into cantons (name, idprovince) values('Bolivar (Manabi)', 14);
+        -- insert into cantons (name, idprovince) values('Bolivar (Manabi)', 14);
+        insert into cantons (name, idprovince) values('Bolivar', 14);
         insert into cantons (name, idprovince) values('Pichincha', 14);
         insert into cantons (name, idprovince) values('Portoviejo', 14);
         insert into cantons (name, idprovince) values('Jaramijo', 14);
@@ -275,7 +289,8 @@ insert into provinces (name) values('Zamora-Chinchipe');
         insert into cantons (name, idprovince) values('Santa Ana', 14);
         insert into cantons (name, idprovince) values('Jipijapa', 14);
         insert into cantons (name, idprovince) values('Veinticuatro de Mayo', 14);
-        insert into cantons (name, idprovince) values('Olmedo (Manabi)', 14);
+        -- insert into cantons (name, idprovince) values('Olmedo (Manabi)', 14);
+        insert into cantons (name, idprovince) values('Olmedo', 14);
         insert into cantons (name, idprovince) values('Puerto Lopez', 14);
         insert into cantons (name, idprovince) values('Pajan', 14);
         insert into cantons (name, idprovince) values('Chunchi', 15);
@@ -367,5 +382,4 @@ insert into provinces (name) values('Zamora-Chinchipe');
         insert into cantons (name, idprovince) values('', 22);
         insert into cantons (name, idprovince) values('', 23);
         insert into cantons (name, idprovince) values('', 24);
-
 

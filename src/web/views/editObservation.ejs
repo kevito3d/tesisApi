@@ -54,7 +54,7 @@
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
               <ol class="carousel-indicators">
                 <% for( var index=0; index < obs.images.length; index++ ) { %>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="<%index%>"
+                  <li data-target="carouselExampleIndicators" data-slide-to="<%index%>"
                     class="<% if(index==0){%> active <% } %>"></li>
                   <% } %>
               </ol>
@@ -113,10 +113,10 @@
 
                       <div class="col-md-12 ">
 
-                        <div id="carouselPartes" class="carousel slide" data-ride="carousel">
+                        <div id="carouselPartes<%= index %>" class="carousel slide" data-ride="carousel">
                           <ol class="carousel-indicators">
                             <% for( let index2=0; index2 < obs.partplants[index].images.length; index2++ ) { %>
-                              <li data-target="#carouselPartes" data-slide-to="<%=index2%>"
+                              <li data-target="carouselPartes<%= index %>" data-slide-to="<%=index2%>"
                                 class="<% if(index2==0){%> active <% } %>"></li>
                               <% } %>
                           </ol>
@@ -132,13 +132,13 @@
 
                               <% } %>
                           </div>
-                          <a class="carousel-control-prev" href="#carouselPartes" role="button"
+                          <a class="carousel-control-prev" href="#carouselPartes<%= index  %>" role="button"
                             data-slide="prev">
                             <span class="carousel-control-prev-icon" style="background-color: black;"
                               aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                           </a>
-                          <a class="carousel-control-next " href="#carouselPartes" role="button"
+                          <a class="carousel-control-next " href="#carouselPartes<%= index  %>" role="button"
                             data-slide="next">
                             <span class="carousel-control-next-icon" style="background-color: black;"
                               aria-hidden="true"></span>
