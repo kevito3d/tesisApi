@@ -1,4 +1,4 @@
-import { transporter } from "../../database/mailer";
+//import { transporter } from "../../database/mailer";
 import Image from "../models/Image";
 import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
@@ -82,16 +82,16 @@ export async function createObservation(req, res) {
 
             console.log("emails concatenados : " + stringUsersMail);
 
-            await transporter.sendMail({
+            /*await transporter.sendMail({
                 from: `"Plantas Utm 👻" <kcovena5034@utm.edu.ec>`, // sender address
                 to: stringUsersMail, // list of receivers
                 subject: "nueva observacion", // Subject line
                 text: "se ha agregado una nueva observacion de planta", // plain text body
                 html: `<b>clicke para verla </b> <a href='http://localhost:3000/observation/edit/:${newObservation.id}'>aqui</a>`, // html body
-            });
+            });*/
 
             console.log('termina de enviar correos')
-
+            
             return res.json({
                 data: newObservation,
                 message: "Observation insertada correctamente",

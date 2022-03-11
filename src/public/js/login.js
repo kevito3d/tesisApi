@@ -44,6 +44,7 @@ const renderLogin = () => {
                     console.log("entre");
                     const res = await x.json();
                     window.localStorage['user'] = JSON.stringify(res.user)
+                    window.localStorage['token'] = res.token
                     // console.log(res);
                     location.replace(location.origin + "/plant");
                     // setCookie("email", res.user.email, 365);

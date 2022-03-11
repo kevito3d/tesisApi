@@ -1,5 +1,7 @@
 import { Router } from "express";
-import { createObservation, deleteOne, getAll,  getOne, setOne } from "../controllers/observationController";
+import { check } from "express-validator";
+import { isAdmin, isAuthenticated } from "../auth";
+import { createObservation, deleteOne, getAll, getOne, setOne } from "../controllers/observationController";
 /* 
 import path from 'path'
 import multer from 'multer'
@@ -30,17 +32,33 @@ const upload = multer({
 
 const router = Router();
 
-router.post('/', createObservation);
+router.post('/', [
+    check('latitude').isString(),
+    check('longitude').isString(),
+    check('ci').isString(),
+    check('scientificname').isString(),
+    check('province').isString(),
+    check('canton').isString(),
+    check('locality').isString(),
+], isAuthenticated, createObservation);
 
-router.get('/', getAll);
+router.get('/', isAuthenticated, getAll);
 
-router.get('/:id', getOne)
+router.get('/:id', isAuthenticated, getOne)
 // router.get('/:filter', getAllFilter);
 
 
-router.delete('/:id', deleteOne)
+router.delete('/:id', isAdmin, deleteOne)
 
-router.put('/:id', setOne)
+router.put('/:id', [
+    check('latitude').isString(),
+    check('longitude').isString(),
+    check('ci').isString(),
+    check('scientificname').isString(),
+    check('province').isString(),
+    check('canton').isString(),
+    check('locality').isString(),
+], isAdmin, setOne)
 
 
 export default router;

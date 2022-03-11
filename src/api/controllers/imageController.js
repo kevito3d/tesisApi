@@ -5,7 +5,7 @@ const fs = require('fs')
 
 
 export async function createImage(req, res) {
-
+console.log("entro a la funcion");
 
     const files = req.files;
     const { scientificname, idpartplant, idobservation } = req.body;
@@ -13,10 +13,9 @@ export async function createImage(req, res) {
     const urls = [];
     const urlsNO = [];
     let banderaError = false;
-
-
-
+    console.log(files);
     for (const file of files) {
+        console.log(file);
         const url = 'uploads/' + file.originalname;
 
         try {

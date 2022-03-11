@@ -160,10 +160,11 @@ const createPlant = (imgs, name, scn, desc, parts, references, form) => {
     data.scientificname = d.getElementById(scn).value;
     data.description = d.getElementById(desc).value;
     console.log("data: ", data);
-
+    console.log("token: ",localStorage.getItem('token'));
     fetch(`${location.origin}/api/plant`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       method: 'POST',

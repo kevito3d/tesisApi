@@ -1,5 +1,7 @@
 import { Router } from "express";
-import { createPartPlant, deleteOne, getAll,  getOne, getPartByPlant, setOne } from "../controllers/partController";
+import { check } from "express-validator";
+import { createPartPlant, deleteOne, getAll, getOne, getPartByPlant, setOne } from "../controllers/partController";
+import { isAdmin, isAuthenticated } from "../auth/index"
 /* 
 import path from 'path'
 import multer from 'multer'
@@ -30,17 +32,27 @@ const upload = multer({
 
 const router = Router();
 
-router.post('/', createPartPlant);
+router.post('/', [
+    /* check('scientificname').isString(), */
+    check('name').isString(),
+   /*  check('description').isString(),
+    check('idobservation').isNumeric(), */
+], isAuthenticated, createPartPlant);
 
-router.get('/', getAll);
+router.get('/', isAdmin,getAll);
 router.get('/plant/:scientificname', getPartByPlant);
-router.get('/:id', getOne)
+router.get('/:id',isAdmin, getOne)
 // router.get('/:filter', getAllFilter);
 
 
-router.delete('/:id', deleteOne)
+router.delete('/:id',isAdmin, deleteOne)
 
-router.put('/:id', setOne)
+router.put('/:id', [
+    check('scientific_name').isString(),
+    check('name').isString(),
+    check('description').isString(),
+    check('idobservation').isNumeric(),
+],isAdmin, setOne)
 
 
 export default router;

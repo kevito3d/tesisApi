@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken';
+import { validationResult } from "express-validator";
 const { Op } = require("sequelize");
 
 export const signToken = (ci) => {
@@ -13,6 +14,10 @@ export const signToken = (ci) => {
 
 //TODO si el tocken vence hacer que en el fron lo redirecione tengoq ue hacer que el token exipe en menos tiempo para probar eso
 export const login = async (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
     const {
         email,
         ci,

@@ -167,7 +167,8 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
 
     fetch(`${location.origin}/api/plant/${window.location.toString().split('/').at(-1)}`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization': localStorage.getItem('token')
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       method: 'PUT',
@@ -176,11 +177,12 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
     }).then(async x => {
       const res = await x.json();
       const sc = res.data.scientificname;
-      console.log(sc);
+      console.log("token: ",localStorage.getItem('token'));
       if (x.status == 200) {
         const respuestaP = await fetch(`${location.origin}/api/plant/${sc}`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': localStorage.getItem('token')
             // 'Content-Type': 'application/x-www-form-urlencoded',
           },
           method: 'get',
@@ -273,6 +275,7 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
                 await fetch(`${location.origin}/api/image/${imagespart.id}`, {
                   headers: {
                     'Content-Type': 'application/json'
+                    
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                   },
                   method: 'DELETE',
@@ -301,7 +304,8 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
           } else {
             await fetch(`${location.origin}/api/partplant/${plant.partplants[index].id}`, {
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem('token')
                 // 'Content-Type': 'application/x-www-form-urlencoded',
               },
               method: 'DELETE',
@@ -313,7 +317,8 @@ const updatePlant = (imgs, name, scn, desc, partsContainer, references, form) =>
         for (const part of parts) {
           await fetch(`${location.origin}/api/partplant/`, {
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'authorization': localStorage.getItem('token')
               // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             method: 'POST',
