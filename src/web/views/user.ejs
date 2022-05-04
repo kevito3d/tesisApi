@@ -24,7 +24,8 @@
                         </div>
 
                         <div class="col-md d-flex justify-content-end align-items-center">
-                            <a href="#addEmployeeModal" data-toggle="modal" class="btn btn-success"> <span>Agregar
+                            <a href="#addEmployeeModal" data-toggle="modal" class="btn btn-success resetModal">
+                                <span>Agregar
                                     Usuario</span></a>
                             <!--  <a href="#deleteuserModal" class="btn btn-danger" data-toggle="modal"><i
                                     class="material-icons">&#xE15C;</i> <span>Eliminar</span></a> -->
@@ -70,12 +71,17 @@
                                     <%= users[index].phone %>
                                 </td>
                                 <td>
-                                    <%= users[index].role %>
+                                    <% if(users[index].role=='student' ){ %>
+                                        Estudiante
+                                        <% }else{ %>
+                                            Administrador
+                                            <% } %>
+
                                 </td>
 
                                 <td style="display: flex; justify-content: flex-end;">
                                     <a href="#editEmployeeModal" data-toggle="modal" role="button" id="btnEdit"
-                                        onclick="setEditItem('<%= users[index].ci %>')" class="edit"><i
+                                        onclick="setEditItem('<%= users[index].ci %>')" class="edit resetModal"><i
                                             style="color:burlywood;" class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i></a>
                                     <a href="#deleteUserModal" id="btnDelete"
@@ -180,6 +186,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Cédula</label>
+                                <p id="ciValidate"></p>
                                 <input type="text" class="form-control" id="identification" required>
                             </div>
                             <div class="form-group">
@@ -199,14 +206,15 @@
                                 <input type="password" id="pass" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Phone</label>
+                                <label>Celular</label>
+                                <p id="phoneValidate"></p>
                                 <input type="text" id="phone" class="form-control" required>
                             </div>
-                           
+
                             <div class="form-group">
                                 <label>Rol</label>
                                 <select class="form-control" id="role" name="example">
-                                    <option value="student">Estuiante</option>
+                                    <option value="student">Estudiante</option>
                                     <option value="admin">Administrador</option>
                                 </select>
                             </div>
@@ -230,6 +238,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Cédula</label>
+                                <p id="ciValidateE"></p>
                                 <input type="text" class="form-control" id="ciE" required>
                             </div>
                             <div class="form-group">
@@ -245,13 +254,14 @@
                                 <input class="form-control" id="emailE" required></input>
                             </div>
                             <div class="form-group">
-                                <label>Phone</label>
+                                <label>Celular</label>
                                 <input type="text" id="phoneE" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label>Contraseña</label>
                                 <input type="password" class="form-control" required>
-                            </div> 
+                            </div>
+                             -->
                             <div class="form-group">
                                 <label>Rol</label>
                                 <select class="form-control" id="roleE" name="example">
@@ -269,7 +279,6 @@
             </div>
         </div>
         <!-- Edit Modal HTML -->
-
         <!-- Delete Modal HTML -->
         <div id="deleteUserModal" class="modal fade">
             <div class="modal-dialog">

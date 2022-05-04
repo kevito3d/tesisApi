@@ -82,19 +82,18 @@ export async function createObservation(req, res) {
 
             console.log("emails concatenados : " + stringUsersMail);
 
-            /*await transporter.sendMail({
-                from: `"Plantas Utm 👻" <kcovena5034@utm.edu.ec>`, // sender address
+            await transporter.sendMail({
+                from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
                 to: stringUsersMail, // list of receivers
-                subject: "nueva observacion", // Subject line
-                text: "se ha agregado una nueva observacion de planta", // plain text body
-                html: `<b>clicke para verla </b> <a href='http://localhost:3000/observation/edit/:${newObservation.id}'>aqui</a>`, // html body
-            });*/
+                subject: "nueva observación", // Subject line
+                text: `Se ha agregado una nueva observación de la planta con nombre cientifico ${scientificname} con el código: ${newObservation.id} reportado por estudiante con cédula: ${ci}`, // plain text body
+                });
 
             console.log('termina de enviar correos')
             
             return res.json({
                 data: newObservation,
-                message: "Observation insertada correctamente",
+                message: "Observación insertada correctamente",
             })
         }
 
@@ -199,7 +198,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { locale, checked, verified, scientificname } = req.body;
+        const { state} = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -207,7 +206,7 @@ export async function setOne(req, res) {
         // });
         // console.log(plant);
         const observationUpdated = await Observation.update({
-            locale, checked, verified, scientificname
+            state
         }, {
             where: {
                 id
@@ -216,7 +215,7 @@ export async function setOne(req, res) {
         if (observationUpdated[0]) {
             res.json({
                 message: "Observation actualizada correctamente",
-                data: { locale, checked, verified, scientificname }
+                state
             });
         } else {
             res.status(404).json({

@@ -36,11 +36,13 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th> -->
+                            <th>Código</th>
                             <th>Cédula</th>
                             <th>Planta</th>
                             <th>Provincia</th>
                             <th>Cantón</th>
                             <th>Locatidad</th>
+                            <th>Estado</th>
                             <!-- <th>Lugar Comun</th> -->
                             <th >Acción</th>
                         </tr>
@@ -49,6 +51,7 @@
                         <% for( let index=0; index < observations.length; index++ ) { %>
                             <tr id=<%= observations[index].id %>>
                                
+                                <td><%= observations[index].id %></td>
                                 <td><%= observations[index].ci %></td>
                                 <td><%=observations[index].scientificname%></td>
                                 
@@ -56,6 +59,9 @@
                                 <td><%if(observations[index].canton!= null) { %> <%= observations[index].canton.name  %> <% } %>  </td>
                                 
                                 <td><%= observations[index].locality %></td>
+                                <% if(observations[index].state == "slope") {%> 
+                                <td><%= observations[index].state %></td>
+                                <% } %> 
                                 
                                 <td style="display: flex; justify-content: center;">
                                     <a href="/observation/edit/<%= observations[index].id %>" id="btnEdit"   class="edit" ><i style = "color:burlywood;"

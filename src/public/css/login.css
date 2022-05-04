@@ -169,9 +169,12 @@ body {
 }
 
 .container .createA {
+    padding-top: 0.4rem;
+    text-align: center;
     color: black;
     display: flex;
     justify-content: center;
+    font-size: smaller;
 }
 
 .login:hover {
