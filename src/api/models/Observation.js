@@ -6,7 +6,8 @@ import PartPlant from './PartPlant'
 const Observation = sequelize.define("observations", {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
 
     longitude: {
@@ -20,12 +21,9 @@ const Observation = sequelize.define("observations", {
         type: Sequelize.STRING,
     },
 
-    checked: {
-        type: Sequelize.BOOLEAN,
-    },
-
-    verified: {
-        type: Sequelize.BOOLEAN,
+    state:{
+        type: Sequelize.TEXT,
+        defaultValue:"slope"
     },
 
     ci: {

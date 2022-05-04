@@ -2,6 +2,7 @@ import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import {ifExist} from '../controllers/userController';
 
+
 export const isAuthenticated = async (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -13,7 +14,7 @@ export const isAuthenticated = async (req, res, next) => {
         console.log("por lo tanto debo salir");
         return res.sendStatus(403);
     }
-    jwt.verify(token, 'mi-secreto',async (err, decoded) => {
+    jwt.verify(token, process.env.secret_token,async (err, decoded) => {
         if(decoded){
             console.log(decoded);
             const { ci } = decoded;
@@ -48,7 +49,7 @@ export const isAdmin= async (req, res, next) => {
         console.log("por lo tanto debo salir");
         return res.sendStatus(403);
     }
-    jwt.verify(token, 'mi-secreto', async (err, decoded)  => {
+    jwt.verify(token, process.env.secret_token, async (err, decoded)  => {
         if(decoded){
             console.log(decoded);
             const { ci } = decoded;
