@@ -53,14 +53,15 @@ create table if not exists users(
     role varchar (10) default 'student' 
 );
 
+CREATE TYPE mood AS ENUM ('slope', 'not verified', 'verified');
+
 
 create table if not exists observations(
     id serial primary key,
     latitude varchar (15),
     longitude varchar (15),
     locality varchar(50),
-    checked boolean default false,
-    verified boolean default false,
+    state mood,
     ci varchar (10) not null,
     scientificname  varchar (100)  not null,
     idcanton  integer,
@@ -97,6 +98,8 @@ create table if not exists images(
     foreign key (idpartplant) references partplants(id) ON DELETE CASCADE  ON UPDATE CASCADE,
     foreign key (idobservation) references observations(id) ON DELETE CASCADE  ON UPDATE CASCADE
 );
+
+
 
 
 insert into provinces (name) values('Azuay');
