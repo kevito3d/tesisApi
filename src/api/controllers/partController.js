@@ -4,7 +4,7 @@ import { Op } from 'sequelize'
 import Image from "../models/Image";
 
 export async function createPartPlant(req, res) {
-    const { scientificname, name, description, idobservation } = req.body;
+    const { scientificname, name, description, idobservation,descriptionalumnos } = req.body;
     // const url = 'uploads/'+req.file.originalname;
 
     try {
@@ -13,8 +13,9 @@ export async function createPartPlant(req, res) {
             name,
             description,
             idobservation,
+            descriptionalumnos
         }, {
-            fields: ['name', 'description', 'scientificname', "idobservation"]
+            fields: ['name', 'description', 'scientificname', "idobservation","descriptionalumnos"]
         })
         if (newPart) {
             return res.json({
@@ -151,7 +152,6 @@ export async function deleteOne(req, res) {
         });
         if (deleteRowCount == 1) {
             if(part.images.length>0){
-            
                 part.images.forEach(element => {
                     deleteImages(element.url)
                 });
@@ -178,7 +178,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { scientific_name, name, description, idobservation } = req.body;
+        const { scientific_name, name, description, idobservation,descriptionalumnos } = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -189,7 +189,8 @@ export async function setOne(req, res) {
             scientific_name,
             name,
             description,
-            idobservation
+            idobservation,
+            descriptionalumnos
         }, {
             where: {
                 id

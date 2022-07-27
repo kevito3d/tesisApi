@@ -20,11 +20,14 @@ const   PartPlant = sequelize.define("partplants", {
         type: Sequelize.STRING,
         allowNull:true
     },
+    descriptionalumnos:{
+        type:Sequelize.STRING
+    },
 
     idobservation: {
         type: Sequelize.INTEGER,
         allowNull: true
-    },
+    }
 
 }, { timestamps: false })
 

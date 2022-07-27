@@ -11,7 +11,7 @@ import PlantReference from "../models/PlantReference";
 import { deleteImages } from "./imageController";
 
 export async function createPlant(req, res) {
-  const { scientificname, name, description } = req.body;
+  const { scientificname, name, description, descriptionalumnos } = req.body;
   console.log(req.body);
   // const url = 'uploads/'+req.file.originalname;
   let nc_ = slug(scientificname, "_");
@@ -22,6 +22,7 @@ export async function createPlant(req, res) {
       scientificname: nc_,
       name,
       description,
+      descriptionalumnos,
     });
     if (newPlant) {
       return res.json({
@@ -56,9 +57,7 @@ export async function getAll(req, res) {
         {
           model: Image,
         },
-        {
-          model: Observation,
-        },
+
         {
           model: PlantReference,
           include: {
@@ -190,13 +189,22 @@ export async function deleteOne(req, res) {
       ],
     });
 
-    if (plant.images.length > 0) {
+    if ( plant.images && plant.images.length > 0) {
       plant.images.forEach((element) => {
         deleteImages(element.url);
       });
     }
-    if (plant.partplants.length > 0) {
+    if (plant.partplants && plant.partplants.length > 0) {
       plant.partplants.forEach((element) => {
+        if (element.images.length > 0) {
+          element.images.forEach((e) => {
+            deleteImages(e.url);
+          });
+        }
+      });
+    }
+    if(plant.observations && plant.observations.length > 0){
+      plant.observations.forEach((element) => {
         if (element.images.length > 0) {
           element.images.forEach((e) => {
             deleteImages(e.url);
@@ -232,7 +240,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
   try {
     const { scientificnameU } = req.params;
-    const { scientificname, name, description } = req.body;
+    const { scientificname, name, description, descriptionalumnos } = req.body;
     // const plant = await Plant.findOne({
     //     where: {
     //         id
@@ -248,6 +256,7 @@ export async function setOne(req, res) {
         scientificname: nc_,
         name,
         description,
+        descriptionalumnos,
       },
       {
         where: {
@@ -258,7 +267,7 @@ export async function setOne(req, res) {
     if (plantUpdated[0]) {
       res.json({
         message: "Planta actualizada correctamente",
-        data: { scientificname: nc_, name, description },
+        data: { scientificname: nc_, name, description, descriptionalumnos },
       });
     } else {
       res.status(404).json({

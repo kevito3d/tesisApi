@@ -31,7 +31,8 @@ CREATE TABLE IF NOT exists cantons(
 create table if not exists plants(
     scientificname varchar (100) primary key,
     name varchar (50) ,
-    description varchar not null
+    description varchar not null,
+    descriptionalumnos varchar ,
 );
 
 create table if not exists plantsreferences(
@@ -81,9 +82,10 @@ create table if not exists observations(
 create table if not exists partplants(
     id serial primary key,
     name varchar(25),
-    description varchar (50),
+    description varchar ,
     scientificname  varchar (100) ,
     idobservation integer ,
+    descriptionalumnos varchar ,
     foreign key (scientificname) references plants(scientificname) ON DELETE CASCADE  ON UPDATE CASCADE,
     foreign key (idobservation) references observations(id) ON DELETE CASCADE  ON UPDATE CASCADE
 );
