@@ -121,7 +121,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 .container img {
     margin: 0 auto;
@@ -159,7 +159,7 @@ body {
     background-color: rgba(196, 225, 197);
     color: BLACK;
     width:85%;
-    height: 2.5rem;
+    height: 2.1rem;
     border: 1px solid green;
     border-radius: 10px;
     font-size: large;
@@ -181,6 +181,7 @@ body {
     background-color: green;
     border: 1px solid black;
     color: white;
+    cursor: pointer;
 }
 
 
