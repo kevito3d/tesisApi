@@ -1,4 +1,4 @@
-//import { transporter } from "../../database/mailer";
+// import { transporter } from "../../database/mailer";
 import Image from "../models/Image";
 import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
@@ -42,13 +42,11 @@ export async function createObservation(req, res) {
                     idcanton = cantons[index].id;
                     break;
                 }
-
             };
         }
         if (idcanton == null) {
             const prov2 = await Canton.findOne({
                 where: {
-
                     [Op.and]: [
                         { name: '' },
                         { idprovince: prov.id }
@@ -82,12 +80,12 @@ export async function createObservation(req, res) {
 
             console.log("emails concatenados : " + stringUsersMail);
 
-            await transporter.sendMail({
+            /* await transporter.sendMail({
                 from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
                 to: stringUsersMail, // list of receivers
                 subject: "nueva observación", // Subject line
-                text: `Se ha agregado una nueva observación de la planta con nombre cientifico ${scientificname} con el código: ${newObservation.id} reportado por estudiante con cédula: ${ci}`, // plain text body
-                });
+                text: `Se ha agregado una nueva observación de la planta con nombre cientifico: '${scientificname}' con el código: ${newObservation.id} reportado por estudiante con cédula: '${ci}'`, // plain text body
+                }); */
 
             console.log('termina de enviar correos')
             

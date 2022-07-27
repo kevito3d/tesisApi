@@ -2,7 +2,7 @@ import User from "../models/User";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
-import { transporter } from "../../database/mailer";
+// import { transporter } from "../../database/mailer";
 import "dotenv/config";
 const { Op, where } = require("sequelize");
 
@@ -76,7 +76,7 @@ export const ifExist = async (ci, email) => {
       [Op.or]: [{ email: email }, { ci: ci }],
     },
   });
-  return user ;
+  return user;
 };
 
 export const createUser = async (req, res) => {
@@ -268,10 +268,10 @@ export const setOne = async (req, res) => {
   }
 };
 export const resetPassword = async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() })
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   const { newPassword } = req.body;
   const { token } = req.params;
   jwt.verify(token, process.env.secret_reset, async (err, decoded) => {
@@ -288,9 +288,9 @@ export const resetPassword = async (req, res) => {
         { where: { ci } }
       );
       if (updatedUser[0]) {
-          res.json({message: "Contraseña Cambiada...!"})
-      }else{
-          res.status(400).json({message: "no se pudo actualizar"})
+        res.json({ message: "Contraseña Cambiada...!" });
+      } else {
+        res.status(400).json({ message: "no se pudo actualizar" });
       }
     }
   });
@@ -304,14 +304,13 @@ export const forgotPassword = async (req, res) => {
   if (user) {
     const jwtreset = resetToken(user.ci);
     link = `${process.env.host}/reset-password/${jwtreset}`;
-    await transporter.sendMail({
+   /*  await transporter.sendMail({
       from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
       to: user.email, // list of receivers
       subject: "Reinicio de contraseña", // Subject line
       //text: "Para reiniciar tu contraseña entra en el siguiente enlace: ", // plain text body
       html: `<p>Para reiniciar tu contraseña entra en el siguiente enlace: <a href=${link}>aqui</a></p>`, // html body
-   
-    });
+    }); */
     res.json({
       message,
     });
