@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { isAdmin } from "../auth";
 import { createReference,getAll,getAllFilter, deleteOne } from "../controllers/plantReference";
 /* 
 import path from 'path'
@@ -30,14 +31,14 @@ const upload = multer({
 
 const router = Router();
 
-router.post('/', createReference);
+router.post('/',isAdmin, createReference);
 
 router.get('/', getAll);
 
  router.get('/:filter', getAllFilter);
 
 
-router.delete('/:scientificname', deleteOne)
+router.delete('/:scientificname',isAdmin, deleteOne)
 /* router.delete('/:id', deleteOne)
 
 router.put('/:id', setOne)
