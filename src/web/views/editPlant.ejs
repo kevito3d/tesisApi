@@ -5,16 +5,15 @@
       <div class="container">
 
         <div class="form-row pt-2 ">
-          <div class="form-group col-md-5 left " >
+          <div class="form-group col-md-5 left ">
             <div class="form-group row col-md-12">
               <label for="scientificname">Nombre Científico</label>
-              <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico"
-                value='<%= plant.scn %>' required>
+              <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico" value='<%= plant.scn %>'
+                required>
             </div>
             <div class="form-group row col-md-12">
               <label for="name">Nombre Común</label>
-              <input type="text" class="" id="name" placeholder="Nombre Comun" value='<%= plant.name %>'
-                required>
+              <input type="text" class="" id="name" placeholder="Nombre Comun" value='<%= plant.name %>' required>
 
             </div>
             <div class="form-group row col-md-12">
@@ -28,14 +27,19 @@
           </div>
           <div class="form-group col-md-6  moreImages left">
             <label class="form-row form-label" for="">Imágenes</label>
-            <input class="form-row " type="file" name="image" id="images"
-              accept="image/jpg, image/png, image/jpeg" multiple>
+            <input class="form-row " type="file" name="image" id="images" accept="image/jpg, image/png, image/jpeg"
+              multiple>
             <div class="images" id="imgsContent">
-              <% for( var index=0; index < plant.images.length; index++ ) { %>
-                <div class="divImg">
-                  <img src='/<%= plant.images[index].url %>' alt="" class="imgs">
-                </div>
-                <% } %>
+              <!-- <% for( var index=0; index < plant.images.length; index++ ) { %>
+          <div class="divImg">
+            <img src='/<%= plant.images[index].url %>' alt="" class="imgs">
+          </div>
+        <% } %> -->
+
+            </div>
+            <div class="form-group">
+              <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+              <input type="text" name="" id="descriptionImages" value='<%= plant.descriptionalumnos %>'>
             </div>
 
           </div>
@@ -44,11 +48,11 @@
 
 
         <!-- <div class="form-row">
-          <label for="inputAddress2">Address 2</label>
-          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div> -->
+<label for="inputAddress2">Address 2</label>
+<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+</div> -->
         <div class="form-row">
-         
+
           <div class="form-group col-md-6 left">
             <div class="col-12 ">
               <div class="row">
@@ -76,18 +80,18 @@
                       </label>
                       <input type="text" name="" id="" value='<%= plant.reference[index].locality %>' hidden>
                     </div>
-                    <div   onclick="deleteItemReference(this)"
+                    <div onclick="deleteItemReference(this)"
                       class="col-2 d-flex justify-content-center align-items-center deleteItem">
                       <i class="material-icons text-danger" title="Delete">&#xE872;</i>
                     </div>
-  
-  
+
+
                   </div>
                   <% } %>
               </div>
             </div>
             <div class="col-12 "><button type="submit" class="btn btn-primary">Guardar Cambios</button></div>
-  
+
           </div>
 
           <div class="form-group col-md-5 left">
@@ -98,53 +102,11 @@
               </div>
 
               <div class="form-group" id="parts">
-                <% for( let index=0; index < plant.parts.length; index++ ) { %>
-                  <div class="form-group">
-                    <div class="row bg-secondary text-light rounded m-2 d-flex justify-content-between">
-                      <div class="col-4">
-                        <input type="text" name="" id="" value='<%= plant.parts[index].id %>' hidden>
-                        <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
 
-                          <%= plant.parts[index].name %>
-                        </label>
-                        <input type="text" name="" id="" value='<%= plant.parts[index].name %>' hidden>
-                      </div>
-                      <div class="col-6 ">
-                        <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
-                          <%= plant.parts[index].description %>
-                        </label>
-                        <input type="text" name="" id="" value='<%= plant.parts[index].description %>' hidden>
-                      </div>
-                      <div onclick="eliminaItem(this)" class="col-2 d-flex justify-content-center align-items-center deleteItemp">
-                        <i class="material-icons text-danger" title="Delete">&#xE872;</i>
-                      </div>
-                      <input type="checkbox" name="" id="" hidden>
-                    </div>
-                    <div class="form-group moreImages">
-                      <label class="form-row form-label" for="">Imagenes para <%= plant.parts[index].name %></label>
-                      <input class="form-row  imagesDinamic" type="file" name="image"
-                        id="images<%= plant.parts[index].name %>" accept="image/jpg, image/png, image/jpeg" multiple>
-                      <div class="images imgsContentDinamic" id="imgsContent<%= plant.parts[index].name %>">
-                        <% for( let index2=0; index2 < plant.parts[index].images.length; index2++ ) { %>
-                          <div class="divImg">
-                            <img src='/<%= plant.parts[index].images[index2].url %>' alt="" class="imgs">
-                          </div>
-                          <% } %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- todo view images -->
-                  <% } %>
               </div>
             </div>
           </div>
-
-
-
         </div>
-
-        
 
     </form>
     </div>
@@ -207,19 +169,16 @@
           <form id="addPart">
             <div class="modal-body text-center">
               <div class="form-group ">
-
                 <div class="form-row pb-2">
                   <label for="name">Nombre</label>
                   <input type="text" class="form-control" id="namePart" placeholder="Nombre" required>
+
 
                 </div>
                 <div class="form-row ">
                   <label for="locality">Descripcion</label>
                   <input type="text" class="form-control" id="partDescripcion" placeholder="Descripcion">
-
                 </div>
-
-
               </div>
             </div>
             <div class="modal-footer">
@@ -231,9 +190,326 @@
       </div>
     </div>
 
-
     <% include partials/footer %>
-      <script src="/js/editPlant.js"></script>
+      <!-- script module -->
+      <script src="/js/editPlant.js">
+      </script>
+      <script>
+        let filesList = [{ id: "000", list: [] }];
+        let plant;
+        //const d = document;
+        /* function btof(data, fileName) {
+          const dataArr = data.split(",");
+          const byteString = atob(dataArr[1]);
+        
+          const options = {
+            type: "image/jpeg",
+            endings: "native",
+          };
+          const u8Arr = new Uint8Array(byteString.length);
+          for (let i = 0; i < byteString.length; i++) {
+            u8Arr[i] = byteString.charCodeAt(i);
+          }
+          return new File([u8Arr], fileName + ".jpg", options);
+        }
+        function getBase64Image(img) {
+          let canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+          const ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+          const dataURL = canvas.toDataURL("image/" + ext);
+          // document.body.appendChild(canvas);
+          return dataURL;
+        } */
+        const urlToObject = async (image) => {
+          const response = await fetch(image);
+          // here image is url/location of image
+          const blob = await response.blob();
+          const file = new File([blob], "image.jpg", { type: blob.type });
+          return file;
+        };
+
+        const clear = (element) => {
+          //const $e = d.getElementById(element);
+          //console.log("lo que me llega:", element);
+          while (element.firstChild) {
+            //The list is LIVE so it will re-index each call
+            element.removeChild(element.firstChild);
+          }
+        };
+
+        function deleteArrayElementByIndex(list, index) {
+          return list.filter((item, itemIndex) => itemIndex !== index);
+        }
+
+        function arrayFilesToFileList(filesList) {
+          return filesList.reduce(function (dataTransfer, file) {
+            dataTransfer.items.add(file);
+            return dataTransfer;
+          }, new DataTransfer()).files;
+        }
+        async function encodeFileToText(file) {
+          return file.text().then((text) => {
+            return text;
+          });
+        }
+        async function getUniqFiles(newFiles, currentListFiles) {
+          return new Promise((resolve) => {
+            Promise.all(newFiles.map((inputFile) => encodeFileToText(inputFile))).then(
+              (inputFilesText) => {
+                // Check all the files to save
+                Promise.all(
+                  currentListFiles.map((savedFile) => encodeFileToText(savedFile))
+                ).then((savedFilesText) => {
+                  let newFileList = currentListFiles;
+                  inputFilesText.forEach((inputFileText, index) => {
+                    if (!savedFilesText.includes(inputFileText)) {
+                      newFileList = newFileList.concat(newFiles[index]);
+                    }
+                  });
+                  resolve(newFileList);
+                });
+              }
+            );
+          });
+        }
+        const a = async (imgs) => {
+          // for (const img of test.images){
+          // var image = new Image();
+          // image.src = location.origin + img.url;
+          //image.setAttribute("crossOrigin", "Anonymous");
+          // image.onload = function () {
+          // var base64 = getBase64Image(image);
+          //console.log(base64);
+          const files = [];
+          for (const iterator of imgs) {
+            files.push(await urlToObject(location.origin + "/" + iterator.url));
+          }
+
+          return files;
+          // console.log({file});
+          // document.getElementById("img").src = base64;
+
+          // var formData = new FormData();
+
+          //转换base64到file
+          // var file = btof(base64, img.id);
+          // imagesPlant.push(file);
+          // formData.append("imageName", file);
+          // };
+
+          // };
+        };
+        function viewImagesHome(fileu, imgu, id) {
+          console.log('asssssssssssssssssssssssssssssssssssssssssssss')
+          const fileInputMulti = document.getElementById(fileu);
+          const multiSelectorUniqPreview = document.getElementById(imgu);
+          // Set data to input
+          fileInputMulti.files = arrayFilesToFileList(
+            filesList.find((element) => element.id == id).list
+          );
+          renderPreviews(
+            filesList.find((element) => element.id == id).list,
+            multiSelectorUniqPreview,
+            fileInputMulti,
+            id
+          );
+          console.log(fileInputMulti);
+          fileInputMulti.addEventListener("input", async function () {
+            const newFilesList = Array.from(fileInputMulti.files);
+            //console.log("files nuevo: ", newFilesList);
+            // Update list files
+            console.log("files actual: ", filesList);
+            console.log(
+              "files: **",
+              filesList.find((element) => element.id == id).list
+            );
+            filesList.find((element) => element.id == id).list = await getUniqFiles(
+              newFilesList,
+              filesList.find((element) => element.id == id).list
+            );
+            console.log(
+              "files: ",
+              filesList.find((element) => element.id == id)
+            );
+            //console.log("files antiguos: ", filesList[indexList].list);
+            // Only DEMO. Redraw
+            renderPreviews(
+              filesList.find((element) => element.id == id).list,
+              multiSelectorUniqPreview,
+              fileInputMulti,
+              id
+            );
+            // Set data to input
+            fileInputMulti.files = arrayFilesToFileList(
+              filesList.find((element) => element.id == id).list
+            );
+          });
+        }
+        function ElementPartDinamic(container, name, description, images) {
+          // const $name = d.getElementById(name);
+          // if (!verifica(container, $name.value)) {
+          // const $description = d.getElementById(description);
+          const $container = d.getElementById(container);
+          const $part = d.createElement("div");
+          $part.classList.add("form-group");
+          const $row = d.createElement("div");
+          $row.classList.add(
+            "row",
+            "bg-secondary",
+            "text-light",
+            "rounded",
+            "m-2",
+            "d-flex",
+            "justify-content-between"
+          );
+          $row.id = Date.now();
+          $row.innerHTML = `
+          <div class="col-4 ">  
+              <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">${name}</label>
+              <input type="text" name="" id="" value=${name} hidden>
+          </div>
+          <div class="col-6 ">
+              <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">${description} </label>
+              <input type="text" name="" id="" value='${description}' hidden>
+          </div>
+          
+        `;
+          const $close = document.createElement("div");
+          $close.classList.add(
+            "col-2",
+            "d-flex",
+            "justify-content-center",
+            "align-items-center"
+          );
+          // $close.style = "position: absolute; top:0px; right:10px"
+          $close.innerHTML = ` <i class="material-icons text-danger"
+        title="Delete">&#xE872;</i>`;
+
+          $close.addEventListener("mouseenter", () => {
+            $close.style.cursor = "pointer";
+            // $close.textContent = '🤣'
+          });
+
+          $close.addEventListener("click", (e) => {
+            // console.log(e.target.parentElement);
+            $container.removeChild($part);
+
+            //splice the array filesList
+            filesList.splice(
+              filesList.findIndex((element) => element.id === $row.id),
+              1
+            );
+            console.log(filesList);
+            //delete item to array from index
+
+            //filesList.splice(aux , 1);
+          });
+          $row.appendChild($close);
+          $part.appendChild($row);
+          const $imagesPart = d.createElement("div");
+          $imagesPart.classList.add("form-group", "moreImages");
+          $imagesPart.innerHTML = `
+          <label class="form-row form-label" for="">Imagenes para ${name}</label>
+          <input class="form-row form-control" type="file" name="image" id="images${name}"
+            accept="image/jpg, image/png, image/jpeg" multiple>
+          <div class="images" id="imgsContent${name}"></div>
+        
+        `;
+          const $descriptionImages = d.createElement("div");
+          $descriptionImages.innerHTML = `
+        
+          <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+          <input type="text"  id="">
+        
+        `;
+          $part.appendChild($imagesPart);
+          $part.appendChild($descriptionImages);
+          $container.appendChild($part);
+          // $(modal).modal("hide");
+          a(images).then(function (data) {
+            console.log({ data });
+            filesList.push({ id: $row.id, list: data });
+            viewImagesHome(`images${name}`, `imgsContent${name}`, $row.id);
+            console.log(filesList.length);
+            name = "";
+            description = "";
+          });
+          // }
+        }
+        async function renderPreviews(currentFileList, target, inputFile, id) {
+          console.log("renderPreviews");
+          //
+          clear(target);
+          currentFileList.forEach((file, index) => {
+            var fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.onload = function (e) {
+              const $div = document.createElement("div");
+              $div.classList.add("divImg");
+              const $img = document.createElement("img");
+              $img.classList.add("imgs");
+              $img.src = this.result;
+              const $close = document.createElement("div");
+              //  $close.style="position: absolute; top:0px; right:10px"
+              $close.innerText = "X";
+              $close.style = "color:white;";
+
+              $close.addEventListener("click", (e) => {
+                currentFileList = deleteArrayElementByIndex(currentFileList, index);
+
+                inputFile.files = arrayFilesToFileList(currentFileList);
+                filesList.find((element) => element.id == id).list = currentFileList;
+                return renderPreviews(
+                  filesList.find((element) => element.id == id).list,
+                  target,
+                  inputFile,
+                  id
+                );
+              });
+              $div.appendChild($close);
+              $div.appendChild($img);
+              target.appendChild($div);
+            };
+          });
+        }
+
+        plant = JSON.parse('<%- JSON.stringify(plant) %>');
+        a(plant.images).then(function (data) {
+          const fileInputMulti = document.getElementById('images');
+          const multiSelectorUniqPreview = document.getElementById('imgsContent');
+          console.log('part images: ', data);
+          fileInputMulti.files = arrayFilesToFileList(data)
+          filesList[0].list = data
+          // filesList[0].id = '000'
+          renderPreviews(data, multiSelectorUniqPreview, fileInputMulti, '000');
+          //
+        });
+        for (let index = 0; index < plant.parts.length; index++) {
+          const element = plant.parts[index];
+          console.log(element);
+          ElementPartDinamic('parts', element.name, element.description, element.images);
+          // a(element.images).then(function (data) {
+          //   const fileInputMulti = document.getElementById('images');
+          //   const multiSelectorUniqPreview = document.getElementById('imgsContent');
+          //   console.log("images: ",data);
+          //   fileInputMulti.files = arrayFilesToFileList(data)
+          //   let id = Date.now()
+          //   filesList.push({
+          //     id,
+          //     list: []
+          //   })
+          //   renderPreviews(data, multiSelectorUniqPreview, fileInputMulti, id);
+          //   //
+          // });
+
+        }
+
+
+      </script>
+
       <script>
 
         $('#province').on('change', function () {

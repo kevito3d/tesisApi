@@ -7,7 +7,11 @@ function cierraAlert() {
 const setReset = (form,ci_input)=>{
     const alert = document.getElementById('alert');
     const $form = d.getElementById(form)
+    const $spinner = document.getElementById('spinner');
+    const $button = document.getElementById('send');
     $form.onsubmit= (e)=>{
+        $spinner.style = "display:flex";
+        $button.style = "display:none";
         e.preventDefault()
         const ci = d.getElementById(ci_input).value
         console.log(ci);
@@ -21,15 +25,15 @@ const setReset = (form,ci_input)=>{
             })
         }).then(async x =>{
             const res = await x.json()
-            alert.firstElementChild.lastElementChild.innerText = res.message
+            alert.lastElementChild.innerText = res.message
             if(x.ok){
-                alert.setAttribute("style", "rgba(0, 255, 38, 0.875);");
-                alert.style.backgroundColor="green"
+                alert.style.backgroundColor="#45E531"
             }else{
-                alert.setAttribute("style", "rgba(255, 0, 0, 0.37);");
-                alert.style.backgroundColor="red"
+                alert.style.backgroundColor="#FF605A"
             }
             alert.style.display = 'flex';
+            $spinner.style = "display:none"
+            $button.style = "display:block"
         })
     }   
 

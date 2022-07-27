@@ -63,61 +63,123 @@
   </ul>
  </nav> -->
 
-<nav class="navbar navbar-expand-md navbar-dark d-flex align-items-end" style="background-color: #3ea131ce; ">
-    <div class="nav-item h2 d-flex align-items-end  " href="#"><img style="height: 4.5rem; padding-right: 1rem;"
-            src="/images/Logo_utm.png" alt=""><b>Plantas UTM</b> </div>
-    <button class="navbar-toggler d-lg-none " type="button" data-toggle="collapse" data-target="#collapsibleNavId"
-        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse pl-3  " id="collapsibleNavId">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex justify-content-around ">
-            <li  class="nav-item h3 <% if(selected=="plant"){%> active <% } %> ">
-                <a class="nav-link " href="/plant/">Plantas</a>
-            </li>
-            <li class="nav-item h3  <% if(selected=="observation"){%> active <% } %>">
-                <a class="nav-link " href="/observation">Observaciones</a>
-            </li>
-            <li class="nav-item <% if(selected=="user"){%> active <% } %>">
-                <a class="nav-link h3  " href="/user/">Usuarios</a>
-            </li>
+<nav id='cssmenu'>
+    <div class="logo">
+        <a href="/">
+            <img src="/images/Logo_utm.png" alt="logo utm">
 
-            <!-- <li class="nav-item dropdown">
-                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                 <div class="dropdown-menu" aria-labelledby="dropdownId">
-                     <a class="dropdown-item" href="#">Action 1</a>
-                     <a class="dropdown-item" href="#">Action 2</a>
-                 </div>
-             </li> -->
-            
+        </a>
+        <strong class="title">
+            Plantas en peligro UTM
+        </strong>
+
+        <label  for="check" class="bar">
+            <input id="check"  type="checkbox">
+        
+            <span class="top"></span>
+            <span class="middle"></span>
+            <span class="bottom"></span>
+        </label>
+
+    </div>
+    <div id="links">
+        <ul>
+            <li class="  <% if(selected=="observation"){%> active <% } %>">
+                    <a href="/observation/">Observaciones</a>
+            </li>
+            <li class=" <% if(selected=="plant"){%> active <% } %> ">
+                    <a href="/plant/">Plantas</a>
+            </li>
+            <li class=" <% if(selected=="user"){%> active <% } %>">
+                    <a href="/user/">Usuarios</a>
+            </li>
         </ul>
-        <div class="user ">
-            <div id ="emailHeader" class="email">asd</div>
-         <form action="/logout" method="post">
-             <button type="submit" class="btn btn-seccondary">Salir</button>
-          
-         </form>
+        <div class="user_mobile">
+            <div class="name">
+                <div class="nameuser" id="nameuser2">Otivek</div>
+            </div>            
+            <form  action="/logout" method="post"><input  type="submit" value="Cerrar sesion"/></form>
+                
             
         </div>
+    </div>
+    <!-- <div id="links_mobile">
+        <ul>
+            <li class="  <% if(selected=="observation"){%> active <% } %>">
+                    <a href="/observation">Observaciones</a>
+            </li>
+            <li class=" <% if(selected=="plant"){%> active <% } %> ">
+                    <a href="/plant/">Plantas</a>
+            </li>
+            <li class=" <% if(selected=="user"){%> active <% } %>">
+                    <a href="/user/">Usuarios</a>
+            </li>
+            <li class="user_mobile">
+                <p>
+                    otivel
+                </p>
+                <form  action="/logout" method="post"><input  type="submit" value="Cerrar sesion"/></form>
+            </li>
+        </ul>
+    </div> -->
+    <div class="user">
+        <div class="imguser">
+            <img src="/images/boy.png" id="user" class="userimg" alt="usuario">
+        </div>
+    <div class="otp non-selectable">
+    <div class="container">
+        <div class="name">
+            <div class="state"></div>
+            <div class="nameuser" id="nameuser">Otivek</div>
+        </div>
+        <!-- <div class="oscuro">
+            <div>modo oscuro</div>
+            <div class="btnToggel"></div>
+        </div> -->
         
-        <!-- <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
+        <form  action="/logout" method="post"><input  type="submit" value="Cerrar sesion"/></form>
+            
+        
     </div>
-    
+</div>
+
+    </div>
 </nav>
-<!-- <div class="menu_top">
 
-    <div class="create">
 
-        <button>Create</button>
+<!-- <nav class="">
+    <div class="divLogo" href="#">
+        <img style="" src="/images/Logo_utm.png" alt="logo UTM" />
+        <b>Plantas UTM</b>
+    </div>
+    <button class="navbar-toggler d-lg-none " type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><span
+            class="navbar-toggler-icon"></span></button>
+    <div class="" id="collapsibleNavId">
+        <ul class="">
+            <li class=" <% if(selected==" plant"){%> active <% } %> ">
+                    <a href="/plant/">Plantas</a>
+            </li>
+            <li class="  <% if(selected==" observation"){%> active <% } %>">
+                    <a href="/observation">Observaciones</a>
+            </li>
+            <li class=" <% if(selected==" user"){%> active <% } %>">
+                    <a href="/user/">Usuarios</a>
+            </li>
 
+       
+
+        </ul>
+        <div class="user ">
+            <div id="emailHeader" class="email">asd@utm.com</div>
+            <form action="/logout" method="post">
+                <button type="submit" class="btn btn-seccondary">Salir</button>
+
+            </form>
+
+        </div>
+
+        
     </div>
 
-    <form id="search" action="javascript: alert('búsqueda enviada')">
-        <input type="search" name="buscar" placeholder="Búsqueda libre" autocomplete="off" required />
-        <button type="submit"><img src="images/lupa.png" alt=""></button>
-    </form>
-
-    <div class="user">asd</div>
-
-</div> -->
+</nav> -->

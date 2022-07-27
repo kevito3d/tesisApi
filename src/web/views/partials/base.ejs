@@ -18,9 +18,32 @@
     <link rel="stylesheet" href="/css/main.css" type="text/css">
 
     <script>
+        function openBurger(burger, links) {
+            const $links = document.getElementById(links)
+            document.getElementById(burger).addEventListener("click", (e) => {
+                $links.classList.toggle("burgerActive")
+                console.log("jeje");
+            })
+        }
+
+        function funcionArrow(arrow, panel) {
+            document.addEventListener('click', (e) => {
+                const $panel = document.querySelector(panel);
+                if (e.target.matches(arrow) || e.target.matches(`${arrow} *`)) {
+
+                    $panel.classList.toggle('isActive')
+                } else if ($panel.classList.contains('isActive')) {
+
+                    $panel.classList.toggle('isActive')
+                }
+
+            })
+        }
         window.document.addEventListener('DOMContentLoaded', (e) => {
-            console.log(JSON.parse((window.localStorage.getItem('user'))).email);
-            document.getElementById('emailHeader').innerText = JSON.parse((window.localStorage.getItem('user'))).email;
+            document.getElementById('nameuser').innerText = JSON.parse((window.localStorage.getItem('user'))).email;
+            document.getElementById('nameuser2').innerText = JSON.parse((window.localStorage.getItem('user'))).email;
+            funcionArrow('.user', ".otp", ".logout");
+            openBurger("check","links")
         })
     </script>
     <%- block('head').toString() %>

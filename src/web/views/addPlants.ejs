@@ -28,6 +28,11 @@
                 accept="image/jpg, image/png, image/jpeg" multiple>
               <div class="images" id="imgsContent"></div>
 
+                <div class="form-group">
+                  <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+                  <input type="text" name="" id="descriptionImages">
+                </div>
+
             </div>
           
 
@@ -163,7 +168,7 @@
 
 
     <% include partials/footer %>
-      <script src="/js/addPlant.js"></script>
+      <script type="module" src="/js/addPlant.js"></script>
       <script>
 
         $('#province').on('change', function () {

@@ -1,7 +1,7 @@
 <% include partials/base -%>
     <%- include('partials/header', {selected:"plant"}) %>
 
-        <div class="container col-10 mt-2 rounded bg-light">
+        <section class="container col-10 mt-2 rounded bg-light">
             <div class="table-responsive py-2 ">
 
                 <div class="table-title p-2">
@@ -11,19 +11,21 @@
                         </div>
                         <div class="col-md">
                             <div class="form-group input-group rounded">
-                                <input id="search" type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search"
-                                aria-describedby="search-addon" />
+                                <input id="search" type="search" class="form-control rounded" placeholder="Buscar"
+                                    aria-label="Search" aria-describedby="search-addon" />
                                 <span class="input-group-text border-0" id="search-addon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                                      </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-search" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
                                 </span>
-                              </div>
+                            </div>
                         </div>
 
                         <div class="col-md d-flex justify-content-end align-items-center">
-                            <a href="/add/plant" class="btn btn-success " > <span >Agregar Planta</span></a>
-                           <!--  <a href="#deletePlantModal" class="btn btn-danger" data-toggle="modal"><i
+                            <a href="/add/plant" class="btn btn-success"> <span>Agregar Planta</span></a>
+                            <!--  <a href="#deletePlantModal" class="btn btn-danger" data-toggle="modal"><i
                                     class="material-icons">&#xE15C;</i> <span>Eliminar</span></a> -->
                         </div>
                     </div>
@@ -159,7 +161,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </section>
         <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
