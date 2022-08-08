@@ -1,88 +1,100 @@
 <% include partials/base -%>
   <%- include('partials/header', {selected:"plant"}) %>
+    <section class="container col-10 mt-2 rounded bg-light">
+      <form id="addPlant" class="">
+        <div class="pt-4 pb-4 pr-1 pl-1">
+          <div class="row mb-2 justify-content-center">
+            <div class="col-md-5 d-flex align-items-center align-items-center">
+              <!-- back icon material -->
+              <div class="d-flex align-items-center align-items-center">
+                <a href="/plant" style="color: black;">
 
-    <form id="addPlant" class=" ">
-      <div class="container pt-5">
-        
-        <div class="form-row pt-2">
-          <div class="form-group col-md-5 left">
-            <div class="form-group row col-md-12">
-              <label for="scientificname">Nombre Científico</label>
-              <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico" required>
+                  <i class="material-icons align-items-center" id="back">
+                    arrow_back
+                  </i>
+                </a>
+                Regresar
+
+              </div>
             </div>
-            <div class="form-group row col-md-12">
-                <label for="name">Nombre Común</label>
-                <input type="text" class="" id="name" placeholder="Nombre Comun" required>
-            
+            <div class="col-md-6 d-flex justify-content-end">
+
+              <button type="submit" class="btn btn-primary">Agregar</button>
             </div>
-            <div class="form-group row col-md-12">
-              <label for="description">Descripción</label>
-              <textarea style="height: 4rem;" class="" name="description" id="description" cols="30" rows="2" required></textarea>
-            </div>
-           
           </div>
-          <div class="form-group col-md-6 left">
-            <div class="form-group  moreImages">
-              <label class="form-row form-label" for="">Imágenes</label>
-              <input class="form-row " type="file" name="image" id="images"
-                accept="image/jpg, image/png, image/jpeg" multiple>
-              <div class="images" id="imgsContent"></div>
+
+          <div class="row justify-content-center">
+            <div class="form-group p-3 col-md-5 left">
+              <div class="row col-md-12">
+                <label for="scientificname">Nombre Científico</label>
+                <input type="text" class="" id="scientificname" required>
+              </div>
+              <div class="row col-md-12">
+                <label for="name">Nombre Común</label>
+                <input type="text" class="" id="name" required>
+
+              </div>
+              <div class="row col-md-12">
+                <label for="description">Descripción</label>
+                <textarea style="height: 4rem;" class="" name="description" id="description" cols="30" rows="2"
+                  required></textarea>
+              </div>
+
+            </div>
+            <div class="form-group p-3 col-md-6 left">
+              <div class="form-group  moreImages">
+                <label class="form-row form-label" for="">Imágenes</label>
+                <input class="form-row " type="file" name="image" id="images" accept="image/jpg, image/png, image/jpeg"
+                  multiple>
+                <div class="images" id="imgsContent"></div>
 
                 <div class="form-group">
                   <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
                   <input type="text" name="" id="descriptionImages">
                 </div>
 
+              </div>
+
+
             </div>
-          
 
           </div>
-          
-        </div>
-        <div class="form-row">
-         
-         
+          <div class="row justify-content-center">
+            <div class="form-group p-3 col-md-5 left">
+              <div class="col-12 ">
+                <div class="row">
+                  <label class="" for="">Parte Espcífica</label>
+                  <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal"
+                    role="button">Agregar</a>
+                </div>
 
+                <div class="form-group" id="parts">
 
-        </div>
-
-        <!-- <div class="form-row">
-          <label for="inputAddress2">Address 2</label>
-          <input type="text" class="" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div> -->
-        <div class="form-row ">
-          <div class="form-group col-md-6 left">
-            <div class="col-12 ">
-              <div class="row">
-                <label class="" for="">Parte Espcífica</label>
-                <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal" role="button">Agregar</a>
-              </div>
-
-              <div class="form-group" id="parts">
-
+                </div>
               </div>
             </div>
-          </div>
-          <div class="form-group col-md-5 left">
-            <div class="col-12 ">
-              <div class="row">
-                <label class="" for="">Referencias</label>
-                <a class="btn btn-secondary ml-5" href="#openaddReference" data-toggle="modal" role="button">Agregar</a>
-              </div>
-              <div class="form-group" id="references">
+            <div class="form-group p-3 col-md-6 left">
+              <div class="col-12 ">
+                <div class="row">
+                  <label class="" for="">Referencias</label>
+                  <a class="btn btn-secondary ml-5" href="#openaddReference" data-toggle="modal"
+                    role="button">Agregar</a>
+                </div>
+                <div class="form-group" id="references">
 
+                </div>
               </div>
+
             </div>
+
 
           </div>
 
 
+
         </div>
-
-
-        <button type="submit" class="btn btn-primary">Agregar</button>
-    </form>
-    </div>
+      </form>
+    </section>
 
     <div id="openaddReference" class="modal fade">
       <div class="modal-dialog modal-">

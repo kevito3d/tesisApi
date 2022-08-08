@@ -481,6 +481,22 @@ function addreference(modal, btn, container, province, canton, locality) {
     }
   });
 }
+function verificaReference(container, valProvince, valCanton) {
+  const $parts = d.getElementById(container).children;
+  let bandera = false;
+  Array.from($parts).forEach((part) => {
+    console.log(part.firstElementChild.lastElementChild.value);
+    if (part.firstElementChild.lastElementChild.value == valProvince) {
+      console.log("prvince igual");
+      console.log(part.children[1]);
+      if (part.children[1].lastElementChild.value == valCanton) {
+        console.log("canton igual");
+        bandera = true;
+      }
+    }
+  });
+  return bandera;
+}
 /* const clearContainerImages = (element) => {
   const $e = d.getElementById(element);
   while ($e.firstChild) {

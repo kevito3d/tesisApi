@@ -1,3 +1,11 @@
+//stiles for all web
+body {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu7mxKOzY.woff2) format("woff2");
+    unicode-range: U+1F00-1FFF;
+}
 .moreImages {
     display: flex;
     width: 100%;
@@ -95,7 +103,7 @@ nav {
                 font-weight: bold;
             }
         }
-        .user_mobile{
+        .user_mobile {
             display: none;
         }
     }
@@ -157,9 +165,7 @@ nav {
         }
 
         label {
-           
-                display: none;
-            
+            display: none;
         }
         strong {
             display: none;
@@ -271,7 +277,7 @@ nav {
     background-color: var(--base-color);
 }
 
-.btn-success{
+.btn-success {
     background-color: #004600 !important;
 }
 
@@ -432,7 +438,7 @@ label {
     display: flex !important;
     justify-content: space-around;
     //align-items: flex-start;
-    
+
     //z-index: -99;
 }
 
@@ -448,7 +454,7 @@ label {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            a img{
+            a img {
                 width: 50px;
             }
 
@@ -470,16 +476,16 @@ label {
                 flex-direction: column;
             }
 
-            .user_mobile{
+            .user_mobile {
                 //background-color: red;
                 display: flex;
                 flex-direction: column;
                 align-self: flex-end;
                 justify-self: space-between;
-                form{
+                form {
                     //height: min-content;
                     background-color: red;
-                    input{
+                    input {
                         margin: 0;
                     }
                 }
