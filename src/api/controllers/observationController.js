@@ -2,67 +2,19 @@
 import Image from "../models/Image";
 import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
-import Canton from "../models/references/Canton";
-import Province from "../models/references/Province";
 import User from "../models/User";
-import { Op } from 'sequelize'
 
 
 export async function createObservation(req, res) {
-    const { latitude, longitude, ci, scientificname, province, canton, locality } = req.body;
-    console.log("provincia: ", province);
-    console.log("canton: ", canton);
+    const { latitude, longitude, ci, scientificname, idCanton, locality } = req.body;
+    console.log("canton: ", idCanton);
     
     try {
-        const cantons = await Canton.findAll({
-            where: {
-                name: canton
-            }
-        })
-        const prov = await Province.findOne({
-            where: {
-                name: province
-            }
-        })
-        console.log("privincias: ", prov);
-        console.log("lo que me llega en canton: ", canton);
-        // console.log("Canton encontrado: ",cantons);
-        let idcanton;
-        if (cantons.length == 1) {
-            idcanton = cantons[0].id;
-        } else if (cantons.length > 1) {
-            const prov = await Province.findOne({
-                where: {
-                    name: province
-                }
-            })
-            console.log(prov);
-            for (let index = 0; index < cantons.length; index++) {
-                if (cantons[index].idprovince == prov.id) {
-                    idcanton = cantons[index].id;
-                    break;
-                }
-            };
-        }
-        if (idcanton == null) {
-            const prov2 = await Canton.findOne({
-                where: {
-                    [Op.and]: [
-                        { name: '' },
-                        { idprovince: prov.id }
-                    ]
-                }
+        
+        
 
-            })
-
-            idcanton = prov2.id;
-
-        }
-
-        console.log(ci);
-        console.log("id canton: ", idcanton);
         let newObservation = await Observation.create({
-            latitude, longitude, ci, scientificname, locality, idcanton
+            latitude, longitude, ci, scientificname, locality, idCanton
         }, {
             fields: ['latitude', "longitude", 'ci', 'scientificname', 'locality', 'idcanton']
         })

@@ -37,8 +37,7 @@ router.post('/', [
     check('longitude').isString(),
     check('ci').isString(),
     check('scientificname').isString(),
-    check('province').isString(),
-    check('canton').isString(),
+    check('idCanton').isInt(),
     check('locality').isString(),
 ], isAuthenticated, createObservation);
 
