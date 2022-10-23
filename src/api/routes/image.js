@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createImage, deleteOne, getAll, getImagesByPlant, getOne, setOne, createImageObservation } from "../controllers/ImageController";
+import { createImage, deleteOne, getAll, getImagesByPlant, getOne, setOne, createImageObservation } from "../controllers/imageController";
 import multer from 'multer'
 import slug from "slug";
 import path from 'path'

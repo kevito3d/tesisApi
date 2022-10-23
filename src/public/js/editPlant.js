@@ -55,54 +55,63 @@ const updatePlant = (
         console.log(plant);
         console.log("planta actualizada correctamente :3");
         // console.log(res.data.scientificname);
-        const $imgChange =
-          d.getElementById(name).parentElement.parentElement.lastElementChild;
-        if ($imgChange.checked) {
-          const filex = d.getElementById(imgs).files;
-          if (filex.length > 0) {
-            const formData2 = new FormData();
-            formData2.append("scientificname", sc);
-            // console.log(filex.files);
-            for (var x = 0; x < filex.length; x++) {
-              formData2.append("images", filex[x]);
-            }
-            for (const images of plant.images) {
-              await fetch(`${location.origin}/api/image/${images.id}`, {
-                headers: {
-                  "Content-Type": "application/json",
-                  authorization: localStorage.getItem("token"),
-                  // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                method: "DELETE",
-                body: JSON.stringify({ url: images.url }),
-              });
-              console.log("imagen borrada");
-            }
+        // const $imgChange =
+        //   d.getElementById(name).parentElement.parentElement.lastElementChild;
 
-            // formData2.append('images', filex.files)
-            fetch(`${location.origin}/api/image`, {
-              method: "POST",
-              body: formData2,
-            }).then(async (x) => {
-              if (x.status == 200) {
-                console.log("imagenes de planta insertadas correctamente :3");
-              } else {
-                const respu = x.json();
-                var text;
-                if (respu.si.length > 0)
-                  text = "algunas imagenes de planta no se pudieron insertar";
-                else text = "no se pudieron insertar imagenes de planta";
-                errors.push(text);
-              }
-            });
+        // if ($imgChange.checked) {
+        const filex = d.getElementById(imgs).files;
+        if (filex.length > 0) {
+          const formData2 = new FormData();
+          formData2.append("scientificname", sc);
+          // console.log(filex.files);
+          for (var x = 0; x < filex.length; x++) {
+            formData2.append("images", filex[x]);
           }
+          for (const images of plant.images) {
+            await fetch(`${location.origin}/api/image/${images.id}`, {
+              headers: {
+                "Content-Type": "application/json",
+                authorization: localStorage.getItem("token"),
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              method: "DELETE",
+              body: JSON.stringify({ url: images.url }),
+              headers: {
+                "Content-Type": "application/json",
+                authorization: localStorage.getItem("token"),
+              },
+            });
+            console.log("imagen borrada");
+          }
+
+          // formData2.append('images', filex.files)
+          fetch(`${location.origin}/api/image`, {
+            method: "POST",
+            body: formData2,
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }).then(async (x) => {
+            if (x.status == 200) {
+              console.log("imagenes de planta insertadas correctamente :3");
+            } else {
+              const respu = x.json();
+              var text;
+              if (respu.si.length > 0)
+                text = "algunas imagenes de planta no se pudieron insertar";
+              else text = "no se pudieron insertar imagenes de planta";
+              errors.push(text);
+            }
+          });
         }
+        // }
 
         // const $PartChange = d.getElementById(parts).parentElement.parentElement.lastElementChild;
 
         const $partsContainer = d.getElementById(partsContainer);
         const $parts = $partsContainer.children;
         let parts = [];
+        console.log({ $parts });
 
         Array.from($parts).forEach(async (element) => {
           let part = {};
@@ -117,7 +126,7 @@ const updatePlant = (
           part.description = $description.lastElementChild.value;
           part.scientificname = sc;
           part.isAlter = $partText.lastElementChild.checked;
-          part.images = element.lastElementChild.children[1].files;
+          part.images = element.children[1].children[1].files;
           parts.push(part);
         });
         console.log("parts: ", parts);
@@ -145,7 +154,6 @@ const updatePlant = (
                   body: JSON.stringify({ url: imagespart.url }),
                 });
               }
-
               const formData2 = new FormData();
               formData2.append("idpartplant", parts[index].id);
               // console.log(filex.files);
@@ -155,6 +163,9 @@ const updatePlant = (
               await fetch(`${location.origin}/api/image/`, {
                 method: "POST",
                 body: formData2,
+                headers: {
+                  authorization: localStorage.getItem("token"),
+                },
               });
             }
             console.log("supongo : ", parts);
@@ -203,6 +214,9 @@ const updatePlant = (
               await fetch(`${location.origin}/api/image/`, {
                 method: "POST",
                 body: formData2,
+                headers: {
+                  authorization: localStorage.getItem("token"),
+                },
               });
             });
         }
@@ -269,6 +283,19 @@ const updatePlant = (
       }
     });
   };
+};
+const verifica = (container, text) => {
+  const $parts = d.getElementById(container).children;
+  let bandera = false;
+  Array.from($parts).forEach((part) => {
+    if (
+      part.firstElementChild.firstElementChild.firstElementChild.innerText ==
+      text
+    ) {
+      bandera = true;
+    }
+  });
+  return bandera;
 };
 function ElemetPartDinamicHome(modal = null, container, name, description) {
   const $name = d.getElementById(name);

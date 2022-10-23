@@ -5,7 +5,7 @@ import Plant from "../../api/models/Plant";
 import Province from "../../api/models/references/Province";
 import User from "../../api/models/User";
 import Cantons from "../../api/models/references/Canton";
-import { getAllF } from "../../api/controllers/PlantReference";
+import { getAllF } from "../../api/controllers/plantReference";
 import Observation from "../../api/models/Observation";
 import Canton from "../../api/models/references/Canton";
 import PlantReference from "../../api/models/PlantReference";
