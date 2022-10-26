@@ -59,9 +59,7 @@
                                 <td><%if(observations[index].canton!= null) { %> <%= observations[index].canton.name  %> <% } %>  </td>
                                 
                                 <td><%= observations[index].locality %></td>
-                                <% if(observations[index].state == "slope") {%> 
-                                <td><%= observations[index].state %></td>
-                                <% } %> 
+                                <td><%= observations[index].stated %></td>
                                 
                                 <td style="display: flex; justify-content: center;">
                                     <a href="/observation/edit/<%= observations[index].id %>" id="btnEdit"   class="edit" >

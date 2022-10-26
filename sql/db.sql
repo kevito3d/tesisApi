@@ -32,7 +32,7 @@ create table if not exists plants(
     scientificname varchar (100) primary key,
     name varchar (50) ,
     description varchar not null,
-    descriptionalumnos varchar ,
+    descriptionalumnos varchar 
 );
 
 create table if not exists plantsreferences(
@@ -54,7 +54,7 @@ create table if not exists users(
     role varchar (10) default 'student' 
 );
 
-CREATE TYPE mood AS ENUM ('slope', 'not verified', 'verified');
+CREATE TYPE mood AS ENUM ('pendiente', 'correcta', 'incorrecta');
 
 
 create table if not exists observations(
@@ -62,7 +62,7 @@ create table if not exists observations(
     latitude varchar (15),
     longitude varchar (15),
     locality varchar(50),
-    state mood,
+    stated mood,
     ci varchar (10) not null,
     scientificname  varchar (100)  not null,
     idcanton  integer,

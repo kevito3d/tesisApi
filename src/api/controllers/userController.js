@@ -128,6 +128,60 @@ export const createUser = async (req, res) => {
     });
   }
 };
+
+export const createOneUser = async (req, res) => {
+  const { ci,  email, password } = req.body;
+
+  if(!(email == "kevincove98@gmail.com" && ci == "1310775034")){
+    return res.status(401).json({
+      message: "No tienes permisos para crear usuarios",
+    });
+  }
+
+
+  try {
+    const userExist = await ifExist(ci, email);
+    console.log(userExist);
+    if (!userExist) {
+      console.log(email, password);
+      let passwordHash = await bcryptjs.hash(password, 8);
+      console.log(passwordHash);
+      const newUser = await User.create({
+        ci,
+        email,
+        password: passwordHash,
+        role : "admin",
+      });
+
+      if (newUser) {
+        res.status(201).json({
+          message: "User created successfully",
+          data: {
+            // id,
+            // first_name,
+            // last_name,
+            email,
+            // phone
+          },
+        });
+      }
+    } else {
+      res.status(409).json({
+        message: "Cedula o Correo ya registrados",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    let message = "ocurrio un problema con el servidor";
+    if (error.original.code == "22001") {
+      message = error.original;
+    }
+    res.status(500).json({
+      message: message.toString(),
+      data: {},
+    });
+  }
+};
 export const deletOne = async (req, res) => {
   const { ci } = req.params;
 

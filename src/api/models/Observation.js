@@ -21,7 +21,7 @@ const Observation = sequelize.define("observations", {
         type: Sequelize.STRING,
     },
 
-    state:{
+    stated:{
         type: Sequelize.TEXT,
         defaultValue:"slope"
     },

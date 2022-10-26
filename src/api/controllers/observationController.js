@@ -6,18 +6,21 @@ import User from "../models/User";
 
 
 export async function createObservation(req, res) {
-    const { latitude, longitude, ci, scientificname, idCanton, locality } = req.body;
-    console.log("canton: ", idCanton);
+    const { latitude, longitude, ci, scientificname, idcanton, locality, stated } = req.body;
+    console.log("canton: ", idcanton);
+    
     
     try {
         
         
 
         let newObservation = await Observation.create({
-            latitude, longitude, ci, scientificname, locality, idCanton
+            latitude, longitude, ci, scientificname, locality,idcanton, stated
         }, {
-            fields: ['latitude', "longitude", 'ci', 'scientificname', 'locality', 'idcanton']
+            fields: ['latitude', "longitude", 'ci', 'scientificname', 'locality', 'idcanton', "stated"]
+            
         })
+        console.log({ newObservation});
         if (newObservation) {
             const users = await User.findAll({
                 where: {

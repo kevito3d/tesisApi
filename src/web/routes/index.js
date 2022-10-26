@@ -295,6 +295,10 @@ router.get("/", (req, res) => {
   }
 });
 
+router.get('/register', (req, res) => {
+    res.render('signup')
+})
+
 //form to access
 /* router.get('/signin', (req, res, next) => {
     console.log()
@@ -337,6 +341,8 @@ router.post("/reset-password/:token", async (req, res) => {
     }
   });
 });
+
+
 
 router.get("/reset-password/:token", async (req, res, next) => {
   const { token } = req.params;
