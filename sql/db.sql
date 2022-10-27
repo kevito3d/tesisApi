@@ -37,7 +37,7 @@ create table if not exists plants(
 
 create table if not exists plantsreferences(
     scientificname varchar (100),
-    locality varchar(50),
+    locality varchar(150),
     idcanton integer,
     foreign key (idcanton) references cantons(id) ON DELETE CASCADE  ON UPDATE CASCADE,
     foreign key (scientificname) references plants(scientificname)ON DELETE CASCADE  ON UPDATE CASCADE,
@@ -59,9 +59,9 @@ CREATE TYPE mood AS ENUM ('pendiente', 'correcta', 'incorrecta');
 
 create table if not exists observations(
     id serial primary key,
-    latitude varchar (15),
-    longitude varchar (15),
-    locality varchar(50),
+    latitude varchar (25),
+    longitude varchar (25),
+    locality varchar(150),
     stated mood,
     ci varchar (10) not null,
     scientificname  varchar (100)  not null,

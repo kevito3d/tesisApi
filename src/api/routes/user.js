@@ -29,13 +29,19 @@ router.post('/register-one', [
 
 
 router.post('/forgot-password',check('ci').isString(),forgotPassword)
+
 router.post('/reset-password/:token',resetPassword)
 
 router.post('/logout', logOut);
+
 router.delete('/:ci', deletOne);
+
 router.get('/', getAll);
+
 router.get('/filter/:filter', getAllFilter);
+
 router.get('/:ci', getOne);
+
 router.put('/:ci', setOne);
 
 

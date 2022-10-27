@@ -6,9 +6,9 @@ import User from "../models/User";
 
 
 export async function createObservation(req, res) {
-    const { latitude, longitude, ci, scientificname, idcanton, locality, stated } = req.body;
+    const { latitude, longitude, ci, scientificname, idcanton, locality } = req.body;
     console.log("canton: ", idcanton);
-    
+    const stated = "pendiente";
     
     try {
         

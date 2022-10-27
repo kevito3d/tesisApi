@@ -1,0 +1,51 @@
+
+# generate image from this app
+
+FROM node:alpine
+
+WORKDIR /usr/app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "start"]
+
+# Path: docker-compose.yml
+
+version: '3'
+
+services:
+
+web:
+
+build: .
+
+ports:
+
+- "3000:3000"
+
+volumes:
+
+- .:/usr/app
+
+- /usr/app/node_modules
+
+# Path: package.json
+
+{
+
+"name": "docker-react",
+
+"version": "0.1.0",
+
+"private": true,
+
+"dependencies": {
+
+"react": "^16.8.6",
+
+
+"react-dom": "^16.8.6",
