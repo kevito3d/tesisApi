@@ -142,9 +142,13 @@ router.get("/observation/:page?", async (req, res) => {
       page = 1;
     }
     let perPage = 8;
+    const filter = req.query.filter || "todas";
+    console.log({filter});
     /* if (req.session.token) { */
     try {
-      const observations = await Observation.findAndCountAll({
+      let observations ;
+      if (filter == "todas") {
+         observations = await Observation.findAndCountAll({
         offset: page * perPage - perPage,
         limit: perPage,
         include: [
@@ -156,8 +160,27 @@ router.get("/observation/:page?", async (req, res) => {
           },
         ],
       });
-      console.log("observations: ", observations.rows);
+    }else{
+        observations = await Observation.findAndCountAll({
+        offset: page * perPage - perPage,
+        limit: perPage,
+        where:{
+          stated:filter
+        },
+        include: [
+          {
+            model: Canton,
+            include: {
+              model: Province,
+            },
+          },
+        ],
+      });
+    }
+
+      // console.log("observations: ", observations.rows);
       return res.render("observation", {
+        filter: req.query.filter,
         title: "home",
         observations: observations.rows,
         current: page,
@@ -183,6 +206,7 @@ router.get("/observation/edit/:id", async (req, res) => {
   if (req.session.token) {
     try {
       const { id } = req.params;
+      
       const obs = await Observation.findByPk(id, {
         include: [
           {
@@ -194,7 +218,7 @@ router.get("/observation/edit/:id", async (req, res) => {
           },
         ],
       });
-      console.log("partes:", obs.partplants);
+      // console.log("partes:", obs.partplants);
       return res.render("editObservation", { obs, title: "Observacion" });
     } catch (error) {}
   } else {
