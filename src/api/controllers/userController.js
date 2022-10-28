@@ -2,7 +2,7 @@ import User from "../models/User";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
-// import { transporter } from "../../database/mailer";
+import { transporter } from "../../config/mailer";
 import "dotenv/config";
 const { Op, where } = require("sequelize");
 
@@ -358,13 +358,13 @@ export const forgotPassword = async (req, res) => {
   if (user) {
     const jwtreset = resetToken(user.ci);
     link = `${process.env.host}/reset-password/${jwtreset}`;
-   /*  await transporter.sendMail({
+    await transporter.sendMail({
       from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
       to: user.email, // list of receivers
       subject: "Reinicio de contraseña", // Subject line
       //text: "Para reiniciar tu contraseña entra en el siguiente enlace: ", // plain text body
       html: `<p>Para reiniciar tu contraseña entra en el siguiente enlace: <a href=${link}>aqui</a></p>`, // html body
-    }); */
+    });
     res.json({
       message,
     });

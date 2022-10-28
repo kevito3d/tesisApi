@@ -1,4 +1,4 @@
-// import { transporter } from "../../database/mailer";
+import { transporter } from "../../config/mailer";
 import Image from "../models/Image";
 import Observation from "../models/Observation";
 import PartPlant from "../models/PartPlant";
@@ -35,12 +35,12 @@ export async function createObservation(req, res) {
 
             console.log("emails concatenados : " + stringUsersMail);
 
-            /* await transporter.sendMail({
+            await transporter.sendMail({
                 from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
                 to: stringUsersMail, // list of receivers
                 subject: "nueva observación", // Subject line
                 text: `Se ha agregado una nueva observación de la planta con nombre cientifico: '${scientificname}' con el código: ${newObservation.id} reportado por estudiante con cédula: '${ci}'`, // plain text body
-                }); */
+                });
 
             console.log('termina de enviar correos')
             
@@ -151,7 +151,7 @@ export async function deleteOne(req, res) {
 export async function setOne(req, res) {
     try {
         const { id } = req.params;
-        const { state} = req.body;
+        const { stated} = req.body;
         // const plant = await Plant.findOne({
         //     where: {
         //         id
@@ -159,16 +159,16 @@ export async function setOne(req, res) {
         // });
         // console.log(plant);
         const observationUpdated = await Observation.update({
-            state
+            stated
         }, {
-            where: {
+        where: {
                 id
             }
         })
         if (observationUpdated[0]) {
             res.json({
                 message: "Observation actualizada correctamente",
-                state
+                stated
             });
         } else {
             res.status(404).json({

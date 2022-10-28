@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize } from '../../database/database'
+import { sequelize } from '../../config/database'
 
 import Image from './Image'
 const   PartPlant = sequelize.define("partplants", {
