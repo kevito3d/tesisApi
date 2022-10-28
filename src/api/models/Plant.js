@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize } from '../../database/database'
+import { sequelize } from '../../config/database'
 import PartPlant from './PartPlant'
 import Observation from './Observation'
 import Image from './Image'
@@ -15,6 +15,9 @@ const Plant = sequelize.define("plants", {
     description: {
         type: Sequelize.TEXT
     },
+    descriptionalumnos:{
+        type:Sequelize.STRING
+    }
    
 
 }, { timestamps: false })

@@ -37,8 +37,7 @@ router.post('/', [
     check('longitude').isString(),
     check('ci').isString(),
     check('scientificname').isString(),
-    check('province').isString(),
-    check('canton').isString(),
+    check('idcanton').isInt(),
     check('locality').isString(),
 ], isAuthenticated, createObservation);
 
@@ -51,13 +50,7 @@ router.get('/:id', isAuthenticated, getOne)
 router.delete('/:id', isAdmin, deleteOne)
 
 router.put('/:id', [
-    check('latitude').isString(),
-    check('longitude').isString(),
-    check('ci').isString(),
-    check('scientificname').isString(),
-    check('province').isString(),
-    check('canton').isString(),
-    check('locality').isString(),
+    check("stated").isString(),
 ], isAdmin, setOne)
 
 

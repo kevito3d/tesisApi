@@ -10,9 +10,11 @@ router.post('/', [
     check('scientificname').isString(),
     check('name').isString(),
     check('description').isString(),
+    
 ], isAdmin, createPlant);
 
 router.get('/', isAuthenticated, getAll);
+
 router.get('/:scientificname', isAuthenticated, getOne)
 router.get('/filter/:filter', isAdmin, getAllFilter);
 

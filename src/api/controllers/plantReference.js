@@ -1,10 +1,6 @@
 import Plant from "../models/Plant";
 // import { getImagesByPlantForController } from './imageController'
 import { Op } from 'sequelize'
-import PartPlant from "../models/PartPlant";
-import Image from "../models/Image";
-import Observation from "../models/Observation";
-import slug from "slug";
 import PlantReference from "../models/PlantReference";
 import Canton from "../models/references/Canton";
 import Province from "../models/references/Province";

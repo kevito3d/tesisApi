@@ -2,11 +2,9 @@ import Image from '../models/Image';
 import path from 'path';
 const fs = require('fs')
 
-
-
 export async function createImage(req, res) {
 console.log("entro a la funcion");
-
+     
     const files = req.files;
     const { scientificname, idpartplant, idobservation } = req.body;
     const newImages = []
@@ -16,16 +14,15 @@ console.log("entro a la funcion");
     console.log(files);
     for (const file of files) {
         console.log(file);
-        const url = 'uploads/' + file.originalname;
-
+        const url = 'uploads/' + file.filename;
         try {
             let newImage = await Image.create({
                 url,
                 scientificname,
                 idpartplant,
-                idobservation
+                idobservation,
             }, {
-                fields: ['url', 'scientificname', 'idpartplant', 'idobservation']
+                fields: ['url', 'scientificname', 'idpartplant', 'idobservation',]
             })
 
             if (newImage) {
@@ -215,7 +212,7 @@ export async function getOne(req, res) {
     }
 }
 
-export function deleteImages( url) {
+export function deleteImages(url) {
 
     try {
         fs.unlinkSync(path.join(__dirname, `../../public/${url}`));

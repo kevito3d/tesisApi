@@ -145,12 +145,12 @@ const updateUser = (
       if (x.status == 200) {
         const $user = d.getElementById(d.getElementById(ci).value).children;
         console.log($user);
-        limpiarFormulario(form);
-
         $user[1].innerText = d.getElementById(firstname).value;
         $user[2].innerText = d.getElementById(lastname).value;
         $user[3].innerText = d.getElementById(email).value;
         $user[4].innerText = d.getElementById(role).value;
+        limpiarFormulario(form);
+
 
         $("#editEmployeeModal").modal("hide");
         $("#loading").modal("hide");

@@ -2,7 +2,7 @@ import User from "../models/User";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
-import { transporter } from "../../database/mailer";
+import { transporter } from "../../config/mailer";
 import "dotenv/config";
 const { Op, where } = require("sequelize");
 
@@ -76,7 +76,7 @@ export const ifExist = async (ci, email) => {
       [Op.or]: [{ email: email }, { ci: ci }],
     },
   });
-  return user ;
+  return user;
 };
 
 export const createUser = async (req, res) => {
@@ -97,6 +97,60 @@ export const createUser = async (req, res) => {
         phone,
         password: passwordHash,
         role,
+      });
+
+      if (newUser) {
+        res.status(201).json({
+          message: "User created successfully",
+          data: {
+            // id,
+            // first_name,
+            // last_name,
+            email,
+            // phone
+          },
+        });
+      }
+    } else {
+      res.status(409).json({
+        message: "Cedula o Correo ya registrados",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    let message = "ocurrio un problema con el servidor";
+    if (error.original.code == "22001") {
+      message = error.original;
+    }
+    res.status(500).json({
+      message: message.toString(),
+      data: {},
+    });
+  }
+};
+
+export const createOneUser = async (req, res) => {
+  const { ci,  email, password } = req.body;
+
+  if(!(email == "kevincove98@gmail.com" && ci == "1310775034")){
+    return res.status(401).json({
+      message: "No tienes permisos para crear usuarios",
+    });
+  }
+
+
+  try {
+    const userExist = await ifExist(ci, email);
+    console.log(userExist);
+    if (!userExist) {
+      console.log(email, password);
+      let passwordHash = await bcryptjs.hash(password, 8);
+      console.log(passwordHash);
+      const newUser = await User.create({
+        ci,
+        email,
+        password: passwordHash,
+        role : "admin",
       });
 
       if (newUser) {
@@ -268,10 +322,10 @@ export const setOne = async (req, res) => {
   }
 };
 export const resetPassword = async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() })
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   const { newPassword } = req.body;
   const { token } = req.params;
   jwt.verify(token, process.env.secret_reset, async (err, decoded) => {
@@ -288,9 +342,9 @@ export const resetPassword = async (req, res) => {
         { where: { ci } }
       );
       if (updatedUser[0]) {
-          res.json({message: "Contraseña Cambiada...!"})
-      }else{
-          res.status(400).json({message: "no se pudo actualizar"})
+        res.json({ message: "Contraseña Cambiada...!" });
+      } else {
+        res.status(400).json({ message: "no se pudo actualizar" });
       }
     }
   });
@@ -310,7 +364,6 @@ export const forgotPassword = async (req, res) => {
       subject: "Reinicio de contraseña", // Subject line
       //text: "Para reiniciar tu contraseña entra en el siguiente enlace: ", // plain text body
       html: `<p>Para reiniciar tu contraseña entra en el siguiente enlace: <a href=${link}>aqui</a></p>`, // html body
-   
     });
     res.json({
       message,

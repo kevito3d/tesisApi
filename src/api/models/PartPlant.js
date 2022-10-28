@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize } from '../../database/database'
+import { sequelize } from '../../config/database'
 
 import Image from './Image'
 const   PartPlant = sequelize.define("partplants", {
@@ -20,11 +20,14 @@ const   PartPlant = sequelize.define("partplants", {
         type: Sequelize.STRING,
         allowNull:true
     },
+    descriptionalumnos:{
+        type:Sequelize.STRING
+    },
 
     idobservation: {
         type: Sequelize.INTEGER,
         allowNull: true
-    },
+    }
 
 }, { timestamps: false })
 

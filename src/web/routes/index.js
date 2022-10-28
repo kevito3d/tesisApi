@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { isAuthenticated } from "../../api/auth/index";
 import Image from "../../api/models/Image";
 import PartPlant from "../../api/models/PartPlant";
 import Plant from "../../api/models/Plant";
 import Province from "../../api/models/references/Province";
 import User from "../../api/models/User";
 import Cantons from "../../api/models/references/Canton";
-import { getAllF } from "../../api/controllers/PlantReference";
+import { getAllF } from "../../api/controllers/plantReference";
 import Observation from "../../api/models/Observation";
 import Canton from "../../api/models/references/Canton";
 import PlantReference from "../../api/models/PlantReference";
@@ -14,134 +13,126 @@ import PlantReference from "../../api/models/PlantReference";
 import { ifExist, signToken } from "../../api/controllers/userController";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-const { Op } = require("sequelize");
 
 const router = Router();
 
 //plant
 router.get("/plant/:page?", async (req, res) => {
-  if (req.session.token) {
-    let page = req.params.page || 1;
+  console.log("la ptdreeeeeeeeeeeeeeeeeeeeeeee");
+  // if (req.session.token) {
+  let page = req.params.page || 1;
 
-    if (isNaN(page)) {
-      return res.redirect("/");
-    }
-    console.log("pague xd: ", page);
-    if (page < 1) {
-      page = 1;
-    }
-    var perPage = 7;
-
-    // if (req.session.token) {
-    try {
-      const plants = await Plant.findAndCountAll({
-        offset: page * perPage - perPage,
-        limit: perPage,
-      });
-      return res.render("index", {
-        title: "home",
-        plants: plants.rows,
-        current: page,
-        count: plants.count,
-        pages: Math.ceil(plants.count / perPage),
-      });
-    } catch (error) {
-      console.log(error);
-      return {
-        message: "ocurrio un problema con el servidor",
-      };
-    }
-  } else {
+  if (isNaN(page)) {
     return res.redirect("/");
   }
+  console.log("pague xd: ", page);
+  if (page < 1) {
+    page = 1;
+  }
+  var perPage = 7;
 
+  try {
+    const plants = await Plant.findAndCountAll({
+      offset: page * perPage - perPage,
+      limit: perPage,
+    });
+    return res.render("index", {
+      title: "home",
+      plants: plants.rows,
+      current: page,
+      count: plants.count,
+      pages: Math.ceil(plants.count / perPage),
+    });
+  } catch (error) {
+    console.log(error);
+    return {
+      message: "ocurrio un problema con el servidor",
+    };
+  }
   // } else {
-
-  //     return res.render('signin')
+  //   return res.redirect("/");
   // }
 });
 router.get("/add/plant", async (req, res) => {
   // let decoder = new TextDecoder('utf-8');
-  if (req.session.token) {
-    const provinces = await Province.findAll({
-      include: [{ model: Cantons }],
-      order: [["name", "ASC"]],
-    });
-    console.log(provinces);
-    res.render("addPlants", { title: "Agregar", provinces });
-  } else {
-    return res.redirect("/");
-  }
+  // if (req.session.token) {
+  const provinces = await Province.findAll({
+    include: [{ model: Cantons }],
+    order: [["name", "ASC"]],
+  });
+  //console.log(provinces);
+  res.render("addPlants", { title: "Agregar", provinces });
+  // } else {
+  //   return res.redirect("/");
+  // }
 });
 
 router.get("/plant/edit/:scientificname", async (req, res) => {
-  if (req.session.token) {
-    try {
-      const { scientificname } = req.params;
+  // if (req.session.token) {
+  try {
+    const { scientificname } = req.params;
+
+    let plant = {};
+    const p = await Plant.findOne({
+      where: {
+        scientificname,
+      },
+      include: [
+        {
+          model: PartPlant,
+          include: {
+            model: Image,
+          },
+        },
+        {
+          model: Image,
+        },
+
+        {
+          model: PlantReference,
+        },
+      ],
+    });
+    if (p) {
+      plant.name = p.name;
+      plant.description = p.description;
+      plant.scn = p.scientificname;
+      plant.descriptionalumnos = p.descriptionalumnos;
+      plant.images = p.images;
+      console.log({ alumno: p.descriptionalumnos });
+      console.log(plant.images);
+      plant.parts = p.partplants;
+      const reference = await getAllF(p.scientificname);
+      plant.reference = reference;
       const provinces = await Province.findAll({
         include: [{ model: Cantons }],
         order: [["name", "ASC"]],
       });
-      let plant = {};
-      const p = await Plant.findOne({
-        where: {
-          scientificname,
-        },
-        include: [
-          {
-            model: PartPlant,
-          },
-          {
-            model: Image,
-          },
-          {
-            model: Observation,
-          },
-          {
-            model: PlantReference,
-          },
-        ],
-      });
-      plant.name = p.name;
-      plant.description = p.description;
-      plant.scn = p.scientificname;
-      plant.images = p.images;
-      console.log(p.description);
 
-      plant.parts = await PartPlant.findAll({
-        where: {
-          scientificname: p.scientificname,
-        },
-        include: {
-          model: Image,
-        },
-      });
-      const reference = await getAllF(p.scientificname);
-      plant.reference = reference;
-      /* 
-            console.log("references");
-            console.log(plant.reference); */
-      /* console.log(p.dataValues.plantsreferences);
-            console.log("imprimiendo longuitud de images: ", plant.images.length); */
       return res.render("editPlant", {
         title: "Edita Planta",
         provinces,
         plant,
       });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        message: "ocurrio un problema con el servidor",
-        data: [],
-      });
+    }else
+    {
+      return res.redirect("/plant");
     }
-  } else {
-    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "ocurrio un problema con el servidor",
+      data: [],
+    });
   }
+  // } else {
+  //   return res.redirect("/");
+  // }
 });
 
 //observation
 router.get("/observation/:page?", async (req, res) => {
+  console.log("entro");
   if (req.session.token) {
     let page = req.params.page || 1;
     if (isNaN(page)) {
@@ -151,9 +142,13 @@ router.get("/observation/:page?", async (req, res) => {
       page = 1;
     }
     let perPage = 8;
+    const filter = req.query.filter || "todas";
+    console.log({filter});
     /* if (req.session.token) { */
     try {
-      const observations = await Observation.findAndCountAll({
+      let observations ;
+      if (filter == "todas") {
+         observations = await Observation.findAndCountAll({
         offset: page * perPage - perPage,
         limit: perPage,
         include: [
@@ -165,8 +160,27 @@ router.get("/observation/:page?", async (req, res) => {
           },
         ],
       });
-      console.log("observations: ", observations.rows);
+    }else{
+        observations = await Observation.findAndCountAll({
+        offset: page * perPage - perPage,
+        limit: perPage,
+        where:{
+          stated:filter
+        },
+        include: [
+          {
+            model: Canton,
+            include: {
+              model: Province,
+            },
+          },
+        ],
+      });
+    }
+
+      // console.log("observations: ", observations.rows);
       return res.render("observation", {
+        filter: req.query.filter,
         title: "home",
         observations: observations.rows,
         current: page,
@@ -192,6 +206,7 @@ router.get("/observation/edit/:id", async (req, res) => {
   if (req.session.token) {
     try {
       const { id } = req.params;
+      
       const obs = await Observation.findByPk(id, {
         include: [
           {
@@ -203,7 +218,7 @@ router.get("/observation/edit/:id", async (req, res) => {
           },
         ],
       });
-      console.log("partes:", obs.partplants);
+      // console.log("partes:", obs.partplants);
       return res.render("editObservation", { obs, title: "Observacion" });
     } catch (error) {}
   } else {
@@ -213,40 +228,43 @@ router.get("/observation/edit/:id", async (req, res) => {
 
 //user
 router.get("/user/:page?", async (req, res) => {
-  //if (req.session.token) {
-  let page = req.params.page || 1;
+  if (req.session.token) {
+    let page = req.params.page || 1;
 
-  if (isNaN(page)) {
-    return res.redirect("/user");
-  }
-  console.log(page);
-  if (page < 1) {
-    page = 1;
-  }
-  let perPage = 8;
+    if (isNaN(page)) {
+      return res.redirect("/user");
+    }
+    console.log(page);
+    if (page < 1) {
+      page = 1;
+    }
+    let perPage = 8;
 
-  /* var plants = await getAllF(req);
+    /* var plants = await getAllF(req);
             return res.render('index', { title: "home", plants}); */
 
-  /* if (req.session.token) { */
-  try {
-    const users = await User.findAndCountAll({
-      offset: page * perPage - perPage,
-      limit: perPage,
-    });
-    console.log(users.rows);
-    return res.render("user", {
-      title: "home",
-      users: users.rows,
-      current: page,
-      count: users.count,
-      pages: Math.ceil(users.count / perPage),
-    });
-  } catch (error) {
-    console.log(error);
-    return {
-      message: "ocurrio un problema con el servidor",
-    };
+    /* if (req.session.token) { */
+    try {
+      const users = await User.findAndCountAll({
+        offset: page * perPage - perPage,
+        limit: perPage,
+      });
+      console.log(users.rows);
+      return res.render("user", {
+        title: "home",
+        users: users.rows,
+        current: page,
+        count: users.count,
+        pages: Math.ceil(users.count / perPage),
+      });
+    } catch (error) {
+      console.log(error);
+      return {
+        message: "ocurrio un problema con el servidor",
+      };
+    }
+  } else {
+    return res.redirect("/");
   }
 });
 
@@ -301,6 +319,10 @@ router.get("/", (req, res) => {
   }
 });
 
+router.get('/register', (req, res) => {
+    res.render('signup')
+})
+
 //form to access
 /* router.get('/signin', (req, res, next) => {
     console.log()
@@ -321,7 +343,7 @@ router.post("/reset-password/:token", async (req, res) => {
   const { token } = req.params;
   jwt.verify(token, process.env.secret_reset, async (err, decoded) => {
     if (err) {
-        console.log("invalido");
+      console.log("invalido");
       return res.render("signin", { message: "link invalido o expirado..!" });
     } else {
       const { ci } = decoded;
@@ -334,19 +356,17 @@ router.post("/reset-password/:token", async (req, res) => {
         { where: { ci } }
       );
       if (updatedUser[0]) {
-          console.log("se cambio");
-        return res.render("signin", {
-          message: "Contraseña cambiada correctamente...!",
-        });
+        console.log("se cambio");
+        return res.redirect("/");
       } else {
-          console.log("no se cambio");
-        return res.render("signin", {
-          message: "no se pudo actualizar",
-        });
+        console.log("no se cambio");
+        return res.redirect("/");
       }
     }
   });
 });
+
+
 
 router.get("/reset-password/:token", async (req, res, next) => {
   const { token } = req.params;

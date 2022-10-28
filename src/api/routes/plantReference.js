@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { check } from "express-validator";
+import { isAdmin } from "../auth";
 import { createReference,getAll,getAllFilter, deleteOne } from "../controllers/plantReference";
 /* 
 import path from 'path'
@@ -30,14 +32,21 @@ const upload = multer({
 
 const router = Router();
 
-router.post('/', createReference);
+router.post('/',
+[
+    check('scientificname').isString(),
+    check('idcanton').isInt(),
+    check('locality').isString(),
+]
+,
+isAdmin, createReference);
 
 router.get('/', getAll);
 
  router.get('/:filter', getAllFilter);
 
 
-router.delete('/:scientificname', deleteOne)
+router.delete('/:scientificname',isAdmin, deleteOne)
 /* router.delete('/:id', deleteOne)
 
 router.put('/:id', setOne)

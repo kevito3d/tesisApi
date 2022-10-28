@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize } from '../../database/database'
+import { sequelize } from '../../config/database'
 import Image from "./Image";
 
 import PartPlant from './PartPlant'
@@ -21,9 +21,8 @@ const Observation = sequelize.define("observations", {
         type: Sequelize.STRING,
     },
 
-    state:{
+    stated:{
         type: Sequelize.TEXT,
-        defaultValue:"slope"
     },
 
     ci: {
