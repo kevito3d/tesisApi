@@ -30,7 +30,7 @@ router.post('/register-one', [
 
 router.post('/forgot-password',check('ci').isString(),forgotPassword)
 
-router.post('/reset-password/:token',resetPassword)
+router.post('/reset-password/:token',check('newPassword').isString(),resetPassword)
 
 router.post('/logout', logOut);
 

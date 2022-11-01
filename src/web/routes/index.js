@@ -13,6 +13,7 @@ import PlantReference from "../../api/models/PlantReference";
 import { ifExist, signToken } from "../../api/controllers/userController";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { check } from "express-validator";
 
 const router = Router();
 
@@ -338,7 +339,7 @@ router.get("/reset-password", (req, res) => {
   res.render("resetInterface");
 });
 
-router.post("/reset-password/:token", async (req, res) => {
+router.post("/reset-password/:token",check('newPassword'), async (req, res) => {
   const { newPassword } = req.body;
   const { token } = req.params;
   jwt.verify(token, process.env.secret_reset, async (err, decoded) => {
