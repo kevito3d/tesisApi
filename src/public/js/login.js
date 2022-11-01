@@ -12,14 +12,14 @@ function cierraAlert() {
 const renderLogin = () => {
     // const cookies = new Cookies();
 
-    console.log("me cago");
+    //console.log("me cago");
     const loginView = document.getElementById('login-view');
     const login = document.getElementById('login');
     const spinner = document.getElementById('spinner');
     const alert = document.getElementById('alert');
     const loginForm = document.getElementById('form-signin');
     loginForm.onsubmit = (e) => {
-        console.log('assssssssssssss');
+        //console.log('assssssssssssss');
         e.preventDefault();
         //renderapp();
         alert.style = "display:none"
@@ -41,11 +41,11 @@ const renderLogin = () => {
                 })
             }).then(async x => {
                 if (x.status == 200) {
-                    console.log("entre");
+                    //console.log("entre");
                     const res = await x.json();
                     window.localStorage['user'] = JSON.stringify(res.user)
                     window.localStorage['token'] = res.token
-                    // console.log(res);
+                    // //console.log(res);
                     location.replace(location.origin + "/plant");
                     // setCookie("email", res.user.email, 365);
                     // cookies.set('email', , { path: '/' });
@@ -62,7 +62,7 @@ const renderLogin = () => {
                 spinner.style = "display:none"
                 // return x.json();
             }).catch(e => {
-                console.log(e);
+                //console.log(e);
             })
 
         } catch (error) {
@@ -71,14 +71,14 @@ const renderLogin = () => {
 
         //  .then(_res => {
         //     if (_res.sta) {
-        //         console.log("");
-        //         console.log(_res.institution);
+        //         //console.log("");
+        //         //console.log(_res.institution);
         //         localStorage.setItem('user',JSON.stringify( _res.user))
         //         // localStorage.setItem('institution', JSON.stringify(_res.institution) )
         //         // localStorage.setItem('ses', _res.headers.ses_id)
         //          location.replace(location.origin)
         //     } else {
-        //         console.log("no entre");
+        //         //console.log("no entre");
         //         const alert = document.getElementById('alert');
         //         alert.style = 'display:flex';
         //     }

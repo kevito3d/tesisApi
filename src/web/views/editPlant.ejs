@@ -242,7 +242,7 @@
 
   const clear = (element) => {
     //const $e = d.getElementById(element);
-    //console.log("lo que me llega:", element);
+    ////console.log("lo que me llega:", element);
     while (element.firstChild) {
       //The list is LIVE so it will re-index each call
       element.removeChild(element.firstChild);
@@ -291,14 +291,14 @@
     //image.setAttribute("crossOrigin", "Anonymous");
     // image.onload = function () {
     // var base64 = getBase64Image(image);
-    //console.log(base64);
+    ////console.log(base64);
     const files = [];
     for (const iterator of imgs) {
       files.push(await urlToObject(location.origin + "/" + iterator.url));
     }
 
     return files;
-    // console.log({file});
+    // //console.log({file});
     // document.getElementById("img").src = base64;
 
     // var formData = new FormData();
@@ -313,7 +313,7 @@
   };
 
   function viewImagesHome(fileu, imgu, id) {
-    console.log('asssssssssssssssssssssssssssssssssssssssssssss')
+    //console.log('asssssssssssssssssssssssssssssssssssssssssssss')
     const fileInputMulti = document.getElementById(fileu);
     const multiSelectorUniqPreview = document.getElementById(imgu);
     // Set data to input
@@ -326,25 +326,25 @@
       fileInputMulti,
       id
     );
-    console.log(fileInputMulti);
+    //console.log(fileInputMulti);
     fileInputMulti.addEventListener("input", async function() {
       const newFilesList = Array.from(fileInputMulti.files);
-      //console.log("files nuevo: ", newFilesList);
+      ////console.log("files nuevo: ", newFilesList);
       // Update list files
-      console.log("files actual: ", filesList);
-      console.log(
-        "files: **",
-        filesList.find((element) => element.id == id).list
-      );
+      //console.log("files actual: ", filesList);
+      //console.log(
+      //   "files: **",
+      //   filesList.find((element) => element.id == id).list
+      // );
       filesList.find((element) => element.id == id).list = await getUniqFiles(
         newFilesList,
         filesList.find((element) => element.id == id).list
       );
-      console.log(
-        "files: ",
-        filesList.find((element) => element.id == id)
-      );
-      //console.log("files antiguos: ", filesList[indexList].list);
+      //console.log(
+      //   "files: ",
+      //   filesList.find((element) => element.id == id)
+      // );
+      ////console.log("files antiguos: ", filesList[indexList].list);
       // Only DEMO. Redraw
       renderPreviews(
         filesList.find((element) => element.id == id).list,
@@ -405,7 +405,7 @@
     });
 
     $close.addEventListener("click", (e) => {
-      // console.log(e.target.parentElement);
+      // //console.log(e.target.parentElement);
       $container.removeChild($part);
 
       //splice the array filesList
@@ -413,7 +413,7 @@
         filesList.findIndex((element) => element.id === $row.id),
         1
       );
-      console.log(filesList);
+      //console.log(filesList);
       //delete item to array from index
 
       //filesList.splice(aux , 1);
@@ -441,22 +441,22 @@
     $container.appendChild($part);
     // $(modal).modal("hide");
     a(images).then(function(data) {
-      console.log({
-        data
-      });
+      //console.log({
+      //   data
+      // });
       filesList.push({
         id: $row.id,
         list: data
       });
       viewImagesHome(`images${name}`, `imgsContent${name}`, $row.id);
-      console.log(filesList.length);
+      // console.log(filesList.length);
       name = "";
       description = "";
     });
     // }
   }
   async function renderPreviews(currentFileList, target, inputFile, id) {
-    console.log("renderPreviews");
+    //console.log("renderPreviews");
     //
     clear(target);
     currentFileList.forEach((file, index) => {
@@ -496,7 +496,7 @@
   a(plant.images).then(function(data) {
     const fileInputMulti = document.getElementById('images');
     const multiSelectorUniqPreview = document.getElementById('imgsContent');
-    console.log('part images: ', data);
+    //console.log('part images: ', data);
     fileInputMulti.files = arrayFilesToFileList(data)
     filesList[0].list = data
     // filesList[0].id = '000'
@@ -505,12 +505,12 @@
   });
   for (let index = 0; index < plant.parts.length; index++) {
     const element = plant.parts[index];
-    console.log(element);
+    //console.log(element);
     ElementPartDinamic('parts', element.name, element.description, element.images);
     // a(element.images).then(function (data) {
     //   const fileInputMulti = document.getElementById('images');
     //   const multiSelectorUniqPreview = document.getElementById('imgsContent');
-    //   console.log("images: ",data);
+    //   //console.log("images: ",data);
     //   fileInputMulti.files = arrayFilesToFileList(data)
     //   let id = Date.now()
     //   filesList.push({
@@ -528,14 +528,14 @@
   $('#province').on('change', function() {
     $('#canton').html('');
     $("#canton").val([]);
-    console.log($('#province').val());
+    //console.log($('#province').val());
 
     $.ajax({
       method: "GET",
       url: `/api/province/${$('#province').val()}`,
 
     }).done(function(msg) {
-      console.log(msg);
+      //console.log(msg);
       let cantonsOptions;
       if (msg.length <= 0) {
         cantonsOptions = '<option value="0">Sin padre</option>'

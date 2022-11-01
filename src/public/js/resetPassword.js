@@ -14,7 +14,7 @@ const setReset = (form,ci_input)=>{
         $button.style = "display:none";
         e.preventDefault()
         const ci = d.getElementById(ci_input).value
-        console.log(ci);
+        //console.log(ci);
         fetch(`${location.origin}/api/user/forgot-password`,{
             method: 'POST',
             headers: {

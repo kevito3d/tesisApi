@@ -2,7 +2,7 @@ let $plants;
 const d = document;
 
 const search = (search, element) => {
-  console.log("search");
+  //console.log("search");
   const $search = d.getElementById(search);
   $search.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
@@ -22,7 +22,7 @@ const search = (search, element) => {
         )
         .then((res) => {
           const plants = res["data"];
-          console.log(plants);
+          //console.log(plants);
           const $grid = d.getElementById(element);
           $plants = $grid.children;
           $grid.innerHTML = "";
@@ -65,7 +65,7 @@ const search = (search, element) => {
           }
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         });
     }
   });
@@ -80,10 +80,10 @@ const setDeleteItem = (item, e) => {
 const DeleteItem = (form, scientificname) => {
   const $form = document.getElementById(form);
   const $eliminar = document.getElementById(scientificname);
-  console.log("ttttttttttt: ", $eliminar.value);
+  //console.log("ttttttttttt: ", $eliminar.value);
   $form.onsubmit = (e) => {
     e.preventDefault();
-    console.log($eliminar.value);
+    //console.log($eliminar.value);
     try {
       fetch(`${location.origin}/api/plant/${$eliminar.value}`, {
         method: "DELETE",
@@ -92,23 +92,23 @@ const DeleteItem = (form, scientificname) => {
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
       }).then(async (x) => {
-        console.log(x);
+        //console.log(x);
         $("#deletePlantModal").modal("hide");
         if (x.status != 200) {
           res = await x.json();
-          console.log("entre al error");
+          //console.log("entre al error");
           $("#problem").text(res.error.original.detail);
           $("#myModalE").modal("show");
         } else {
           const $eliminated = d.getElementById($eliminar.value);
-          console.log($eliminated);
+          //console.log($eliminated);
           $eliminated.parentElement.removeChild($eliminated);
           $("#case").text("eliminado");
           $("#myModalS").modal("show");
         }
       });
     } catch (error) {
-      console.log("aaaaaaaaaaa");
+      //console.log("aaaaaaaaaaa");
     }
   };
 };

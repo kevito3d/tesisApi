@@ -6,7 +6,7 @@ const e = require("connect-flash");
 const d = document;
 
 const search = (search, element) => {
-  console.log("search");
+  //console.log("search");
   const $search = d.getElementById(search);
   $search.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
@@ -74,7 +74,7 @@ const search = (search, element) => {
           }
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         });
     }
   });
@@ -118,9 +118,9 @@ const updateUser = (
   const $form = document.getElementById(form);
 
   $form.onsubmit = (e) => {
-    console.log(d.getElementById(ci).value);
+    //console.log(d.getElementById(ci).value);
     e.preventDefault();
-    console.log(e.target);
+    //console.log(e.target);
     $("#loading").modal("show");
     const $rol = d.getElementById(role);
     data = {};
@@ -129,10 +129,10 @@ const updateUser = (
     data.firstname = d.getElementById(firstname).value;
     data.email = d.getElementById(email).value;
     data.phone = d.getElementById(phone).value;
-    console.log(data.email);
+    //console.log(data.email);
     data.role = $rol.value;
-    console.log("me cago en la puta 31");
-    console.log(JSON.stringify(data));
+    //console.log("me cago en la puta 31");
+    //console.log(JSON.stringify(data));
     fetch(`${location.origin}/api/user/${d.getElementById(ci).value}`, {
       headers: {
         "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const updateUser = (
     }).then(async (x) => {
       if (x.status == 200) {
         const $user = d.getElementById(d.getElementById(ci).value).children;
-        console.log($user);
+        //console.log($user);
         $user[1].innerText = d.getElementById(firstname).value;
         $user[2].innerText = d.getElementById(lastname).value;
         $user[3].innerText = d.getElementById(email).value;
@@ -160,7 +160,7 @@ const updateUser = (
         const res = await x.json();
 
         $("#loading").modal("hide");
-        console.log("entre al error");
+        //console.log("entre al error");
         $("#problem").text(res.message);
         $("#myModalE").modal("show");
       }
@@ -275,7 +275,7 @@ const createUser = (
 
   $form.onsubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    //console.log(e.target);
 
     const $rol = d.getElementById(role);
     data = {};
@@ -283,14 +283,14 @@ const createUser = (
     data.password = d.getElementById(password).value;
     data.lastname = d.getElementById(lastname).value;
     data.firstname = d.getElementById(firstname).value;
-    //console.log(email);
-    console.log(d.getElementById(email));
+    ////console.log(email);
+    //console.log(d.getElementById(email));
     data.email = d.getElementById(email).value;
     data.phone = d.getElementById(phone).value;
 
-    //console.log(data.email);
+    ////console.log(data.email);
     data.role = $rol.value;
-    //console.log(JSON.stringify(data));
+    ////console.log(JSON.stringify(data));
     const ciValidate = validateCI(data.ci);
     if (ciValidate.correct) {
       if (data.phone.length != 10 || isNaN(data.phone)) {
@@ -309,7 +309,7 @@ const createUser = (
 
         body: JSON.stringify(data),
       }).then(async (x) => {
-        console.log("xd:", x);
+        //console.log("xd:", x);
         const text = d.getElementById("phoneValidate");
         text.innerText = "";
         if (x.status == 201) {
@@ -373,38 +373,38 @@ const setDeleteItem = (item, e) => {
 const DeleteItem = (form, scientificname) => {
   const $form = document.getElementById(form);
   const $eliminar = document.getElementById(scientificname);
-  console.log("ttttttttttt: ", $eliminar.value);
+  //console.log("ttttttttttt: ", $eliminar.value);
   $form.onsubmit = (e) => {
     e.preventDefault();
-    console.log($eliminar.value);
+    //console.log($eliminar.value);
     try {
       fetch(`${location.origin}/api/user/${$eliminar.value}`, {
         method: "DELETE",
       }).then(async (x) => {
-        console.log(x);
+        //console.log(x);
         $("#deleteUserModal").modal("hide");
         if (x.status != 201) {
           res = await x.json();
-          console.log("entre al error");
+          //console.log("entre al error");
           $("#problem").text(res.error.original.detail);
           $("#myModalE").modal("show");
         } else {
           const $eliminated = d.getElementById($eliminar.value);
-          console.log($eliminated);
+          //console.log($eliminated);
           $eliminated.parentElement.removeChild($eliminated);
           $("#case").text("eliminado");
           $("#myModalS").modal("show");
         }
       });
     } catch (error) {
-      console.log("aaaaaaaaaaa");
+      //console.log("aaaaaaaaaaa");
     }
   };
 };
 const resetModal = (reset) => {
   const modal = d.querySelectorAll(reset);
-  console.log(modal);
-  console.log(Array.from(modal))
+  //console.log(modal);
+  //console.log(Array.from(modal))
   Array.from(modal).map((m) => {
     m.addEventListener("click", (e) => {
       const c = d.getElementById("ciValidate");

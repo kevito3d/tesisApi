@@ -73,7 +73,7 @@ const addreference = (modal, btn, container, province, canton, locality) => {
       }); */
 
       $close.addEventListener("click", (e) => {
-        // console.log(e.target.parentElement);
+        // //console.log(e.target.parentElement);
         $container.removeChild($row);
       });
       $row.appendChild($close);
@@ -85,7 +85,7 @@ const addreference = (modal, btn, container, province, canton, locality) => {
 
 
 const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references, form) => {
-  console.log("creando planta");
+  //console.log("creando planta");
   let errors = [];
   const $form = document.getElementById(form);
 
@@ -98,8 +98,8 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
     data.scientificname = d.getElementById(scn).value;
     data.description = d.getElementById(desc).value;
     data.descriptionalumnos = d.getElementById(descriptionalumnos).value;
-    console.log("data: ", data);
-    console.log("token: ", localStorage.getItem("token"));
+    //console.log("data: ", data);
+    //console.log("token: ", localStorage.getItem("token"));
     fetch(`${location.origin}/api/plant`, {
       headers: {
         "Content-Type": "application/json",
@@ -110,12 +110,12 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
 
       body: JSON.stringify(data),
     }).then(async (x) => {
-      console.log(x);
+      //console.log(x);
       const res = await x.json();
       const sc = res.data.scientificname;
       if (x.status == 200) {
-        console.log("planta insertada correctamente :3");
-        console.log(res.data.scientificname);
+        //console.log("planta insertada correctamente :3");
+        //console.log(res.data.scientificname);
 
         const filex = d.getElementById(imgs).files;
         if (filex.length > 0) {
@@ -125,7 +125,7 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
             formData2.append("descriptionalumnos", d.getElementById('descriptionImages').value);
             
           }
-          // console.log(filex.files);
+          // //console.log(filex.files);
           for (var x = 0; x < filex.length; x++) {
             formData2.append("images", filex[x]);
           }
@@ -139,7 +139,7 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
             body: formData2,
           }).then(async (x) => {
             if (x.status == 200) {
-              console.log("imagenes de planta insertadas correctamente :3");
+              //console.log("imagenes de planta insertadas correctamente :3");
             } else {
               const respu = x.json();
               var text;
@@ -153,7 +153,7 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
 
         const $partsContainer = d.getElementById(parts);
         const $parts = $partsContainer.children;
-        console.log("parts: " + $parts);
+        //console.log("parts: " + $parts);
         let part = {};
         Array.from($parts).forEach(async (element) => {
           const $partText = element.firstElementChild;
@@ -161,13 +161,13 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
           part.name = $name.lastElementChild.value;
           const $description = $partText.children[1];
           part.description = $description.lastElementChild.value;
-          console.log("lo que tiene cientificname: " + sc);
+          //console.log("lo que tiene cientificname: " + sc);
           part.scientificname = sc;
           const $descriptionAlumnos = element.lastElementChild;
           if($descriptionAlumnos.lastElementChild.value.length>0){
             part.descriptionalumnos = $descriptionAlumnos.lastElementChild.value;
           }
-          console.log("lo que se va para part: " + part);
+          //console.log("lo que se va para part: " + part);
 
           const partResp = await fetch(`${location.origin}/api/partplant`, {
             headers: {
@@ -177,14 +177,14 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
             method: "POST",
             body: JSON.stringify(part),
           });
-          console.log(partResp);
+          //console.log(partResp);
           if (partResp.status == 200) {
-            console.log(
-              `parte de planta '${part.name}' insertada correctamente :3`
-            );
+            //console.log(
+            //   `parte de planta '${part.name}' insertada correctamente :3`
+            // );
 
             const resp = await partResp.json();
-            console.log("respuesta despues de insertar part: " + resp.data.id);
+            //console.log("respuesta despues de insertar part: " + resp.data.id);
            //aqui tomamos las el input de imagenes de las partes
             const $ContainerImages = element.lastElementChild.previousElementSibling;
             const $imgsPart = $ContainerImages.children[1];
@@ -207,7 +207,7 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
                 body: formData2,
               }).then(async (x) => {
                 if (x.status == 200) {
-                  console.log("todo ready ! :3");
+                  //console.log("todo ready ! :3");
                 } else {
                   errors.push("imagen de parte de planta no insertada");
                 }
@@ -220,16 +220,16 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
 
         const $referenceContainer = d.getElementById(references);
         const $reference = $referenceContainer.children;
-        console.log("parts: " + $reference);
+        //console.log("parts: " + $reference);
         let reference = {};
         Array.from($reference).forEach(async (element) => {
           const $canton = element.children[1];
           reference.idcanton = $canton.lastElementChild.value;
           const $locality = element.children[2];
           reference.locality = $locality.lastElementChild.value;
-          console.log("lo que tiene cientificname: " + sc);
+          //console.log("lo que tiene cientificname: " + sc);
           reference.scientificname = sc;
-          console.log("lo que se va para part: " + reference);
+          //console.log("lo que se va para part: " + reference);
 
           //todo part an references
           const referenceResp = await fetch(
@@ -244,9 +244,9 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
               body: JSON.stringify(reference),
             }
           );
-          console.log(referenceResp);
+          //console.log(referenceResp);
           if (referenceResp.status == 200) {
-            console.log("referencia de planta insertada correctamente :3");
+            //console.log("referencia de planta insertada correctamente :3");
           } else {
             errors.push("referencia de planta no se inserto ! :c");
           }
@@ -260,7 +260,7 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
         }, 1000);
       } else {
         $("#loading").modal("hide");
-        console.log("entre al error");
+        //console.log("entre al error");
         $("#problem").text(res.message);
         $("#myModalE").modal("show");
       }

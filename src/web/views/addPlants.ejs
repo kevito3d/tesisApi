@@ -186,14 +186,14 @@
         $('#province').on('change', function () {
           $('#canton').html('');
           $("#canton").val([]);
-          console.log($('#province').val());
+          //console.log($('#province').val());
 
           $.ajax({
             method: "GET",
             url: `/api/province/${$('#province').val()}`,
 
           }).done(function (msg) {
-            console.log(msg);
+            //console.log(msg);
             let cantonsOptions;
             if (msg.length <= 0) {
               cantonsOptions = '<option value="0">Sin padre</option>'

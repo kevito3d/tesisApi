@@ -30,9 +30,9 @@ const renderLogin = () => {
     })
       .then((x) => x.json())
       .then((_res) => {
-        console.log(_res);
+        //console.log(_res);
         if (_res.success) {
-          console.log(_res.success);
+          //console.log(_res.success);
           const alert = document.getElementById("alertR");
           alert.innerHTML = `<div class="text_alert">
             <strong>Hey !</strong> ${_res.success} !
@@ -48,7 +48,7 @@ const renderLogin = () => {
           </button>`;
           alert.style.backgroundColor = "rgb(47, 255, 116)";
           alert.style.display = "flex";
-          console.log("entro");
+          //console.log("entro");
         } else {
           const alert = document.getElementById("alertR");
           alert.innerHTML = `
@@ -66,13 +66,13 @@ const renderLogin = () => {
           </button>
             `;
           alert.style = "display:flex";
-          console.log("no entro");
+          //console.log("no entro");
         }
         login.style = "display:block";
         spinner.style = "display:none";
       })
       .catch((e) => {
-        console.log(e);
+        //console.log(e);
       });
   };
 };

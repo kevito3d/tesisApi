@@ -4,12 +4,12 @@ export function verificaReference(container, valProvince, valCanton) {
   const $parts = d.getElementById(container).children;
   let bandera = false;
   Array.from($parts).forEach((part) => {
-    console.log(part.firstElementChild.lastElementChild.value);
+    //console.log(part.firstElementChild.lastElementChild.value);
     if (part.firstElementChild.lastElementChild.value == valProvince) {
-      console.log("prvince igual");
-      console.log(part.children[1]);
+      //console.log("prvince igual");
+      //console.log(part.children[1]);
       if (part.children[1].lastElementChild.value == valCanton) {
-        console.log("canton igual");
+        //console.log("canton igual");
         bandera = true;
       }
     }
@@ -31,7 +31,7 @@ const verifica = (container, text) => {
 };
 const clear = (element) => {
   //const $e = d.getElementById(element);
-  //console.log("lo que me llega:", element);
+  ////console.log("lo que me llega:", element);
   while (element.firstChild) {
     //The list is LIVE so it will re-index each call
     element.removeChild(element.firstChild);
@@ -74,7 +74,7 @@ async function getUniqFiles(newFiles, currentListFiles) {
   });
 }
 export function renderPreviews(currentFileList, target, inputFile, id) {
-  console.log("renderPreviews");
+  //console.log("renderPreviews");
   //
   clear(target);
   currentFileList.forEach((file, index) => {
@@ -115,22 +115,22 @@ export function viewImages(fileu, imgu, id) {
 
   fileInputMulti.addEventListener("input", async function () {
     const newFilesList = Array.from(fileInputMulti.files);
-    //console.log("files nuevo: ", newFilesList);
+    ////console.log("files nuevo: ", newFilesList);
     // Update list files
-    console.log("files actual: ", filesList);
-    console.log(
-      "files: **",
-      filesList.find((element) => element.id == id).list
-    );
+    //console.log("files actual: ", filesList);
+    //console.log(
+    //   "files: **",
+    //   filesList.find((element) => element.id == id).list
+    // );
     filesList.find((element) => element.id == id).list = await getUniqFiles(
       newFilesList,
       filesList.find((element) => element.id == id).list
     );
-    console.log(
-      "files: ",
-      filesList.find((element) => element.id == id)
-    );
-    //console.log("files antiguos: ", filesList[indexList].list);
+    //console.log(
+    //   "files: ",
+    //   filesList.find((element) => element.id == id)
+    // );
+    ////console.log("files antiguos: ", filesList[indexList].list);
     // Only DEMO. Redraw
     renderPreviews(
       filesList.find((element) => element.id == id).list,
@@ -191,7 +191,7 @@ function ElemetPartDinamic(modal = null,container,name,description) {
     });
 
     $close.addEventListener("click", (e) => {
-      // console.log(e.target.parentElement);
+      // //console.log(e.target.parentElement);
       $container.removeChild($part);
 
       //splice the array filesList
@@ -199,7 +199,7 @@ function ElemetPartDinamic(modal = null,container,name,description) {
         filesList.findIndex((element) => element.id === $row.id),
         1
       );
-      console.log(filesList);
+      //console.log(filesList);
       //delete item to array from index
 
       //filesList.splice(aux , 1);
@@ -228,7 +228,7 @@ function ElemetPartDinamic(modal = null,container,name,description) {
     $container.appendChild($part);
     $(modal).modal("hide");
     viewImages(`images${$name.value}`, `imgsContent${$name.value}`, $row.id);
-    console.log(filesList.length);
+    //console.log(filesList.length);
     $name.value = "";
     $description.value = "";
   }
@@ -318,7 +318,7 @@ export function addreference(
       }); */
 
       $close.addEventListener("click", (e) => {
-        // console.log(e.target.parentElement);
+        // //console.log(e.target.parentElement);
         $container.removeChild($row);
       });
       $row.appendChild($close);
@@ -328,5 +328,5 @@ export function addreference(
   });
 }
 export const otivek = () => {
-  console.log("kevito 98");
+  //console.log("kevito 98");
 };

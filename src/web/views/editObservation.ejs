@@ -182,7 +182,7 @@
 
     $form.onsubmit = (e) => {
       e.preventDefault();
-      console.log($input.value);
+      //console.log($input.value);
 
       const url = `/api/observation/${window.location
         .toString()
@@ -201,7 +201,7 @@
       fetch(url, options)
         .then(res => res.json())
         .then(data => {
-          console.log(data);
+          //console.log(data);
           $("#loading").modal("hide");
           $("#case").text("actualizado");
           $("#myModalS").modal("show");

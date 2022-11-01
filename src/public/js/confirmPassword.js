@@ -16,7 +16,7 @@ const setReset = (form,pass1,pass2)=>{
             alert.style.display="flex";
             return;
         }
-        console.log(ci);
+        //console.log(ci);
         fetch(`${location.origin}/api/user/reset-password`,{
             method: 'POST',
             headers: {

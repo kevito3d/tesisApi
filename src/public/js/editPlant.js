@@ -40,7 +40,7 @@ const updatePlant = (
     ).then(async (x) => {
       const res = await x.json();
       const sc = res.data.scientificname;
-      console.log("token: ", localStorage.getItem("token"));
+      //console.log("token: ", localStorage.getItem("token"));
       if (x.status == 200) {
         const respuestaP = await fetch(`${location.origin}/api/plant/${sc}`, {
           headers: {
@@ -52,9 +52,9 @@ const updatePlant = (
         });
         let plant = await respuestaP.json();
         plant = plant.data;
-        console.log(plant);
-        console.log("planta actualizada correctamente :3");
-        // console.log(res.data.scientificname);
+        //console.log(plant);
+        //console.log("planta actualizada correctamente :3");
+        // //console.log(res.data.scientificname);
         // const $imgChange =
         //   d.getElementById(name).parentElement.parentElement.lastElementChild;
 
@@ -63,7 +63,7 @@ const updatePlant = (
         if (filex.length > 0) {
           const formData2 = new FormData();
           formData2.append("scientificname", sc);
-          // console.log(filex.files);
+          // //console.log(filex.files);
           for (var x = 0; x < filex.length; x++) {
             formData2.append("images", filex[x]);
           }
@@ -81,7 +81,7 @@ const updatePlant = (
                 authorization: localStorage.getItem("token"),
               },
             });
-            console.log("imagen borrada");
+            //console.log("imagen borrada");
           }
 
           // formData2.append('images', filex.files)
@@ -93,7 +93,7 @@ const updatePlant = (
             },
           }).then(async (x) => {
             if (x.status == 200) {
-              console.log("imagenes de planta insertadas correctamente :3");
+              //console.log("imagenes de planta insertadas correctamente :3");
             } else {
               const respu = x.json();
               var text;
@@ -111,7 +111,7 @@ const updatePlant = (
         const $partsContainer = d.getElementById(partsContainer);
         const $parts = $partsContainer.children;
         let parts = [];
-        console.log({ $parts });
+        //console.log({ $parts });
 
         Array.from($parts).forEach(async (element) => {
           let part = {};
@@ -121,7 +121,7 @@ const updatePlant = (
           part.id = $name.firstElementChild
             ? $name.firstElementChild.value
             : null;
-          console.log("id: ", $name.firstElementChild);
+          //console.log("id: ", $name.firstElementChild);
           const $description = $partText.children[1];
           part.description = $description.lastElementChild.value;
           part.scientificname = sc;
@@ -129,16 +129,16 @@ const updatePlant = (
           part.images = element.children[1].children[1].files;
           parts.push(part);
         });
-        console.log("parts: ", parts);
-        console.log("plant: ", plant);
+        //console.log("parts: ", parts);
+        //console.log("plant: ", plant);
         for (let index = 0; index < plant.partplants.length; index++) {
           const find = parts.find(
             (part) => part.id == plant.partplants[index].id
           );
-          console.log("find: ", find);
-          console.log("find: ", find);
+          //console.log("find: ", find);
+          //console.log("find: ", find);
           if (find) {
-            console.log("isAlter: ", find.isAlter);
+            //console.log("isAlter: ", find.isAlter);
             if (find.isAlter) {
               /* plant.partplants.slice(index,1);
               index --; */
@@ -156,7 +156,7 @@ const updatePlant = (
               }
               const formData2 = new FormData();
               formData2.append("idpartplant", parts[index].id);
-              // console.log(filex.files);
+              // //console.log(filex.files);
               for (var x = 0; x < parts[index].images.length; x++) {
                 formData2.append("images", parts[index].images[x]);
               }
@@ -168,11 +168,11 @@ const updatePlant = (
                 },
               });
             }
-            console.log("supongo : ", parts);
-            console.log(parts.indexOf(find));
+            //console.log("supongo : ", parts);
+            //console.log(parts.indexOf(find));
             parts.splice(parts.indexOf(find), 1);
-            console.log("eliminado");
-            console.log("nada : ", parts);
+            //console.log("eliminado");
+            //console.log("nada : ", parts);
           } else {
             await fetch(
               `${location.origin}/api/partplant/${plant.partplants[index].id}`,
@@ -187,7 +187,7 @@ const updatePlant = (
             );
           }
         }
-        console.log("nada : ", parts);
+        //console.log("nada : ", parts);
         for (const part of parts) {
           await fetch(`${location.origin}/api/partplant/`, {
             headers: {
@@ -204,10 +204,10 @@ const updatePlant = (
           })
             .then((x) => x.json())
             .then(async (x) => {
-              console.log("jeje: ", x);
+              //console.log("jeje: ", x);
               const formData2 = new FormData();
               formData2.append("idpartplant", x.data.id);
-              // console.log(filex.files);
+              // //console.log(filex.files);
               for (var x = 0; x < part.images.length; x++) {
                 formData2.append("images", part.images[x]);
               }
@@ -222,7 +222,7 @@ const updatePlant = (
         }
 
         for (const reference of plant.plantsreferences) {
-          console.log("cs reference: ", reference.scientificname);
+          //console.log("cs reference: ", reference.scientificname);
           await fetch(
             `${location.origin}/api/plantreference/${reference.scientificname}`,
             {
@@ -237,16 +237,16 @@ const updatePlant = (
         }
         const $referenceContainer = d.getElementById(references);
         const $reference = $referenceContainer.children;
-        console.log("parts: " + $reference);
+        //console.log("parts: " + $reference);
         let reference = {};
         Array.from($reference).forEach(async (element) => {
           const $canton = element.children[1];
           reference.idcanton = $canton.lastElementChild.value;
           const $locality = element.children[2];
           reference.locality = $locality.lastElementChild.value;
-          console.log("lo que tiene cientificname: " + sc);
+          //console.log("lo que tiene cientificname: " + sc);
           reference.scientificname = sc;
-          console.log("lo que se va para part: " + reference);
+          //console.log("lo que se va para part: " + reference);
 
           //todo part an references
           const referenceResp = await fetch(
@@ -261,9 +261,9 @@ const updatePlant = (
               body: JSON.stringify(reference),
             }
           );
-          console.log(referenceResp);
+          //console.log(referenceResp);
           if (referenceResp.status == 200) {
-            console.log("referencia de planta insertada correctamente :3");
+            //console.log("referencia de planta insertada correctamente :3");
           } else {
             errors.push("referencia de planta no se inserto ! :c");
           }
@@ -277,7 +277,7 @@ const updatePlant = (
         }, 1000);
       } else {
         $("#loading").modal("hide");
-        console.log("entre al error");
+        //console.log("entre al error");
         $("#problem").text(res.message);
         $("#myModalE").modal("show");
       }
@@ -343,7 +343,7 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
     });
 
     $close.addEventListener("click", (e) => {
-      // console.log(e.target.parentElement);
+      // //console.log(e.target.parentElement);
       $container.removeChild($part);
 
       //splice the array filesList
@@ -351,7 +351,7 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
         filesList.findIndex((element) => element.id === $row.id),
         1
       );
-      console.log(filesList);
+      //console.log(filesList);
       //delete item to array from index
 
       //filesList.splice(aux , 1);
@@ -380,7 +380,7 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
     $container.appendChild($part);
     $(modal).modal("hide");
     viewImages(`images${$name.value}`, `imgsContent${$name.value}`, $row.id);
-    console.log(filesList.length);
+    //console.log(filesList.length);
     $name.value = "";
     $description.value = "";
   }
@@ -399,22 +399,22 @@ function viewImages(fileu, imgu, id) {
 
   fileInputMulti.addEventListener("input", async function () {
     const newFilesList = Array.from(fileInputMulti.files);
-    //console.log("files nuevo: ", newFilesList);
+    ////console.log("files nuevo: ", newFilesList);
     // Update list files
-    console.log("files actual: ", filesList);
-    console.log(
-      "files: **",
-      filesList.find((element) => element.id == id).list
-    );
+    //console.log("files actual: ", filesList);
+    //console.log(
+    //   "files: **",
+    //   filesList.find((element) => element.id == id).list
+    // );
     filesList.find((element) => element.id == id).list = await getUniqFiles(
       newFilesList,
       filesList.find((element) => element.id == id).list
     );
-    console.log(
-      "files: ",
-      filesList.find((element) => element.id == id)
-    );
-    //console.log("files antiguos: ", filesList[indexList].list);
+    //console.log(
+    //   "files: ",
+    //   filesList.find((element) => element.id == id)
+    // );
+    ////console.log("files antiguos: ", filesList[indexList].list);
     // Only DEMO. Redraw
     renderPreviews(
       filesList.find((element) => element.id == id).list,
@@ -499,7 +499,7 @@ function addreference(modal, btn, container, province, canton, locality) {
       }); */
 
       $close.addEventListener("click", (e) => {
-        // console.log(e.target.parentElement);
+        // //console.log(e.target.parentElement);
         $container.removeChild($row);
       });
       $row.appendChild($close);
@@ -512,12 +512,12 @@ function verificaReference(container, valProvince, valCanton) {
   const $parts = d.getElementById(container).children;
   let bandera = false;
   Array.from($parts).forEach((part) => {
-    console.log(part.firstElementChild.lastElementChild.value);
+    //console.log(part.firstElementChild.lastElementChild.value);
     if (part.firstElementChild.lastElementChild.value == valProvince) {
-      console.log("prvince igual");
-      console.log(part.children[1]);
+      //console.log("prvince igual");
+      //console.log(part.children[1]);
       if (part.children[1].lastElementChild.value == valCanton) {
-        console.log("canton igual");
+        //console.log("canton igual");
         bandera = true;
       }
     }
@@ -533,13 +533,13 @@ function verificaReference(container, valProvince, valCanton) {
 } */
 /* const viwImagesDinamic = (files, img) => {
   const $files = document.querySelectorAll('.' + files);
-  console.log(files);
-  console.log($files);
+  //console.log(files);
+  //console.log($files);
   const $imgs = document.querySelectorAll('.' + img);
-  console.log(img);
-  console.log($imgs);
+  //console.log(img);
+  //console.log($imgs);
   for (let index = 0; index < $files.length; index++) {
-    console.log("test: ", $files[index].id);
+    //console.log("test: ", $files[index].id);
     viewImages($files[index].id, $imgs[index].id);
   }
 } */
