@@ -1,9 +1,9 @@
 <% include partials/base -%>
 <%- include('partials/header', {selected:"observation"}) %>
 
-<div class="container col-11">
+<div class="container col-10 mt-2 p-4 rounded bg-light">
 
-  <div class="form-row py-2 d-flex justify-content-between">
+  <div class="form-row py-2 d-flex align-items-center  justify-content-between">
     <label for="scientificname"><b style="font-size: 20px;">Cedula :</b>
       <%= obs.ci %>
     </label>
@@ -15,7 +15,7 @@
     <!-- switch -->
     <div class=" form-control p-4 col-md-4 d-flex  align-items-center justify-content-between">
 
-      <label class="m-0" for="inputState">Estado: </label>
+      <label class="m-0 " for="inputState">Estado: </label>
       <div style="width: 20 px;"> </div>
       <form id="formCangeState">
 
