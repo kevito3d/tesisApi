@@ -37,7 +37,7 @@ const upload = multer({
 
 const router = Router();
 
-router.post('/', isAdmin ,upload, createImage);
+router.post('/', isAuthenticated ,upload, createImage);
 
 router.get('/', isAuthenticated, getAll);
 
