@@ -86,7 +86,6 @@ const search = (search, element) => {
     })
   } */
 
-
 const setEditItem = (item) => {
   const $user = d.getElementById(item).children;
   const array = Array.from($user);
@@ -96,7 +95,8 @@ const setEditItem = (item) => {
   d.getElementById("lastE").value = array[2].innerText;
   d.getElementById("emailE").value = array[3].innerText;
   d.getElementById("phoneE").value = array[4].innerText;
-  d.getElementById("roleE").value = array[5].innerText=="Estudiante"?"student":"admin";
+  d.getElementById("roleE").value =
+    array[5].innerText == "Estudiante" ? "student" : "admin";
   /* $text.innerText = item;
     const $send = d.getElementById('scientificname').value = item; */
 };
@@ -121,7 +121,7 @@ const updateUser = (
     //console.log(d.getElementById(ci).value);
     e.preventDefault();
     //console.log(e.target);
-    $("#loading").modal("show");
+    
     const $rol = d.getElementById(role);
     data = {};
     // data.password = d.getElementById(password).value;
@@ -131,6 +131,21 @@ const updateUser = (
     data.phone = d.getElementById(phone).value;
     //console.log(data.email);
     data.role = $rol.value;
+
+
+    if (!validatePhone(data.phone)) {
+      const text = d.getElementById("phoneValidateE");
+      text.innerText = "Celular invalido";
+      text.style.color = "red";
+      return;
+    }
+    if(!validateEmail(data.email)){
+      const text = d.getElementById("emailValidateE");
+      text.innerText = "Email invalido";
+      text.style.color = "red";
+      return;
+    }
+    $("#loading").modal("show");
     //console.log("me cago en la puta 31");
     //console.log(JSON.stringify(data));
     fetch(`${location.origin}/api/user/${d.getElementById(ci).value}`, {
@@ -142,6 +157,8 @@ const updateUser = (
 
       body: JSON.stringify(data),
     }).then(async (x) => {
+      const text = d.getElementById("phoneValidateE");
+        text.innerText = "";
       if (x.status == 200) {
         const $user = d.getElementById(d.getElementById(ci).value).children;
         //console.log($user);
@@ -151,11 +168,16 @@ const updateUser = (
         $user[4].innerText = d.getElementById(role).value;
         limpiarFormulario(form);
 
-
         $("#editEmployeeModal").modal("hide");
         $("#loading").modal("hide");
         $("#case").text("actualizado");
         $("#myModalS").modal("show");
+
+        // wait 1 seg and reaload page
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+        
       } else {
         const res = await x.json();
 
@@ -260,6 +282,18 @@ const validateCI = (ci) => {
   }
 };
 
+const validatePhone = (phone) => {
+  if (data.phone.length != 10 || isNaN(data.phone)) {
+    return false;
+  }
+  return true;
+};
+
+const validateEmail = (email) => {
+  const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  return regex.test(email);
+};
+
 const createUser = (
   firstname,
   lastname,
@@ -293,17 +327,25 @@ const createUser = (
     ////console.log(JSON.stringify(data));
     const ciValidate = validateCI(data.ci);
     if (ciValidate.correct) {
-      if (data.phone.length != 10 || isNaN(data.phone)) {
+      if (!validatePhone(data.phone)) {
         const text = d.getElementById("phoneValidate");
         text.innerText = "Celular invalido";
+        text.style.color = "red";
         return;
       }
+      if(!validateEmail(data.email)){
+        const text = d.getElementById("emailValidate");
+        text.innerText = "Email invalido";
+        text.style.color = "red";
+        return;
+      }
+
       $("#loading").modal("show");
       fetch(`${location.origin}/api/user/register`, {
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': localStorage.getItem('token')
+          Authorization: localStorage.getItem("token"),
         },
         method: "POST",
 
@@ -361,6 +403,7 @@ const createUser = (
     } else {
       const text = d.getElementById("ciValidate");
       text.innerText = ciValidate.msj;
+      text.style.color = "red";
     }
   };
 };
@@ -408,9 +451,11 @@ const resetModal = (reset) => {
   Array.from(modal).map((m) => {
     m.addEventListener("click", (e) => {
       const c = d.getElementById("ciValidate");
+      const ce = d.getElementById("ciValidateE");
       const p = d.getElementById("phoneValidate");
       c.innerText = "";
       p.innerText = "";
+      ce.innerText = "";
     });
   });
 };

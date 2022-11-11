@@ -98,13 +98,12 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
     data.scientificname = d.getElementById(scn).value;
     data.description = d.getElementById(desc).value;
     data.descriptionalumnos = d.getElementById(descriptionalumnos).value;
-    //console.log("data: ", data);
-    //console.log("token: ", localStorage.getItem("token"));
-    fetch(`${location.origin}/api/plant`, {
+
+    fetch(`${location.origin}/api/plant`, 
+    {
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token"),
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       method: "POST",
 
@@ -179,10 +178,6 @@ const createPlant = (imgs, name, scn, desc,descriptionalumnos, parts, references
           });
           //console.log(partResp);
           if (partResp.status == 200) {
-            //console.log(
-            //   `parte de planta '${part.name}' insertada correctamente :3`
-            // );
-
             const resp = await partResp.json();
             //console.log("respuesta despues de insertar part: " + resp.data.id);
            //aqui tomamos las el input de imagenes de las partes

@@ -359,7 +359,7 @@
     });
   }
 
-  function ElementPartDinamic(container, name, description, images) {
+  function ElementPartDinamic(container, name, description, images, descriptionAlumnos) {
     // const $name = d.getElementById(name);
     // if (!verifica(container, $name.value)) {
     // const $description = d.getElementById(description);
@@ -433,7 +433,7 @@
     $descriptionImages.innerHTML = `
         
           <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
-          <input type="text"  id="">
+          <input type="text" value='${descriptionAlumnos}'  id="">
         
         `;
     $part.appendChild($imagesPart);
@@ -506,7 +506,7 @@
   for (let index = 0; index < plant.parts.length; index++) {
     const element = plant.parts[index];
     //console.log(element);
-    ElementPartDinamic('parts', element.name, element.description, element.images);
+    ElementPartDinamic('parts', element.name, element.description, element.images, element.descriptionalumnos);
     // a(element.images).then(function (data) {
     //   const fileInputMulti = document.getElementById('images');
     //   const multiSelectorUniqPreview = document.getElementById('imgsContent');

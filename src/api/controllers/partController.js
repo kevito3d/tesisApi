@@ -5,6 +5,7 @@ import Image from "../models/Image";
 
 export async function createPartPlant(req, res) {
     const { scientificname, name, description, idobservation,descriptionalumnos } = req.body;
+    console.log("body en part plant: ",req.body)
     // const url = 'uploads/'+req.file.originalname;
 
     try {

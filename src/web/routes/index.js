@@ -14,9 +14,7 @@ import { ifExist, signToken } from "../../api/controllers/userController";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { check } from "express-validator";
-
 const router = Router();
-
 //plant
 router.get("/plant/:page?", async (req, res) => {
   console.log("la ptdreeeeeeeeeeeeeeeeeeeeeeee");
@@ -67,7 +65,6 @@ router.get("/add/plant", async (req, res) => {
   //   return res.redirect("/");
   // }
 });
-
 router.get("/plant/edit/:scientificname", async (req, res) => {
   // if (req.session.token) {
   try {
@@ -97,6 +94,7 @@ router.get("/plant/edit/:scientificname", async (req, res) => {
     if (p) {
       plant.name = p.name;
       plant.description = p.description;
+      // if contain /n replace with <br>
       plant.scn = p.scientificname;
       plant.descriptionalumnos = p.descriptionalumnos;
       plant.images = p.images;
@@ -115,8 +113,7 @@ router.get("/plant/edit/:scientificname", async (req, res) => {
         provinces,
         plant,
       });
-    }else
-    {
+    } else {
       return res.redirect("/plant");
     }
   } catch (error) {
@@ -144,40 +141,41 @@ router.get("/observation/:page?", async (req, res) => {
     }
     let perPage = 8;
     const filter = req.query.filter || "todas";
-    console.log({filter});
+    console.log({ filter });
     /* if (req.session.token) { */
     try {
-      let observations ;
+      let observations;
       if (filter == "todas") {
-         observations = await Observation.findAndCountAll({
-        offset: page * perPage - perPage,
-        limit: perPage,
-        include: [
-          {
-            model: Canton,
-            include: {
-              model: Province,
-            },
-          },
-        ],
-      });
-    }else{
         observations = await Observation.findAndCountAll({
-        offset: page * perPage - perPage,
-        limit: perPage,
-        where:{
-          stated:filter
-        },
-        include: [
-          {
-            model: Canton,
-            include: {
-              model: Province,
+          offset: page * perPage - perPage,
+          limit: perPage,
+          include: [
+            {
+              model: Canton,
+              include: {
+                model: Province,
+              },
             },
+          ],
+          order: [["id", "DESC"]],
+        });
+      } else {
+        observations = await Observation.findAndCountAll({
+          offset: page * perPage - perPage,
+          limit: perPage,
+          where: {
+            stated: filter,
           },
-        ],
-      });
-    }
+          include: [
+            {
+              model: Canton,
+              include: {
+                model: Province,
+              },
+            },
+          ],
+        });
+      }
 
       // console.log("observations: ", observations.rows);
       return res.render("observation", {
@@ -202,12 +200,11 @@ router.get("/observation/:page?", async (req, res) => {
          return res.render('signin')
      } */
 });
-
 router.get("/observation/edit/:id", async (req, res) => {
   if (req.session.token) {
     try {
       const { id } = req.params;
-      
+
       const obs = await Observation.findByPk(id, {
         include: [
           {
@@ -268,7 +265,6 @@ router.get("/user/:page?", async (req, res) => {
     return res.redirect("/");
   }
 });
-
 router.post("/login", async (req, res, next) => {
   const { email, ci, password } = req.body;
   console.log(email, password);
@@ -306,12 +302,10 @@ router.post("/login", async (req, res, next) => {
     });
   }
 });
-
 router.post("/logout", async (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
-
 router.get("/", (req, res) => {
   if (req.session.token) {
     res.redirect("/plant");
@@ -319,56 +313,41 @@ router.get("/", (req, res) => {
     return res.render("signin");
   }
 });
-
-router.get('/register', (req, res) => {
-    res.render('signup')
-})
-
-//form to access
-/* router.get('/signin', (req, res, next) => {
-    console.log()
-    if(req.session.token){
-        return res.render('index');
-    }
-    return res.render('signin');
-}) */
-
-// form to register
-
+router.get("/register", (req, res) => {
+  res.render("signup");
+});
 router.get("/reset-password", (req, res) => {
   res.render("resetInterface");
 });
-
-router.post("/reset-password/:token",check('newPassword'), async (req, res) => {
-  const { newPassword } = req.body;
-  const { token } = req.params;
-  jwt.verify(token, process.env.secret_reset, async (err, decoded) => {
-    if (err) {
-      console.log("invalido");
-      return res.render("signin", { message: "link invalido o expirado..!" });
-    } else {
-      const { ci } = decoded;
-      console.log("asd");
-      const user = await ifExist(ci, ci);
-      let passwordHash = await bcryptjs.hash(newPassword, 8);
-      user.password = passwordHash;
-      const updatedUser = await User.update(
-        { password: passwordHash },
-        { where: { ci } }
-      );
-      if (updatedUser[0]) {
-        console.log("se cambio");
-        return res.redirect("/");
+router.post("/reset-password/:token",
+  check("newPassword"),
+  async (req, res) => {
+    const { newPassword } = req.body;
+    const { token } = req.params;
+    jwt.verify(token, process.env.secret_reset, async (err, decoded) => {
+      if (err) {
+        console.log("invalido");
+        return res.render("signin", { message: "link invalido o expirado..!" });
       } else {
-        console.log("no se cambio");
-        return res.redirect("/");
+        const { ci } = decoded;
+        console.log("asd");
+        const user = await ifExist(ci, ci);
+        let passwordHash = await bcryptjs.hash(newPassword, 8);
+        user.password = passwordHash;
+        const updatedUser = await User.update(
+          { password: passwordHash },
+          { where: { ci } }
+        );
+        if (updatedUser[0]) {
+          console.log("se cambio");
+          return res.redirect("/");
+        } else {
+          console.log("no se cambio");
+          return res.redirect("/");
+        }
       }
-    }
+    });
   });
-});
-
-
-
 router.get("/reset-password/:token", async (req, res, next) => {
   const { token } = req.params;
   let identification = null;

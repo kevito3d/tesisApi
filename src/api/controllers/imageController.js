@@ -22,7 +22,7 @@ console.log("entro a la funcion");
                 idpartplant,
                 idobservation,
             }, {
-                fields: ['url', 'scientificname', 'idpartplant', 'idobservation',]
+                fields: ['url', 'scientificname', 'idpartplant', 'idobservation']
             })
 
             if (newImage) {
@@ -221,7 +221,7 @@ export function deleteImages(url) {
     } catch (err) {
         console.error('Something wrong happened removing the file', err)
         return false;
-    }
+    } 
     
 
 

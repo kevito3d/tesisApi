@@ -123,8 +123,10 @@ const updatePlant = (
             : null;
           //console.log("id: ", $name.firstElementChild);
           const $description = $partText.children[1];
+          const $descriptionAlumnos = element.children[2];
           part.description = $description.lastElementChild.value;
           part.scientificname = sc;
+          part.descriptionalumnos = $descriptionAlumnos.lastElementChild.value;
           part.isAlter = $partText.lastElementChild.checked;
           part.images = element.children[1].children[1].files;
           parts.push(part);
@@ -200,6 +202,7 @@ const updatePlant = (
               name: part.name,
               description: part.description,
               scientificname: part.scientificname,
+              descriptionalumnos: part.descriptionalumnos,
             }),
           })
             .then((x) => x.json())
