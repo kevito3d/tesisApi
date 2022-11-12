@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
         let nc_ = slug(file.originalname, "_");
         nc_ = nc_.replace(" ", "");
         console.log("filetypoe: ",file.mimetype); 
-        cb(null,""+  Date.now()+path.extname(file.originalname).toLocaleLowerCase() )
+        cb(null, nc_ + Date.now() + path.extname(file.originalname));
     },
 
 })
