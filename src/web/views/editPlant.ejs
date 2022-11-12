@@ -38,7 +38,7 @@
             <textarea style="height: 4rem;" name="description" id="description" cols="30" rows="10"><%= plant.description %></textarea>
           </div>
 
-          <input type="checkbox" name="" id="" hidden>
+          
 
         </div>
         <div class="form-group col-md-6 left">
@@ -64,7 +64,7 @@
           <div class="col-12 ">
             <div class="row">
               <label class="" for="">Parte espcifica</label>
-              <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal" role="button">Agregar</a>
+              <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal" role="button" id="openModalAdd">Agregar</a>
             </div>
 
             <div class="form-group" id="parts">
@@ -81,25 +81,25 @@
             <div class="form-group" id="references">
               <% for( let index=0; index < plant.reference.length; index++ ) { %>
               <div class="row bg-secondary text-light rounded m-2 d-flex justify-content-between">
-                <div class="col-3 ">
+                <div class="col-md-4">
                   <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
                     <%= plant.reference[index].canton.province.name %>
                   </label>
                   <input type="text" name="" id="" value='<%= plant.reference[index].canton.province.id %>' hidden>
                 </div>
-                <div class="col-4 ">
+                <div class="col-md-3">
                   <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
                     <%= plant.reference[index].canton.name %>
                   </label>
                   <input type="text" name="" id="" value='<%= plant.reference[index].canton.id %>' hidden>
                 </div>
-                <div class="col-3 ">
+                <div class="col-md-4 ">
                   <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
                     <%= plant.reference[index].locality %>
                   </label>
                   <input type="text" name="" id="" value='<%= plant.reference[index].locality %>' hidden>
                 </div>
-                <div onclick="deleteItemReference(this)" class="col-2 d-flex justify-content-center align-items-center deleteItem">
+                <div onclick="deleteItemReference(this)" class="col-md-1 d-flex justify-content-center align-items-center deleteItem">
                   <i class="material-icons text-danger" title="Delete">&#xE872;</i>
                 </div>
 
@@ -183,10 +183,14 @@
               <label for="locality">Descripcion</label>
               <input type="text" class="form-control" id="partDescripcion" placeholder="Descripcion">
             </div>
+            <!-- input type check -->
+
+            <input type="text" name="" id="idEditPart" hidden>
+
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Agregar</button>
+          <button type="submit" class="btn btn-primary" id="textModalPart">Agregar</button>
         </div>
       </form>
 
@@ -358,7 +362,22 @@
       );
     });
   }
+  
+  function openModalEdit(id, name, description) {
+    //find the element
+    const $inputId = d.getElementById("idEditPart");
+    const $inputName = d.getElementById("namePart");
+    const $inputDescription = d.getElementById("partDescripcion");
+    const $textButton = d.getElementById("textModalPart");
+    $textButton.textContent = "Editar";
+    
+    $inputName.value = name;
+    $inputDescription.value = description;
 
+    $inputId.value= id;
+  }
+  
+  
   function ElementPartDinamic(container, name, description, images, descriptionAlumnos) {
     // const $name = d.getElementById(name);
     // if (!verifica(container, $name.value)) {
@@ -388,16 +407,11 @@
           </div>
           
         `;
-    const $close = document.createElement("div");
-    $close.classList.add(
-      "col-2",
-      "d-flex",
-      "justify-content-center",
-      "align-items-center"
-    );
+    const $close = document.createElement("button");
+    
     // $close.style = "position: absolute; top:0px; right:10px"
-    $close.innerHTML = ` <i class="material-icons text-danger"
-        title="Delete">&#xE872;</i>`;
+    $close.classList.add("btn", "btn-danger", "btn-sm");
+    $close.innerText = `Eliminar`;
 
     $close.addEventListener("mouseenter", () => {
       $close.style.cursor = "pointer";
@@ -418,8 +432,36 @@
 
       //filesList.splice(aux , 1);
     });
-    $row.appendChild($close);
+    const $actions = d.createElement("div");
+    $actions.classList.add("col-md-12", "d-flex","justify-content-between" );
+    
+    // $close.style = "position: absolute; top:0px; right:10px"
+
+    const $partEdit = d.createElement("button");
+    $partEdit.classList.add("btn", "btn-warning", "btn-sm");
+    $partEdit.innerText = `Editar`;
+    //add href to button
+    $partEdit.setAttribute("data-toggle", "modal");
+    $partEdit.setAttribute("data-target", "#openaddPartPlant");
+    let nameedit = name;
+    let descriptionedit = description;
+    $partEdit.addEventListener("click", (e) => {
+      e.preventDefault();
+      
+      openModalEdit($row.id, nameedit, descriptionedit);
+    });
+
+    $partEdit.addEventListener("mouseenter", () => {
+      $partEdit.style.cursor = "pointer";
+      // $close.textContent = '🤣'
+    });
+    
+
+    
+    $actions.appendChild($partEdit);
+    $actions.appendChild($close);
     $part.appendChild($row);
+    $row.appendChild($actions);
     const $imagesPart = d.createElement("div");
     $imagesPart.classList.add("form-group", "moreImages");
     $imagesPart.innerHTML = `

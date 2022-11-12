@@ -302,9 +302,12 @@ const verifica = (container, text) => {
 };
 function ElemetPartDinamicHome(modal = null, container, name, description) {
   const $name = d.getElementById(name);
-  if (!verifica(container, $name.value)) {
-    const $description = d.getElementById(description);
-    const $container = d.getElementById(container);
+  const $description = d.getElementById(description);
+  const $container = d.getElementById(container);
+  const $data = d.getElementById("idEditPart");
+  if (!verifica(container, $name.value) && $data.value == "") {
+    
+    
     const $part = d.createElement("div");
     $part.classList.add("form-group");
     const $row = d.createElement("div");
@@ -386,10 +389,37 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
     //console.log(filesList.length);
     $name.value = "";
     $description.value = "";
+  }else{
+    
+    if ($data.value.length){
+
+      const $row = d.getElementById($data.value);
+      $row.children[0].firstElementChild.textContent= $name.value;
+      $row.children[1].firstElementChild.textContent= $description.value;
+      $row.children[0].lastElementChild.value= $name.value;
+      $row.children[1].lastElementChild.value= $description.value;
+      $(modal).modal("hide");
+    }else{
+      alert("ya existe una parte con ese nombre");
+    }
   }
 }
 
 function addPart(modal, form, container, name, description) {
+  
+
+  
+  const $btnOpenModal = d.getElementById("openModalAdd");
+  $btnOpenModal.addEventListener("click", () => {
+    const $textButton = d.getElementById("textModalPart");
+    $textButton.textContent = "Agregar";
+    const $name = d.getElementById(name);
+    const $description = d.getElementById(description);
+    const $inputId = d.getElementById("idEditPart");
+    $name.value = "";
+    $description.value = "";
+    $inputId.value = "";
+  });
   const $form = d.getElementById(form);
   $form.onsubmit = (e) => {
     e.preventDefault();
@@ -549,6 +579,7 @@ function verificaReference(container, valProvince, valCanton) {
 
 d.addEventListener("DOMContentLoaded", () => {
   viewImages("images", "imgsContent", "000");
+  
 
   //viwImagesDinamic("imagesDinamic", "imgsContentDinamic");
   updatePlant(
