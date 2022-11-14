@@ -53,20 +53,19 @@ router.get("/plant/:page?", async (req, res) => {
   // }
 });
 router.get("/add/plant", async (req, res) => {
-  // let decoder = new TextDecoder('utf-8');
-  // if (req.session.token) {
+  if (req.session.token) {
   const provinces = await Province.findAll({
     include: [{ model: Cantons }],
     order: [["name", "ASC"]],
   });
   //console.log(provinces);
   res.render("addPlants", { title: "Agregar", provinces });
-  // } else {
-  //   return res.redirect("/");
-  // }
+  } else {
+    return res.redirect("/");
+  }
 });
 router.get("/plant/edit/:scientificname", async (req, res) => {
-  // if (req.session.token) {
+   if (req.session.token) {
   try {
     const { scientificname } = req.params;
 
@@ -94,7 +93,6 @@ router.get("/plant/edit/:scientificname", async (req, res) => {
     if (p) {
       plant.name = p.name;
       plant.description = p.description.replace(/(\r\n|\n|\r)/gm, ". ");
-      // if contain /n replace with <br>
       plant.scn = p.scientificname;
       plant.descriptionalumnos = p.descriptionalumnos;
       plant.images = p.images;
@@ -123,12 +121,12 @@ router.get("/plant/edit/:scientificname", async (req, res) => {
       data: [],
     });
   }
-  // } else {
-  //   return res.redirect("/");
-  // }
+  } else {
+    return res.redirect("/");
+  }
 });
 router.get("/plant/see/:scientificname", async (req, res) => {
-  // if (req.session.token) {
+  if (req.session.token) {
   try {
     const { scientificname } = req.params;
 
@@ -186,9 +184,9 @@ router.get("/plant/see/:scientificname", async (req, res) => {
       data: [],
     });
   }
-  // } else {
-  //   return res.redirect("/");
-  // }
+  } else {
+    return res.redirect("/");
+  }
 });
 
 //observation
