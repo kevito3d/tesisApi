@@ -335,15 +335,28 @@ const createUser = (
     ////console.log(JSON.stringify(data));
     const ciValidate = validateCI(data.ci);
     if (ciValidate.correct) {
-      if (!validatePhone(data.phone)) {
-        const text = d.getElementById("phoneValidate");
-        text.innerText = "Celular invalido";
-        text.style.color = "red";
-        return;
-      }
       if(!validateEmail(data.email)){
         const text = d.getElementById("emailValidate");
         text.innerText = "Email invalido";
+        text.style.color = "red";
+        return;
+      }
+      if(!validateName(data.firstname)){
+        const text = d.getElementById("firstNameValidate");
+        text.innerText = "Nombres invalidos";
+        text.style.color = "red";
+      return;
+      }
+      if(!validateName(data.lastname)){
+        const text = d.getElementById("lastNameValidate");
+        text.innerText = "Apellidos invalidos";
+        text.style.color = "red";
+      return;
+      }
+
+      if (!validatePhone(data.phone)) {
+        const text = d.getElementById("phoneValidate");
+        text.innerText = "Celular invalido";
         text.style.color = "red";
         return;
       }
@@ -372,7 +385,7 @@ const createUser = (
                           <td>${data.lastname}</td>
                           <td>${data.email}</td>
                           <td>${data.phone}</td>
-                          <td>${data.role}</td>
+                          <td>${data.role==student?'estudiante':'administrados'}</td>
                           
                           <td style="display: flex; justify-content: flex-end;">
                               <a href="#editEmployeeModal" data-toggle="modal" role="button" id="btnEdit"  onclick="setEditItem('${data.ci}')"  class="edit" ><i style = "color:burlywood;"
