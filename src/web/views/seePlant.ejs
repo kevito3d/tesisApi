@@ -1,0 +1,261 @@
+<% include partials/base -%>
+<%- include('partials/header', {selected:"plant"}) %>
+<section class="container col-10 mt-2 rounded bg-light">
+
+  <div class="pt-4 pb-4 pr-1 pl-1">
+    <div class="row mb-2 justify-content-center">
+      <div class="col-md-5 d-flex align-items-center align-items-center">
+        <!-- back icon material -->
+        <div class="d-flex align-items-center align-items-center">
+          <a href="/plant" style="color: black;">
+            <i class="material-icons align-items-center" id="back">
+              arrow_back
+            </i>
+          </a>
+          Regresar
+
+        </div>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end">
+
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="form-group p-3 col-md-5 left">
+        <div class="row col-md-12">
+          <label for="scientificname">Nombre Científico</label>
+          <input type="text" class="" id="scientificname" placeholder="Nombre Cientifico" value='<%= plant.scn %>' disabled>
+        </div>
+        <div class="row col-md-12">
+          <label for="name">Nombre Común</label>
+          <input type="text" class="" id="name" placeholder="Nombre Comun" value='<%= plant.name %>' disabled>
+
+        </div>
+        <div class="row col-md-12">
+          <label for="description">Descripción</label>
+          <textarea style="height: 4rem;" name="description" id="description" cols="30" rows="10" disabled><%= plant.description %></textarea>
+        </div>
+
+
+
+      </div>
+      <div class="form-group p-3  col-md-6 left">
+        <div class="form-group  moreImages ">
+          <label class="form-row form-label" for="">Imágenes</label>
+          <div class="images" id="imgsContent">
+            <% for( var index=0; index < plant.images.length; index++ ) { %>
+            <div class="divImg">
+              <img src='/<%= plant.images[index].url %>' alt="" class="imgs">
+            </div>
+            <% } %>
+          </div>
+          <div class="form-group">
+            <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
+            <input type="text" name="" id="descriptionImages" value='<%= plant.descriptionalumnos %>' disabled>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="form-group p-3 col-md-5 left">
+        <div class="col-12 ">
+          <div class="row">
+            <label class="" for="">Parte espcifica</label>
+          </div>
+
+          <div class="form-group" id="parts">
+            <% for( let index=0; index < plant.parts.length; index++ ) { %>
+            <div class="form-group">
+              <div class="row bg-secondary text-light rounded m-2 d-flex justify-content-between">
+                <div class="col-4">
+                  <input type="text" name="" id="" value='<%= plant.parts[index].id %>' hidden>
+                  <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                    <%= plant.parts[index].name %>
+                  </label>
+                  <input type="text" name="" id="" value='<%= plant.parts[index].name %>' hidden>
+                </div>
+                <div class="col-6 ">
+                  <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                    <%= plant.parts[index].description %>
+                  </label>
+                  <input type="text" name="" id="" value='<%= plant.parts[index].description %>' hidden >
+                </div>
+
+              </div>
+              <div class="form-group moreImages">
+                <label class="form-row form-label" for="">Imagenes para <%= plant.parts[index].name %></label>
+                <div class="images imgsContentDinamic" id="imgsContent<%= plant.parts[index].name %>">
+                  <% for( let index2=0; index2 < plant.parts[index].images.length; index2++ ) { %>
+                  <div class="divImg">
+                    <img src='/<%= plant.parts[index].images[index2].url %>' alt="" class="imgs">
+                  </div>
+                  <% } %>
+                </div>
+                <div class="form-group">
+                  <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
+                  <input type="text" name="" id="descriptionImages" value='<%= plant.parts[index].descriptionalumnos %>' disabled>
+                </div>
+              </div>
+            </div>
+            <!-- todo view images -->
+            <% } %>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="form-group p-3 col-md-6 left">
+        <div class="col-12 ">
+          <div class="row">
+            <label class="" for="">Referencias</label>
+          </div>
+          <div class="form-group" id="references">
+            <% for( let index=0; index < plant.reference.length; index++ ) { %>
+            <div class="row bg-secondary text-light rounded m-2 d-flex justify-content-between">
+              <div class="col-md-4">
+                <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                  <%= plant.reference[index].canton.province.name %>
+                </label>
+                <input type="text" name="" id="" value='<%= plant.reference[index].canton.province.id %>' hidden>
+              </div>
+              <div class="col-md-3">
+                <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                  <%= plant.reference[index].canton.name %>
+                </label>
+                <input type="text" name="" id="" value='<%= plant.reference[index].canton.id %>' hidden>
+              </div>
+              <div class="col-md-4 ">
+                <label class="col-sm h-100  d-flex justify-content-right align-items-center " for="">
+                  <%= plant.reference[index].locality %>
+                </label>
+                <input type="text" name="" id="" value='<%= plant.reference[index].locality %>' hidden>
+              </div>
+
+
+            </div>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+</section>
+
+<div id="openaddReference" class="modal fade">
+  <div class="modal-dialog modal-">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agrega Referencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="form-group ">
+          <div class="form-row pb-1">
+            <label for="province">Provincia</label>
+            <select id="province" class="form-control">
+              <% for( let index=0; index < provinces.length; index++ ) { %>
+
+              <option value=<%=provinces[index].id %>><%= provinces[index].name %>
+              </option>
+              <% } %>
+            </select>
+          </div>
+          <div class="form-row  pb-1">
+            <label for="canton">Canton</label>
+            <select id="canton" class="form-control">
+              <% for( let index=0; index < provinces[0].cantons.length; index++ ) { %>
+              <option value=<%=provinces[0].cantons[index].id %>><%= provinces[0].cantons[index].name %>
+              </option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="form-row ">
+            <label for="locality">Locatidad</label>
+            <input type="text" class="" id="locality" placeholder="Locatidad">
+
+          </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="addReference">Agregar Referencia</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="openaddPartPlant" class="modal fade">
+  <div class="modal-dialog modal-">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titleEdit">Agrega parte de planta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="addPart">
+        <div class="modal-body text-center">
+          <div class="form-group ">
+            <div class="form-row pb-2">
+              <label for="name">Nombre</label>
+              <input type="text" class="form-control" id="namePart" placeholder="Nombre" required>
+
+
+            </div>
+            <div class="form-row ">
+              <label for="locality">Descripcion</label>
+              <input type="text" class="form-control" id="partDescripcion" placeholder="Descripcion">
+            </div>
+            <!-- input type check -->
+
+            <input type="text" name="" id="idEditPart" hidden>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="textModalPart">Agregar</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<% include partials/footer %>
+<!-- script module -->
+
+
+<script>
+  $('#province').on('change', function() {
+    $('#canton').html('');
+    $("#canton").val([]);
+    //console.log($('#province').val());
+
+    $.ajax({
+      method: "GET",
+      url: `/api/province/${$('#province').val()}`,
+
+    }).done(function(msg) {
+      //console.log(msg);
+      let cantonsOptions;
+      if (msg.length <= 0) {
+        cantonsOptions = '<option value="0">Sin padre</option>'
+      } else {
+        $.each(msg.cantons, function(i, canton) {
+          cantonsOptions += '<option value=' + canton.id + '>' + canton.name +
+            '</option>';
+        });
+      }
+      $('#canton').html(cantonsOptions);
+    });
+  });
+</script>

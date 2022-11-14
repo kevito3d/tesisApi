@@ -49,7 +49,7 @@
                 <div class="images" id="imgsContent"></div>
 
                 <div class="form-group">
-                  <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+                  <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
                   <input type="text" name="" id="descriptionImages">
                 </div>
 
@@ -65,7 +65,7 @@
                 <div class="row">
                   <label class="" for="">Parte Espcífica</label>
                   <a class="btn btn-secondary ml-5" href="#openaddPartPlant" data-toggle="modal"
-                    role="button">Agregar</a>
+                    role="button" id="openModalAdd">Agregar</a>
                 </div>
 
                 <div class="form-group" id="parts">
@@ -146,7 +146,7 @@
       <div class="modal-dialog modal-">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Agrega parte de planta</h5>
+            <h5 class="modal-title" id="titleEdit">Agrega parte de planta</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -165,12 +165,13 @@
                   <input type="text" class="form-control" id="partDescripcion" placeholder="Descripcion">
 
                 </div>
+                <input type="text" name="" id="idEditPart" hidden>
 
 
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Agregar</button>
+              <button type="submit" class="btn btn-primary" id="textModalPart">Agregar</button>
             </div>
           </form>
 

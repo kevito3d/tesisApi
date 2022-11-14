@@ -145,11 +145,29 @@ export function viewImages(fileu, imgu, id) {
   });
 }
 
-function ElemetPartDinamic(modal = null,container,name,description) {
+function openModalEdit(id, name, description) {
+  //find the element
+  const $titleEdit = d.getElementById("titleEdit");
+  $titleEdit.textContent = "Editar parte de la planta";
+  
+  const $inputId = d.getElementById("idEditPart");
+  const $inputName = d.getElementById("namePart");
+  const $inputDescription = d.getElementById("partDescripcion");
+  const $textButton = d.getElementById("textModalPart");
+  $textButton.textContent = "Guardar";
+  
+  $inputName.value = name;
+  $inputDescription.value = description;
+
+  $inputId.value= id;
+}
+
+function ElemetPartDinamic(modal = null, container, name, description) {
   const $name = d.getElementById(name);
-  if (!verifica(container, $name.value)) {
-    const $description = d.getElementById(description);
-    const $container = d.getElementById(container);
+  const $description = d.getElementById(description);
+  const $container = d.getElementById(container);
+  const $data = d.getElementById("idEditPart");
+  if (!verifica(container, $name.value) && $data.value == "") {
     const $part = d.createElement("div");
     $part.classList.add("form-group");
     const $row = d.createElement("div");
@@ -175,15 +193,8 @@ function ElemetPartDinamic(modal = null,container,name,description) {
           
         `;
     const $close = document.createElement("div");
-    $close.classList.add(
-      "col-2",
-      "d-flex",
-      "justify-content-center",
-      "align-items-center"
-    );
-    // $close.style = "position: absolute; top:0px; right:10px"
-    $close.innerHTML = ` <i class="material-icons text-danger"
-        title="Delete">&#xE872;</i>`;
+    $close.innerHTML = `<i style="color:red;" class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>`;
+    $close.classList.add("col-1", "d-flex", "justify-content-end");
 
     $close.addEventListener("mouseenter", () => {
       $close.style.cursor = "pointer";
@@ -204,8 +215,39 @@ function ElemetPartDinamic(modal = null,container,name,description) {
 
       //filesList.splice(aux , 1);
     });
-    $row.appendChild($close);
+
+    const $partEdit = d.createElement("div");
+    $partEdit.innerHTML = `<i style="color:burlywood;" class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>`;
+    $partEdit.classList.add("col-1", "d-flex", "justify-content-end");
+
+    //add href to button
+    $partEdit.setAttribute("data-toggle", "modal");
+    $partEdit.setAttribute("data-target", "#openaddPartPlant");
+    let nameedit = $name.value;
+    let descriptionedit = $description.value;
+    $partEdit.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModalEdit($row.id, nameedit, descriptionedit);
+    });
+
+    $partEdit.addEventListener("mouseenter", () => {
+      $partEdit.style.cursor = "pointer";
+      // $close.textContent = '🤣'
+    });
+
+    const $actions = d.createElement("div");
+    $actions.classList.add(
+      "col-md-2",
+      "d-flex",
+      "align-items-center",
+      "justify-content-center"
+    );
+
+    $actions.appendChild($partEdit);
+    $actions.appendChild($close);
+
     $part.appendChild($row);
+    $row.appendChild($actions);
     filesList.push({ id: $row.id, list: [] });
     const $imagesPart = d.createElement("div");
     $imagesPart.classList.add("form-group", "moreImages");
@@ -231,14 +273,40 @@ function ElemetPartDinamic(modal = null,container,name,description) {
     //console.log(filesList.length);
     $name.value = "";
     $description.value = "";
+  }else{
+    
+    if ($data.value.length){
+
+      const $row = d.getElementById($data.value);
+      $row.children[0].firstElementChild.textContent= $name.value;
+      $row.children[1].firstElementChild.textContent= $description.value;
+      $row.children[0].lastElementChild.value= $name.value;
+      $row.children[1].lastElementChild.value= $description.value;
+      $(modal).modal("hide");
+    }else{
+      alert("ya existe una parte con ese nombre");
+    }
   }
 }
 
 export function addPart(modal, form, container, name, description) {
+  const $btnOpenModal = d.getElementById("openModalAdd");
+  const $titleEdit = d.getElementById("titleEdit");
+  $btnOpenModal.addEventListener("click", () => {
+    const $textButton = d.getElementById("textModalPart");
+    $textButton.textContent = "Agregar";
+    $titleEdit.textContent = "Agregar parte de la planta";
+    const $name = d.getElementById(name);
+    const $description = d.getElementById(description);
+    const $inputId = d.getElementById("idEditPart");
+    $name.value = "";
+    $description.value = "";
+    $inputId.value = "";
+  });
   const $form = d.getElementById(form);
   $form.onsubmit = (e) => {
     e.preventDefault();
-    ElemetPartDinamic(modal,container,name,description);
+    ElemetPartDinamic(modal, container, name, description);
   };
 }
 export function addreference(

@@ -93,7 +93,7 @@ router.get("/plant/edit/:scientificname", async (req, res) => {
     });
     if (p) {
       plant.name = p.name;
-      plant.description = p.description;
+      plant.description = p.description.replace(/(\r\n|\n|\r)/gm, ". ");
       // if contain /n replace with <br>
       plant.scn = p.scientificname;
       plant.descriptionalumnos = p.descriptionalumnos;
@@ -112,6 +112,69 @@ router.get("/plant/edit/:scientificname", async (req, res) => {
         title: "Edita Planta",
         provinces,
         plant,
+      });
+    } else {
+      return res.redirect("/plant");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "ocurrio un problema con el servidor",
+      data: [],
+    });
+  }
+  // } else {
+  //   return res.redirect("/");
+  // }
+});
+router.get("/plant/see/:scientificname", async (req, res) => {
+  // if (req.session.token) {
+  try {
+    const { scientificname } = req.params;
+
+    let plant = {};
+    const p = await Plant.findOne({
+      where: {
+        scientificname,
+      },
+      include: [
+        {
+          model: PartPlant,
+          include: {
+            model: Image,
+          },
+        },
+        {
+          model: Image,
+        },
+
+        {
+          model: PlantReference,
+        },
+      ],
+    });
+    if (p) {
+      plant.name = p.name;
+      plant.description = p.description.replace(/(\r\n|\n|\r)/gm, ". ");
+      // if contain /n replace with <br>
+      plant.scn = p.scientificname;
+      plant.descriptionalumnos = p.descriptionalumnos;
+      plant.images = p.images;
+      console.log({ alumno: p.descriptionalumnos });
+      console.log(plant.images);
+      plant.parts = p.partplants;
+      const reference = await getAllF(p.scientificname);
+      plant.reference = reference;
+      const provinces = await Province.findAll({
+        include: [{ model: Cantons }],
+        order: [["name", "ASC"]],
+      });
+
+      return res.render("seePlant", {
+        title: "Edita Planta",
+        provinces,
+        plant,
+        edit: false,
       });
     } else {
       return res.redirect("/plant");

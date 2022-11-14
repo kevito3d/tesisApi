@@ -288,6 +288,14 @@ const validatePhone = (phone) => {
   }
   return true;
 };
+const validateName = (data) => {
+  // validate only alphabetic characters
+  const pattern = new RegExp('^[A-Z]+$', 'i');
+  if (!pattern.test(data) || data.length < 3) {
+    return false;
+  }
+  return true;
+};
 
 const validateEmail = (email) => {
   const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;

@@ -50,7 +50,7 @@
 
             </div>
             <div class="form-group">
-              <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+              <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
               <input type="text" name="" id="descriptionImages" value='<%= plant.descriptionalumnos %>'>
             </div>
 
@@ -165,7 +165,7 @@
   <div class="modal-dialog modal-">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Agrega parte de planta</h5>
+        <h5 class="modal-title" id="titleEdit">Agrega parte de planta</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -365,6 +365,8 @@
   
   function openModalEdit(id, name, description) {
     //find the element
+    const $titleEdit = d.getElementById("titleEdit");
+  $titleEdit.textContent = "Editar parte de la planta";
     const $inputId = d.getElementById("idEditPart");
     const $inputName = d.getElementById("namePart");
     const $inputDescription = d.getElementById("partDescripcion");
@@ -407,11 +409,11 @@
           </div>
           
         `;
-    const $close = document.createElement("button");
+    const $close = document.createElement("div");
     
     // $close.style = "position: absolute; top:0px; right:10px"
-    $close.classList.add("btn", "btn-danger", "btn-sm");
-    $close.innerText = `Eliminar`;
+    $close.innerHTML = `<i style="color:red;" class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>`;
+    $close.classList.add("col-1", "d-flex", "justify-content-end");
 
     $close.addEventListener("mouseenter", () => {
       $close.style.cursor = "pointer";
@@ -432,14 +434,14 @@
 
       //filesList.splice(aux , 1);
     });
-    const $actions = d.createElement("div");
-    $actions.classList.add("col-md-12", "d-flex","justify-content-between" );
+    
     
     // $close.style = "position: absolute; top:0px; right:10px"
 
-    const $partEdit = d.createElement("button");
-    $partEdit.classList.add("btn", "btn-warning", "btn-sm");
-    $partEdit.innerText = `Editar`;
+    const $partEdit = d.createElement("div");
+    $partEdit.innerHTML= `<i style="color:burlywood;" class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>`;
+    $partEdit.classList.add("col-1", "d-flex", "justify-content-end");
+    
     //add href to button
     $partEdit.setAttribute("data-toggle", "modal");
     $partEdit.setAttribute("data-target", "#openaddPartPlant");
@@ -455,6 +457,9 @@
       $partEdit.style.cursor = "pointer";
       // $close.textContent = '🤣'
     });
+
+    const $actions = d.createElement("div");
+    $actions.classList.add("col-md-2","d-flex", "align-items-center", "justify-content-center");
     
 
     
@@ -474,7 +479,7 @@
     const $descriptionImages = d.createElement("div");
     $descriptionImages.innerHTML = `
         
-          <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+          <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
           <input type="text" value='${descriptionAlumnos}'  id="">
         
         `;

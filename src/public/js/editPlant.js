@@ -300,6 +300,8 @@ const verifica = (container, text) => {
   });
   return bandera;
 };
+
+
 function ElemetPartDinamicHome(modal = null, container, name, description) {
   const $name = d.getElementById(name);
   const $description = d.getElementById(description);
@@ -333,15 +335,8 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
           
         `;
     const $close = document.createElement("div");
-    $close.classList.add(
-      "col-2",
-      "d-flex",
-      "justify-content-center",
-      "align-items-center"
-    );
-    // $close.style = "position: absolute; top:0px; right:10px"
-    $close.innerHTML = ` <i class="material-icons text-danger"
-        title="Delete">&#xE872;</i>`;
+    $close.innerHTML = `<i style="color:red;" class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>`;
+    $close.classList.add("col-1", "d-flex", "justify-content-end");
 
     $close.addEventListener("mouseenter", () => {
       $close.style.cursor = "pointer";
@@ -362,8 +357,35 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
 
       //filesList.splice(aux , 1);
     });
-    $row.appendChild($close);
+
+    const $partEdit = d.createElement("div");
+    $partEdit.innerHTML= `<i style="color:burlywood;" class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>`;
+    $partEdit.classList.add("col-1", "d-flex", "justify-content-end");
+    
+    //add href to button
+    $partEdit.setAttribute("data-toggle", "modal");
+    $partEdit.setAttribute("data-target", "#openaddPartPlant");
+    let nameedit = $name.value;
+    let descriptionedit = $description.value;
+    $partEdit.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModalEdit($row.id, nameedit, descriptionedit);
+    });
+
+    $partEdit.addEventListener("mouseenter", () => {
+      $partEdit.style.cursor = "pointer";
+      // $close.textContent = '🤣'
+    });
+
+    const $actions = d.createElement("div");
+    $actions.classList.add("col-md-2","d-flex", "align-items-center", "justify-content-center");
+
+    $actions.appendChild($partEdit);
+    $actions.appendChild($close);
+
+
     $part.appendChild($row);
+    $row.appendChild($actions);
     filesList.push({ id: $row.id, list: [] });
     const $imagesPart = d.createElement("div");
     $imagesPart.classList.add("form-group", "moreImages");
@@ -410,9 +432,11 @@ function addPart(modal, form, container, name, description) {
 
   
   const $btnOpenModal = d.getElementById("openModalAdd");
+  const $titleEdit = d.getElementById("titleEdit");
   $btnOpenModal.addEventListener("click", () => {
     const $textButton = d.getElementById("textModalPart");
     $textButton.textContent = "Agregar";
+    $titleEdit.textContent = "Agregar parte de la planta";
     const $name = d.getElementById(name);
     const $description = d.getElementById(description);
     const $inputId = d.getElementById("idEditPart");
