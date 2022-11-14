@@ -62,8 +62,6 @@ app.use('/api/user', user);
 app.use('/api/image', images);
 app.use('/api/partplant', partPlant);
 app.use('/api/observation', observation);
-// app.use('/api/mimage', MImage);
-/* para cualquier ruta que no exista */
 app.use(function (req, res, next) {
   res.status(404).send("Lo sentimos no podemos encontrar lo que buscas!");
 });

@@ -18,7 +18,6 @@ const Plant = sequelize.define("plants", {
     descriptionalumnos:{
         type:Sequelize.STRING
     }
-   
 
 }, { timestamps: false })
 
@@ -33,8 +32,5 @@ const Plant = sequelize.define("plants", {
  
  Plant.hasMany(PlantReference, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
  PlantReference.belongsTo(Plant, { foreignKey: 'scientificname', sourceKey: 'scientificname' });
-
-
-
 
 export default Plant;

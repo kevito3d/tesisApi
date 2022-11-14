@@ -7,11 +7,6 @@ export const sequelize = new Sequelize(
     {
         host: process.env.db_host,
         dialect: process.env.db,
-
-        /* dialectOptions: {
-            client_encoding: 'UTF8'
-            
-        }, */
         pool: {
             max: 5,
             min: 0,
