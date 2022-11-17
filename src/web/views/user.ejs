@@ -186,22 +186,22 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Cédula</label>
-                                <p id="ciValidate"></p>
+                                <p style="display: none; color: red" id="ciValidate" >Cedula inválida</p>
                                 <input type="text" class="form-control" id="identification" required>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <p id="emailValidate"></p>
+                                <p style="display: none; color: red" id="emailValidate" >Email inválido</p>
                                 <input type="email" class="form-control" id="email" required>
                             </div>
                             <div class="form-group">
                                 <label>Nombres</label>
-                                <p id="firstNameValidate"></p>
+                                <p style="display: none; color: red;" id="firstNameValidate" >Nombres inválido</p>
                                 <input type="text" class="form-control" id="firstname" required>
                             </div>
                             <div class="form-group">
                                 <label>Apellidos</label>
-                                <p id="lastNameValidate"></p>
+                                <p style="display: none; color: red" id="lastNameValidate" >Apellidos inválido</p>
                                 <input class="form-control" id="lastname" required></input>
                             </div>
                             <div class="form-group">
@@ -210,7 +210,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Celular</label>
-                                <p id="phoneValidate"></p>
+                                <p style="display: none; color: red" id="phoneValidate" >Celular inválido</p>
                                 <input type="text" id="phone" class="form-control" required>
                             </div>
 
@@ -241,25 +241,27 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Cédula</label>
-                                <p id="ciValidateE"></p>
+                                <p style="display: none; color: red" id="ciValidateE" > Cédula incorrecta</p>
                                 <input type="text" class="form-control" id="ciE" required>
                             </div>
                             <div class="form-group">
                                 <label>Nombres</label>
+                                <p style="display: none; color: red" id="firstNameValidateE" >Nombre inválido</p>
                                 <input type="text" class="form-control" id="firstE" required>
                             </div>
                             <div class="form-group">
                                 <label>Apellidos</label>
+                                <p style="display: none; color: red" id="lastNameValidateE" >Apellido inválido</p>
                                 <input class="form-control" id="lastE" required></input>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <p id="emailValidateE"></p>
+                                <p style="display: none; color: red" id="emailValidateE"></p>
                                 <input class="form-control" id="emailE" required></input>
                             </div>
                             <div class="form-group">
                                 <label>Celular</label>
-                                <p id="phoneValidateE"></p>
+                                <p style="display: none; color: red" id="phoneValidateE"></p>
                                 <input type="text" id="phoneE" class="form-control" required>
                             </div>
                             <!--<div class="form-group">

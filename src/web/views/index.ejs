@@ -69,6 +69,7 @@
             <!-- action see -->
             <a href="/plant/see/<%= plants[index].scientificname %>" class="view" title="Ver" data-toggle="tooltip"><i
                 class="material-icons">&#xE417;</i></a>
+            <!-- action edit -->
             <a href="/plant/edit/<%= plants[index].scientificname %> " id="btnEdit" class="edit"><i style="color:burlywood;" class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
             <a href="#deletePlantModal" id="btnDelete" onclick="setDeleteItem('<%= plants[index].scientificname %>')" class="delete" data-toggle="modal"><i style="color:red;" class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
           </td>
