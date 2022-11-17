@@ -101,6 +101,41 @@ const setEditItem = (item) => {
     const $send = d.getElementById('scientificname').value = item; */
 };
 
+const validate = (ci, firstname, lastname, email, phone, isAdd) => {
+  let bandera = true;
+  if (isAdd && !validateCI(ci)) {
+    const text = d.getElementById(isAdd ? "ciValidate" : "ciValidateE");
+    text.style.display = "block";
+    bandera = false;
+  }
+  if (!validateEmail(email)) {
+    const text = d.getElementById(isAdd ? "emailValidate" : "emailValidateE");
+    text.style.display = "block";
+    bandera = false;
+  }
+  if (!validateName(firstname)) {
+    const text = d.getElementById(
+      isAdd ? "firstNameValidate" : "firstNameValidateE"
+    );
+    text.style.display = "block";
+    bandera = false;
+  }
+  if (!validateName(lastname)) {
+    const text = d.getElementById(
+      isAdd ? "lastNameValidate" : "lastNameValidateE"
+    );
+    text.style.display = "block";
+    bandera = false;
+  }
+
+  if (!validatePhone(phone)) {
+    const text = d.getElementById(isAdd ? "phoneValidate" : "phoneValidateE");
+    text.style.display = "block";
+    bandera = false;
+  }
+  return bandera;
+};
+
 function limpiarFormulario(form) {
   document.getElementById(form).reset();
 }
@@ -121,7 +156,7 @@ const updateUser = (
     //console.log(d.getElementById(ci).value);
     e.preventDefault();
     //console.log(e.target);
-    
+
     const $rol = d.getElementById(role);
     data = {};
     // data.password = d.getElementById(password).value;
@@ -132,61 +167,58 @@ const updateUser = (
     //console.log(data.email);
     data.role = $rol.value;
 
+    if (
+      validate(
+        data.ci,
+        data.firstname,
+        data.lastname,
+        data.email,
+        data.phone,
+        false
+      )
+    ) {
+      $("#loading").modal("show");
+      //console.log("me cago en la puta 31");
+      //console.log(JSON.stringify(data));
+      fetch(`${location.origin}/api/user/${d.getElementById(ci).value}`, {
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method: "PUT",
 
-    if (!validatePhone(data.phone)) {
-      const text = d.getElementById("phoneValidateE");
-      text.innerText = "Celular invalido";
-      text.style.color = "red";
-      return;
-    }
-    if(!validateEmail(data.email)){
-      const text = d.getElementById("emailValidateE");
-      text.innerText = "Email invalido";
-      text.style.color = "red";
-      return;
-    }
-    $("#loading").modal("show");
-    //console.log("me cago en la puta 31");
-    //console.log(JSON.stringify(data));
-    fetch(`${location.origin}/api/user/${d.getElementById(ci).value}`, {
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      method: "PUT",
-
-      body: JSON.stringify(data),
-    }).then(async (x) => {
-      const text = d.getElementById("phoneValidateE");
+        body: JSON.stringify(data),
+      }).then(async (x) => {
+        const text = d.getElementById("phoneValidateE");
         text.innerText = "";
-      if (x.status == 200) {
-        const $user = d.getElementById(d.getElementById(ci).value).children;
-        //console.log($user);
-        $user[1].innerText = d.getElementById(firstname).value;
-        $user[2].innerText = d.getElementById(lastname).value;
-        $user[3].innerText = d.getElementById(email).value;
-        $user[4].innerText = d.getElementById(role).value;
-        limpiarFormulario(form);
+        if (x.status == 200) {
+          const $user = d.getElementById(d.getElementById(ci).value).children;
+          //console.log($user);
+          $user[1].innerText = d.getElementById(firstname).value;
+          $user[2].innerText = d.getElementById(lastname).value;
+          $user[3].innerText = d.getElementById(email).value;
+          $user[4].innerText = d.getElementById(role).value;
+          limpiarFormulario(form);
 
-        $("#editEmployeeModal").modal("hide");
-        $("#loading").modal("hide");
-        $("#case").text("actualizado");
-        $("#myModalS").modal("show");
+          $("#editEmployeeModal").modal("hide");
+          $("#loading").modal("hide");
+          $("#case").text("actualizado");
+          $("#myModalS").modal("show");
 
-        // wait 1 seg and reaload page
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
-        
-      } else {
-        const res = await x.json();
+          // wait 1 seg and reaload page
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        } else {
+          const res = await x.json();
 
-        $("#loading").modal("hide");
-        //console.log("entre al error");
-        $("#problem").text(res.message);
-        $("#myModalE").modal("show");
-      }
-    });
+          $("#loading").modal("hide");
+          //console.log("entre al error");
+          $("#problem").text(res.message);
+          $("#myModalE").modal("show");
+        }
+      });
+    }
   };
 };
 const validateCI = (ci) => {
@@ -289,9 +321,10 @@ const validatePhone = (phone) => {
   return true;
 };
 const validateName = (data) => {
-  // validate only alphabetic characters
-  const pattern = new RegExp('^[A-Z]+$', 'i');
-  if (!pattern.test(data) || data.length < 3) {
+  // validate leters and spaces
+  let regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+
+  if (!regex.test(data) || data.length < 3) {
     return false;
   }
   return true;
@@ -333,34 +366,16 @@ const createUser = (
     ////console.log(data.email);
     data.role = $rol.value;
     ////console.log(JSON.stringify(data));
-    const ciValidate = validateCI(data.ci);
-    if (ciValidate.correct) {
-      if(!validateEmail(data.email)){
-        const text = d.getElementById("emailValidate");
-        text.innerText = "Email invalido";
-        text.style.color = "red";
-        return;
-      }
-      if(!validateName(data.firstname)){
-        const text = d.getElementById("firstNameValidate");
-        text.innerText = "Nombres invalidos";
-        text.style.color = "red";
-      return;
-      }
-      if(!validateName(data.lastname)){
-        const text = d.getElementById("lastNameValidate");
-        text.innerText = "Apellidos invalidos";
-        text.style.color = "red";
-      return;
-      }
-
-      if (!validatePhone(data.phone)) {
-        const text = d.getElementById("phoneValidate");
-        text.innerText = "Celular invalido";
-        text.style.color = "red";
-        return;
-      }
-
+    if (
+      validate(
+        data.ci,
+        data.firstname,
+        data.lastname,
+        data.email,
+        data.phone,
+        true
+      )
+    ) {
       $("#loading").modal("show");
       fetch(`${location.origin}/api/user/register`, {
         headers: {
@@ -373,8 +388,9 @@ const createUser = (
         body: JSON.stringify(data),
       }).then(async (x) => {
         //console.log("xd:", x);
-        const text = d.getElementById("phoneValidate");
-        text.innerText = "";
+        data.role = $rol.value == "student" ? "Estudiante" : "Administrador";
+        
+
         if (x.status == 201) {
           const $body = d.getElementById(body);
           $body.innerHTML =
@@ -385,7 +401,8 @@ const createUser = (
                           <td>${data.lastname}</td>
                           <td>${data.email}</td>
                           <td>${data.phone}</td>
-                          <td>${data.role==student?'estudiante':'administrados'}</td>
+                          
+                          <td>${data.role}</td>
                           
                           <td style="display: flex; justify-content: flex-end;">
                               <a href="#editEmployeeModal" data-toggle="modal" role="button" id="btnEdit"  onclick="setEditItem('${data.ci}')"  class="edit" ><i style = "color:burlywood;"
@@ -421,10 +438,6 @@ const createUser = (
           $("#myModalE").modal("show");
         }
       });
-    } else {
-      const text = d.getElementById("ciValidate");
-      text.innerText = ciValidate.msj;
-      text.style.color = "red";
     }
   };
 };
@@ -465,26 +478,35 @@ const DeleteItem = (form, scientificname) => {
     }
   };
 };
-const resetModal = (reset) => {
-  const modal = d.querySelectorAll(reset);
+const resetModalValidations = (isadd) => {
   //console.log(modal);
   //console.log(Array.from(modal))
-  Array.from(modal).map((m) => {
-    m.addEventListener("click", (e) => {
-      const c = d.getElementById("ciValidate");
-      const ce = d.getElementById("ciValidateE");
-      const p = d.getElementById("phoneValidate");
-      c.innerText = "";
-      p.innerText = "";
-      ce.innerText = "";
-    });
+  //console.log("click");
+const c = d.getElementById(isadd ? "ciValidate" : "ciValidateE");
+const p = d.getElementById(isadd ? "phoneValidate" : "phoneValidateE");
+const name = d.getElementById(isadd ? "firstNameValidate" : "firstNameValidateE");
+const lastname = d.getElementById(
+  isadd ? "lastNameValidate" : "lastNameValidateE"
+  );
+  const email = d.getElementById(isadd ? "emailValidate" : "emailValidateE");
+  const $btnEdit = d.getElementById("btnEdit");
+  
+  $btnEdit.addEventListener("click", () => {
+
+  c.style.display = "none";
+  p.style.display = "none";
+  name.style.display = "none";
+  lastname.style.display = "none";
+  email.style.display = "none";
   });
+
 };
 
 d.addEventListener("DOMContentLoaded", () => {
   setDeleteItem("btnDelete");
   DeleteItem("deleteUser", "ci");
-  resetModal(".resetModal");
+  resetModalValidations(true);
+  resetModalValidations(false);
   createUser(
     "firstname",
     "lastname",
