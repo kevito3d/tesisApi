@@ -585,8 +585,8 @@ function verificaReference(container, valProvince, valCanton) {
 }
 
 deleteItemReference = (e) => {
-  e.parentElement.parentElement.parentElement.removeChild(
-    e.parentElement.parentElement
+  e.parentElement.parentElement.removeChild(
+    e.parentElement
   );
 };
 /* const clearContainerImages = (element) => {
