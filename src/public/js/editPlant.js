@@ -583,6 +583,12 @@ function verificaReference(container, valProvince, valCanton) {
   });
   return bandera;
 }
+
+deleteItemReference = (e) => {
+  e.parentElement.parentElement.parentElement.removeChild(
+    e.parentElement.parentElement
+  );
+};
 /* const clearContainerImages = (element) => {
   const $e = d.getElementById(element);
   while ($e.firstChild) {
