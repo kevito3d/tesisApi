@@ -103,7 +103,8 @@ const setEditItem = (item) => {
 
 const validate = (ci, firstname, lastname, email, phone, isAdd) => {
   let bandera = true;
-  if (isAdd && !validateCI(ci)) {
+  var vCi = validateCI(ci);
+  if (!vCi.correct) {
     const text = d.getElementById(isAdd ? "ciValidate" : "ciValidateE");
     text.style.display = "block";
     bandera = false;
