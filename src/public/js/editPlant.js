@@ -562,6 +562,8 @@ function addreference(modal, btn, container, province, canton, locality) {
       $row.appendChild($close);
       $container.appendChild($row);
       $(modal).modal("hide");
+    }else{
+      alert("ya existe esa referencia");
     }
   });
 }
