@@ -399,7 +399,7 @@ function ElemetPartDinamicHome(modal = null, container, name, description) {
     const $descriptionImages = d.createElement("div");
     $descriptionImages.innerHTML = `
         
-          <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+          <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
           <input type="text"  id="">
         
         `;

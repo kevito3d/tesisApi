@@ -252,7 +252,7 @@ function ElemetPartDinamic(modal = null, container, name, description) {
     const $imagesPart = d.createElement("div");
     $imagesPart.classList.add("form-group", "moreImages");
     $imagesPart.innerHTML = `
-          <label class="form-row form-label" for="">Imagenes para ${$name.value}</label>
+          <label class="form-row form-label" for="" id="namePartFlex">Imagenes para ${$name.value}</label>
           <input class="form-row form-control" type="file" name="image" id="images${$name.value}"
             accept="image/jpg, image/png, image/jpeg" multiple>
           <div class="images" id="imgsContent${$name.value}"></div>
@@ -261,7 +261,7 @@ function ElemetPartDinamic(modal = null, container, name, description) {
     const $descriptionImages = d.createElement("div");
     $descriptionImages.innerHTML = `
         
-          <label for="descriptionImages" class="form-row">Descripcion para alumnos</label>
+          <label for="descriptionImages" class="form-row">Sugerencias para tomar las fotos</label>
           <input type="text"  id="">
         
         `;
