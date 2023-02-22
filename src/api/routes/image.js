@@ -20,9 +20,10 @@ const upload = multer({
     dest: path.join(__dirname, 'public/uploads'),
     storage,
     limits: { fileSize: 60000000 },
+
     fileFilter: (req, file, cb) => {
         console.log(file);
-        const filetypes = /jpg|png|gif|jpeg/;
+        const filetypes = /jpg|png|jpeg/;
         const mimetype = filetypes.test(file.mimetype);
         const extname = filetypes.test(path.extname(file.originalname));
         if (mimetype && extname) {
