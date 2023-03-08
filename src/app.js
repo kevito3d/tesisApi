@@ -49,7 +49,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {}
-
 }))
 
 //routes

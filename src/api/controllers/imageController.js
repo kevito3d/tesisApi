@@ -66,6 +66,8 @@ console.log("entro a la funcion");
         })
     }
 
+    // res.end('La carga de archivos ha comenzado.');
+
 
 
 
