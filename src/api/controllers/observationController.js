@@ -34,15 +34,19 @@ export async function createObservation(req, res) {
             const stringUsersMail = emails.join(', ')
 
             console.log("emails concatenados : " + stringUsersMail);
-
-            await transporter.sendMail({
-                from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
-                to: stringUsersMail, // list of receivers
-                subject: "nueva observación", // Subject line
-                text: `Se ha agregado una nueva observación de la planta con nombre cientifico: '${scientificname}' con el código: ${newObservation.id} reportado por estudiante con cédula: '${ci}'`, // plain text body
-                });
-
-            console.log('termina de enviar correos')
+            try {
+                
+                await transporter.sendMail({
+                    from: `"Plantas Utm 👻" <${process.env.email}>`, // sender address
+                    to: stringUsersMail, // list of receivers
+                    subject: "nueva observación", // Subject line
+                    text: `Se ha agregado una nueva observación de la planta con nombre cientifico: '${scientificname}' con el código: ${newObservation.id} reportado por estudiante con cédula: '${ci}'`, // plain text body
+                    });
+    
+                console.log('termina de enviar correos')
+            } catch (error) {
+                console.log(error)
+            }
             
             return res.json({
                 data: newObservation,
